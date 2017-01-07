@@ -1,0 +1,657 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Docker上手101 | Odin的自我修养</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Odin">
+    
+
+    
+    <meta name="description" content="Overview久闻docker的大名，之前用daocloud也是用了docker，正好最近有时间，就简单研究了一下。为了避免以后忘记，这里写一篇简单的上手指南。
+介绍docker概念的文章太多了，这里就不赘述了。docker的好处在于可以带着整个系统环境进行分发，避免了部署时各种依赖构建的痛苦。而且轻量级容器不仅可以隔离应用环境，还可以提高机器利用率。相对于虚拟化来说，docker更轻量级一些，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker上手101">
+<meta property="og:url" content="https://odinliu.com/2016/04/11/Docker上手101/index.html">
+<meta property="og:site_name" content="Odin的自我修养">
+<meta property="og:description" content="Overview久闻docker的大名，之前用daocloud也是用了docker，正好最近有时间，就简单研究了一下。为了避免以后忘记，这里写一篇简单的上手指南。
+介绍docker概念的文章太多了，这里就不赘述了。docker的好处在于可以带着整个系统环境进行分发，避免了部署时各种依赖构建的痛苦。而且轻量级容器不仅可以隔离应用环境，还可以提高机器利用率。相对于虚拟化来说，docker更轻量级一些，">
+<meta property="og:updated_time" content="2016-12-31T04:38:37.652Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Docker上手101">
+<meta name="twitter:description" content="Overview久闻docker的大名，之前用daocloud也是用了docker，正好最近有时间，就简单研究了一下。为了避免以后忘记，这里写一篇简单的上手指南。
+介绍docker概念的文章太多了，这里就不赘述了。docker的好处在于可以带着整个系统环境进行分发，避免了部署时各种依赖构建的痛苦。而且轻量级容器不仅可以隔离应用环境，还可以提高机器利用率。相对于虚拟化来说，docker更轻量级一些，">
+<meta name="twitter:creator" content="@odinliu">
+<link rel="publisher" href="103006785183830050000">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Odin的自我修养" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Odin的自我修养" title="Odin的自我修养"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Odin的自我修养">Odin的自我修养</a></h1>
+				<h2 class="blog-motto">Wanna Be The Man, Gotta Have A Plan</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/">技术杂谈</a></li>
+					
+						<li><a href="/categories/%E4%BA%A7%E5%93%81%E4%B9%B1%E5%BC%B9/">产品乱弹</a></li>
+					
+						<li><a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a></li>
+					
+						<li><a href="/categories/%E8%B0%88%E8%82%A1%E8%AE%BA%E9%87%91/">谈股论金</a></li>
+					
+						<li><a href="/categories/%E5%9E%83%E5%9C%BE%E7%AE%B1/">垃圾箱</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:odinliu.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/04/11/Docker上手101/" title="Docker上手101" itemprop="url">Docker上手101</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/103006785183830050000?rel=author" title="Odin" target="_blank" itemprop="author">Odin</a>
+		
+  <p class="article-time">
+    <time datetime="2016-04-11T10:18:30.000Z" itemprop="datePublished"> 发表于 2016-04-11</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Overview"><span class="toc-number">1.</span> <span class="toc-text">Overview</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装"><span class="toc-number">2.</span> <span class="toc-text">安装</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#CentOS"><span class="toc-number">2.1.</span> <span class="toc-text">CentOS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ubuntu"><span class="toc-number">2.2.</span> <span class="toc-text">ubuntu</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#基本操作"><span class="toc-number">3.</span> <span class="toc-text">基本操作</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#自订镜像"><span class="toc-number">4.</span> <span class="toc-text">自订镜像</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#registry"><span class="toc-number">5.</span> <span class="toc-text">registry</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Conclusion"><span class="toc-number">6.</span> <span class="toc-text">Conclusion</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Reference"><span class="toc-number">7.</span> <span class="toc-text">Reference</span></a></li></ol>
+		
+		</div>
+		
+		<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>久闻docker的大名，之前用daocloud也是用了docker，正好最近有时间，就简单研究了一下。为了避免以后忘记，这里写一篇简单的上手指南。</p>
+<p>介绍docker概念的文章太多了，这里就不赘述了。docker的好处在于可以带着整个系统环境进行分发，避免了部署时各种依赖构建的痛苦。而且轻量级容器不仅可以隔离应用环境，还可以提高机器利用率。相对于虚拟化来说，docker更轻量级一些，避免了不必要的资源浪费。</p>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><h2 id="CentOS"><a href="#CentOS" class="headerlink" title="CentOS"></a>CentOS</h2><p>目前epel源上有docker，看之前的文章docker必须要3.x+以上的kernel，不过显然现在也支持2.6了，这对于还用着RHEL/CentOS 6的广大中国码农来说无疑是个好消息。安装非常简单：</p>
+<p>首先，添加epel源：</p>
+<blockquote>
+<p>wget <a href="http://mirrors.aliyun.com/epel/epel-release-latest-6.noarch.rpm" target="_blank" rel="external">http://mirrors.aliyun.com/epel/epel-release-latest-6.noarch.rpm</a> &amp;&amp; rpm -ivh epel-release-latest-6.noarch.rpm</p>
+</blockquote>
+<p>然后直接<br><code>$ sudo yum install -y docker-io</code></p>
+<h2 id="ubuntu"><a href="#ubuntu" class="headerlink" title="ubuntu"></a>ubuntu</h2><p>先添加源<br><code>$ sudo apt-get install -y apt-transport-https</code></p>
+<p>添加密钥<br><code>$ sudo apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D</code></p>
+<p>添加源列表，按自己的系统来，我用的16.04，不过目前还没有对应的源，但是用wily的源:<br><code>deb https://apt.dockerproject.org/repo ubuntu-wily main</code></p>
+<p>然后安装就行了<br><code>$ sudo apt-get update &amp;&amp; sudo apt-get install -y docker-engine</code></p>
+<h1 id="基本操作"><a href="#基本操作" class="headerlink" title="基本操作"></a>基本操作</h1><ul>
+<li>查看镜像列表<code>sudo docker images</code></li>
+<li>拉取镜像<code>sudo docker pull [image url]</code></li>
+<li>启动镜像<code>sudo docker run -it golang:alpine /bin/sh</code></li>
+<li>停止<code>sudo docker stop [container id]</code></li>
+<li>删除镜像<code>sudo docker rmi [image id]</code></li>
+<li>构建镜像<code>docker build -t liuyiding/java:1.0 .</code></li>
+</ul>
+<h1 id="自订镜像"><a href="#自订镜像" class="headerlink" title="自订镜像"></a>自订镜像</h1><p>首先要选择一个基础镜像作为构建自己的应用的镜像，这里推荐alpine linux系列的镜像，alpine是一个非常小的linux发行版，非常适合于构建docker镜像，不过官方的alpine不包括glibc，导致类似java都没法运行，我是以<code>frolvlad/alpine-glibc</code>为基础的。</p>
+<p>一个简单的Java环境的Dockerfile例子:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">FROM frolvlad/alpine-glibc</div><div class="line">MAINTAINER Liu Yiding&lt;odinushuaia@gmail.com&gt;</div><div class="line"></div><div class="line">RUN mkdir -p /usr/java</div><div class="line">RUN mkdir -p /app</div><div class="line">ADD jdk.1.8.0_65.tar.gz /usr/java/</div><div class="line">RUN ln -s /usr/java/jdk.1.8.0_65 /usr/java/default</div><div class="line">ENV JAVA_HOME=/usr/java/default</div><div class="line">ENV CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/jre/lib/rt.jar</div><div class="line">ENV PATH=$JAVA_HOME/bin:$PATH</div></pre></td></tr></table></figure></p>
+<p>构建直接<code>docker build -t liuyiding/java:1.8 .</code>即可。</p>
+<p>再来个自己应用的Dockerfile的例子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">FROM liuyiding/java:1.8</div><div class="line">MAINTAINER Liu Yiding&lt;odinushuaia@gmail.com&gt;</div><div class="line"></div><div class="line">RUN mkdir -p /app/uds/logs</div><div class="line">ADD uds-assembly-1.1.0.jar /app/uds/</div><div class="line">ADD start.sh /app/uds/</div><div class="line">EXPOSE 8888 9990 20880</div><div class="line">CMD [&quot;/bin/sh&quot;, &quot;/app/uds/start.sh&quot;]</div></pre></td></tr></table></figure></p>
+<p>基本上非常简单就把自己应用的环境构建好了，再分发的时候也方便。</p>
+<h1 id="registry"><a href="#registry" class="headerlink" title="registry"></a>registry</h1><p>docker的registry相当于一个镜像仓库，可以把构建好的镜像直接push上去，其他的docker机器只要pull回来就可以直接用了。除了公开的dockerhub，还可以搭建自己私有的registry。方法也很简单，只要拉一个registry的镜像就好。比较麻烦的是它要求https协议，还要生成自己的证书，如果没有可以验证的证书，还得自己手动信任。</p>
+<ul>
+<li><p>生成证书</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">cd /opt &amp;&amp; mkdir -p certs &amp;&amp; openssl req \</div><div class="line">-newkey rsa:4096 -nodes -sha256 -keyout certs/domain.key \</div><div class="line">-x509 -days 365 -out certs/domain.crt</div></pre></td></tr></table></figure>
+</li>
+<li><p>在docker的机器上将domain.crt拷贝至<code>/etc/docker/certs.d/myregistrydomain.com:5000/ca.crt</code></p>
+</li>
+<li><p>安装运行docker-registry</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"> #目前最新版是2.3.1，千万别用latest，因为latest指向的是一个非常低的版本，还是python实现的</div><div class="line"> $ sudo docker pull registry:2.3.1</div><div class="line"> $ sudo docker run -d \</div><div class="line">-v /opt/registry:/var/lib/registry \</div><div class="line">-p 5000:5000 \</div><div class="line">-v /opt/certs:/certs \</div><div class="line">-e REGISTRY_HTTP_TLS_CERTIFICATE=/certs/domain.crt \</div><div class="line">-e REGISTRY_HTTP_TLS_KEY=/certs/domain.key \</div><div class="line">--restart=always --name registry registry:2.3.1</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>之后就可以用myregistrydomain.com:5000作为私有的registry了，在push之前需要打tag</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ sudo docker tag liuyiding/uds:1.1.0 myregistrydomain.com:5000/liuyiding/uds:1.1.0</div><div class="line">$ sudo docker push myregistrydomain.com:5000/liuyiding/uds</div></pre></td></tr></table></figure>
+<h1 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h1><p>总的来说，docker上手还是蛮简单的，如果有机会考虑推广一下。公司的线上机器资源利用率非常低，每个月阿里云上机器成本就一大堆，如果用上docker，肯定可以减少不少机器。</p>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><ol>
+<li><a href="https://www.docker.com/" target="_blank" rel="external">docker.com</a></li>
+<li><a href="https://www.gitbook.com/book/yeasy/docker_practice/details" target="_blank" rel="external">Docker —— 从入门到实践</a></li>
+<li><a href="https://www.v2ex.com/t/266876" target="_blank" rel="external">如何部署一个 docker registry</a></li>
+<li><a href="https://docs.docker.com/registry/insecure/" target="_blank" rel="external">Insecure Registry</a></li>
+</ol>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/学习笔记/">学习笔记</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Docker/">Docker</a><a href="/tags/LXC/">LXC</a><a href="/tags/虚拟化/">虚拟化</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://odinliu.com/2016/04/11/Docker上手101/" data-title="Docker上手101 | Odin的自我修养" data-tsina="1873795663" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2016/12/27/spring-boot学习笔记/" title="spring-boot学习笔记">
+  <strong>上一篇：</strong><br/>
+  <span>
+  spring-boot学习笔记</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2016/03/28/Java-Scala杂记之三/"  title="Java/Scala杂记之三">
+ <strong>下一篇：</strong><br/> 
+ <span>Java/Scala杂记之三
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2016/04/11/Docker上手101/" data-title="Docker上手101" data-url="https://odinliu.com/2016/04/11/Docker上手101/"></div>
+</section>
+
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Overview"><span class="toc-number">1.</span> <span class="toc-text">Overview</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装"><span class="toc-number">2.</span> <span class="toc-text">安装</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#CentOS"><span class="toc-number">2.1.</span> <span class="toc-text">CentOS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ubuntu"><span class="toc-number">2.2.</span> <span class="toc-text">ubuntu</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#基本操作"><span class="toc-number">3.</span> <span class="toc-text">基本操作</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#自订镜像"><span class="toc-number">4.</span> <span class="toc-text">自订镜像</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#registry"><span class="toc-number">5.</span> <span class="toc-text">registry</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Conclusion"><span class="toc-number">6.</span> <span class="toc-text">Conclusion</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Reference"><span class="toc-number">7.</span> <span class="toc-text">Reference</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/产品乱弹/" title="产品乱弹">产品乱弹<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/垃圾箱/" title="垃圾箱">垃圾箱<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/学习笔记/" title="学习笔记">学习笔记<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/技术杂谈/" title="技术杂谈">技术杂谈<sup>20</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/谈股论金/" title="谈股论金">谈股论金<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/旧文搬迁/" title="旧文搬迁">旧文搬迁<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/虚拟化/" title="虚拟化">虚拟化<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/系统运维/" title="系统运维">系统运维<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Scala/" title="Scala">Scala<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hadoop/" title="hadoop">hadoop<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/HBase/" title="HBase">HBase<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/spring-boot/" title="spring-boot">spring-boot<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/实习总结/" title="实习总结">实习总结<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/golang/" title="golang">golang<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/语法/" title="语法">语法<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/推荐系统/" title="推荐系统">推荐系统<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/学习笔记/" title="学习笔记">学习笔记<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Phoenix/" title="Phoenix">Phoenix<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hadoop流水账/" title="hadoop流水账">hadoop流水账<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/双路工作站/" title="双路工作站">双路工作站<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spark/" title="Spark">Spark<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  
+<div class="commentslist">
+  <p class="asidetitle">文章评论</p>
+  <ul class="ds-recent-comments" data-num-items="5" data-show-avatars="0" data-show-time="1" data-show-admin="1" data-excerpt-length="32" data-show-title="1"></ul>
+</div>
+<!--多说js加载开始，一个页面只需要加载一次 -->
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"odinliu"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!--多说js加载结束，一个页面只需要加载一次 -->
+
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            <a href="http://jimliu.net" target="_blank" title="Again, Jim Liu&#39;s Blog">Jim Liu&#39;s Blog</a>
+          </li>
+        
+          <li>
+            <a href="http://chi66.taobao.com/" target="_blank" title="女流的零食店,赶紧买买买">全宇宙最最最好的零食店</a>
+          </li>
+        
+    </ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello, I&#39;m Odin Liu. <br/>
+			A Deveoper.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/odinushuaia" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/odinliu" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/odinliu" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/odinliu88" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/odinliu" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		
+		
+		<a href="https://plus.google.com/103006785183830050000?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
+		
+		<a href="/about" target="_blank" title="Odin">Odin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"odinliu"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?1b6bf7f43e970a9ed29fcb526f3f36f7";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

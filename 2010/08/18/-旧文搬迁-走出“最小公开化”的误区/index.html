@@ -1,0 +1,624 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>[旧文搬迁]走出“最小公开化”的误区 | Odin的自我修养</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Odin">
+    
+
+    
+    <meta name="description" content="感谢IT牛人博客聚合上还能找到我之前博客的一些内容，因为之前主机没续费等各种原因，也懒得翻之前的备份文档了，就把那上面的文章直接拷过来整理一下好了，只搬迁一些还有意义的内容好了，其他的就让它随风而去吧。
+
+记得刚接触面向对象的程序设计时，就知道了这样一个原则，就是类的成员最小公开化。由于当时做的基本是特定开发，再加上各种教程的“误导”，所以想当然的认为能private的绝不friendly，能f">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[旧文搬迁]走出“最小公开化”的误区">
+<meta property="og:url" content="https://odinliu.com/2010/08/18/-旧文搬迁-走出“最小公开化”的误区/index.html">
+<meta property="og:site_name" content="Odin的自我修养">
+<meta property="og:description" content="感谢IT牛人博客聚合上还能找到我之前博客的一些内容，因为之前主机没续费等各种原因，也懒得翻之前的备份文档了，就把那上面的文章直接拷过来整理一下好了，只搬迁一些还有意义的内容好了，其他的就让它随风而去吧。
+
+记得刚接触面向对象的程序设计时，就知道了这样一个原则，就是类的成员最小公开化。由于当时做的基本是特定开发，再加上各种教程的“误导”，所以想当然的认为能private的绝不friendly，能f">
+<meta property="og:updated_time" content="2016-12-31T04:38:37.649Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="[旧文搬迁]走出“最小公开化”的误区">
+<meta name="twitter:description" content="感谢IT牛人博客聚合上还能找到我之前博客的一些内容，因为之前主机没续费等各种原因，也懒得翻之前的备份文档了，就把那上面的文章直接拷过来整理一下好了，只搬迁一些还有意义的内容好了，其他的就让它随风而去吧。
+
+记得刚接触面向对象的程序设计时，就知道了这样一个原则，就是类的成员最小公开化。由于当时做的基本是特定开发，再加上各种教程的“误导”，所以想当然的认为能private的绝不friendly，能f">
+<meta name="twitter:creator" content="@odinliu">
+<link rel="publisher" href="103006785183830050000">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Odin的自我修养" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Odin的自我修养" title="Odin的自我修养"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Odin的自我修养">Odin的自我修养</a></h1>
+				<h2 class="blog-motto">Wanna Be The Man, Gotta Have A Plan</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/">技术杂谈</a></li>
+					
+						<li><a href="/categories/%E4%BA%A7%E5%93%81%E4%B9%B1%E5%BC%B9/">产品乱弹</a></li>
+					
+						<li><a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a></li>
+					
+						<li><a href="/categories/%E8%B0%88%E8%82%A1%E8%AE%BA%E9%87%91/">谈股论金</a></li>
+					
+						<li><a href="/categories/%E5%9E%83%E5%9C%BE%E7%AE%B1/">垃圾箱</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:odinliu.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2010/08/18/-旧文搬迁-走出“最小公开化”的误区/" title="[旧文搬迁]走出“最小公开化”的误区" itemprop="url">[旧文搬迁]走出“最小公开化”的误区</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/103006785183830050000?rel=author" title="Odin" target="_blank" itemprop="author">Odin</a>
+		
+  <p class="article-time">
+    <time datetime="2010-08-17T16:54:42.000Z" itemprop="datePublished"> 发表于 2010-08-18</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<blockquote>
+<p>感谢<a href="http://www.udpwork.com/item/6379.html" target="_blank" rel="external">IT牛人博客聚合</a>上还能找到我之前博客的一些内容，因为之前主机没续费等各种原因，也懒得翻之前的备份文档了，就把那上面的文章直接拷过来整理一下好了，只搬迁一些还有意义的内容好了，其他的就让它随风而去吧。</p>
+</blockquote>
+<p>记得刚接触面向对象的程序设计时，就知道了这样一个原则，就是类的成员最小公开化。由于当时做的基本是特定开发，再加上各种教程的“误导”，所以想当然的认为能private的绝不friendly，能friendly的绝不protected。当然，其实protected都很少会用，大部分时候都是public或者是private的。然而最近在做写终搜新版本以及看一些经典开源代码时，发现其实很多时候都是protected或者friendly的，并不是清一色的private，这不得不让我思考，到底什么是最小公开化原则。</p>
+<p>首先先来复习一下Java中四种可见度，首先private是私有的，只有这个类的成员可以访问，可见度最小；可见度第二小的是friendly，只对同一包内的类及其成员可见；第三小的是protected，对该类的派生类及同一包内的类可见；public顾名思义。之所以会有可见度，是因为要避免这些方法或者成员在其作用域外被误用，导致程序出现不可预知的行为。</p>
+<p>按照大多数POJO的例子，其域成员都是private的，然后通过getter和setter去读写其值。所以以前写的绝大多数类都是私有成员，但放在产品的角度来考虑，这样真的合适么？当你觉得某一个非final类的行为并不符合你的需求时，你的第一想法是什么？继承这个类，然后用派生类代替该类，重写不符合预期的想法。现在问题来了，既然很多成员都是私有的，那么在你的派生类中就不能直接利用这些成员了，要么自己定义成员，要么用臃肿的setter和getter吧。为么会有继承？很大程度上是为了实现代码的高度复用，但是现在你的代码的使用者不得不继承你的类，然后重写这些需要用到的成员，并一边骂着：“靠，用个protected会死啊！”</p>
+<p>没错，最小公开化不代表完全私有化，在确保其不在作用域外被误用的情况下，还要尽可能的“开放”以为你的后人提供方便。那么到底什么情况下适合用private呢？如果你确信这个类永远也不可能被继承重写，那么你大可以给类加上个final，然后放心大胆的用private去标注那些需要隐藏的实现。另外一种情况，如果你的属性或者方法只是某个方法特殊的中间调用产物，而你有确信这段代码不会被其他人复用，那么你可以放心的用private。如果你觉得你的类可能会被继承重写，那么最后给每一个要隐藏的成员标注protected，这样既为你的代码的使用者提供方便，又起到了保护代码的作用。</p>
+<p>但问题并不是这么简单，问题就在于Java中protected的语义，按照我们传统观念来说——也就是目前C#, Scala等语言中的protected那样，protected修饰的成员应该只对该类及其子类的成员可见，但很遗憾，不知道Java最初的设计者出于哪方面考虑，protected也可以被同包的类访问，也许是因为最初的类库一个包中的类经常共用一些成员，但是又与其他包的业务无关吧。总之，这是游戏规则的一个失误。你也许会说，大量使用protected也许会不小心被同一个包的类误用，但是，必须说的是，这个做法本身是一个错误的用例。而且，别忘了，Java提供了反射，这个足以改变游戏规则的武器，所以没有什么代码是真正安全的，除非你自己足够小心。</p>
+<p>所以，尽量多用protected吧，当你有一天需要继承先前类，并且只重写一两个非公开方法时，你会感觉到非常爽的。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/技术杂谈/">技术杂谈</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/旧文搬迁/">旧文搬迁</a><a href="/tags/Java/">Java</a><a href="/tags/继承/">继承</a><a href="/tags/设计思想/">设计思想</a><a href="/tags/面向对象/">面向对象</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://odinliu.com/2010/08/18/-旧文搬迁-走出“最小公开化”的误区/" data-title="[旧文搬迁]走出“最小公开化”的误区 | Odin的自我修养" data-tsina="1873795663" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2010/09/01/-旧文搬迁-偶有所感——为什么我想先做产品技术/" title="[旧文搬迁]偶有所感——为什么我想先做产品技术">
+  <strong>上一篇：</strong><br/>
+  <span>
+  [旧文搬迁]偶有所感——为什么我想先做产品技术</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2010/08/17/-旧文搬迁-闲扯Java面向对象/"  title="[旧文搬迁]闲扯Java面向对象">
+ <strong>下一篇：</strong><br/> 
+ <span>[旧文搬迁]闲扯Java面向对象
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2010/08/18/-旧文搬迁-走出“最小公开化”的误区/" data-title="[旧文搬迁]走出“最小公开化”的误区" data-url="https://odinliu.com/2010/08/18/-旧文搬迁-走出“最小公开化”的误区/"></div>
+</section>
+
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/产品乱弹/" title="产品乱弹">产品乱弹<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/垃圾箱/" title="垃圾箱">垃圾箱<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/学习笔记/" title="学习笔记">学习笔记<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/技术杂谈/" title="技术杂谈">技术杂谈<sup>20</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/谈股论金/" title="谈股论金">谈股论金<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/旧文搬迁/" title="旧文搬迁">旧文搬迁<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/虚拟化/" title="虚拟化">虚拟化<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/系统运维/" title="系统运维">系统运维<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Scala/" title="Scala">Scala<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hadoop/" title="hadoop">hadoop<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/HBase/" title="HBase">HBase<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/spring-boot/" title="spring-boot">spring-boot<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/实习总结/" title="实习总结">实习总结<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/golang/" title="golang">golang<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/语法/" title="语法">语法<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/推荐系统/" title="推荐系统">推荐系统<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/学习笔记/" title="学习笔记">学习笔记<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Phoenix/" title="Phoenix">Phoenix<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hadoop流水账/" title="hadoop流水账">hadoop流水账<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/双路工作站/" title="双路工作站">双路工作站<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spark/" title="Spark">Spark<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  
+<div class="commentslist">
+  <p class="asidetitle">文章评论</p>
+  <ul class="ds-recent-comments" data-num-items="5" data-show-avatars="0" data-show-time="1" data-show-admin="1" data-excerpt-length="32" data-show-title="1"></ul>
+</div>
+<!--多说js加载开始，一个页面只需要加载一次 -->
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"odinliu"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!--多说js加载结束，一个页面只需要加载一次 -->
+
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            <a href="http://jimliu.net" target="_blank" title="Again, Jim Liu&#39;s Blog">Jim Liu&#39;s Blog</a>
+          </li>
+        
+          <li>
+            <a href="http://chi66.taobao.com/" target="_blank" title="女流的零食店,赶紧买买买">全宇宙最最最好的零食店</a>
+          </li>
+        
+    </ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello, I&#39;m Odin Liu. <br/>
+			A Deveoper.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/odinushuaia" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/odinliu" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/odinliu" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/odinliu88" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/odinliu" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		
+		
+		<a href="https://plus.google.com/103006785183830050000?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
+		
+		<a href="/about" target="_blank" title="Odin">Odin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"odinliu"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?1b6bf7f43e970a9ed29fcb526f3f36f7";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

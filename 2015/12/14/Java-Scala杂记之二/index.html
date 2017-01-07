@@ -1,0 +1,635 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Java/Scala杂记之二 | Odin的自我修养</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Odin">
+    
+
+    
+    <meta name="description" content="Overview最近的Java/Scala项目又积累了一些工具，研究不深，权当记录。至于spray系列，等把akka研究明白再写吧(巨型坑)。
+typesafe-config最早接触这个配置库是在spray的时候，当时觉得语法还不错，而且这个库是纯Java写的，没有什么第三方依赖，这是最爽的，省得解决依赖蛋疼。
+配置:123456//application.confSqlExecutorJDBC">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java/Scala杂记之二">
+<meta property="og:url" content="https://odinliu.com/2015/12/14/Java-Scala杂记之二/index.html">
+<meta property="og:site_name" content="Odin的自我修养">
+<meta property="og:description" content="Overview最近的Java/Scala项目又积累了一些工具，研究不深，权当记录。至于spray系列，等把akka研究明白再写吧(巨型坑)。
+typesafe-config最早接触这个配置库是在spray的时候，当时觉得语法还不错，而且这个库是纯Java写的，没有什么第三方依赖，这是最爽的，省得解决依赖蛋疼。
+配置:123456//application.confSqlExecutorJDBC">
+<meta property="og:updated_time" content="2016-12-31T04:38:37.655Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java/Scala杂记之二">
+<meta name="twitter:description" content="Overview最近的Java/Scala项目又积累了一些工具，研究不深，权当记录。至于spray系列，等把akka研究明白再写吧(巨型坑)。
+typesafe-config最早接触这个配置库是在spray的时候，当时觉得语法还不错，而且这个库是纯Java写的，没有什么第三方依赖，这是最爽的，省得解决依赖蛋疼。
+配置:123456//application.confSqlExecutorJDBC">
+<meta name="twitter:creator" content="@odinliu">
+<link rel="publisher" href="103006785183830050000">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Odin的自我修养" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Odin的自我修养" title="Odin的自我修养"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Odin的自我修养">Odin的自我修养</a></h1>
+				<h2 class="blog-motto">Wanna Be The Man, Gotta Have A Plan</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/">技术杂谈</a></li>
+					
+						<li><a href="/categories/%E4%BA%A7%E5%93%81%E4%B9%B1%E5%BC%B9/">产品乱弹</a></li>
+					
+						<li><a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a></li>
+					
+						<li><a href="/categories/%E8%B0%88%E8%82%A1%E8%AE%BA%E9%87%91/">谈股论金</a></li>
+					
+						<li><a href="/categories/%E5%9E%83%E5%9C%BE%E7%AE%B1/">垃圾箱</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:odinliu.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/12/14/Java-Scala杂记之二/" title="Java/Scala杂记之二" itemprop="url">Java/Scala杂记之二</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/103006785183830050000?rel=author" title="Odin" target="_blank" itemprop="author">Odin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-12-14T09:47:08.000Z" itemprop="datePublished"> 发表于 2015-12-14</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Overview"><span class="toc-number">1.</span> <span class="toc-text">Overview</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#typesafe-config"><span class="toc-number">2.</span> <span class="toc-text">typesafe-config</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#HikariCP"><span class="toc-number">3.</span> <span class="toc-text">HikariCP</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Apache-Phoenix"><span class="toc-number">4.</span> <span class="toc-text">Apache Phoenix</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#spray-json"><span class="toc-number">5.</span> <span class="toc-text">spray-json</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Conclusion"><span class="toc-number">6.</span> <span class="toc-text">Conclusion</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Reference"><span class="toc-number">7.</span> <span class="toc-text">Reference</span></a></li></ol>
+		
+		</div>
+		
+		<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>最近的Java/Scala项目又积累了一些工具，研究不深，权当记录。至于spray系列，等把akka研究明白再写吧(巨型坑)。</p>
+<h1 id="typesafe-config"><a href="#typesafe-config" class="headerlink" title="typesafe-config"></a><a href="https://github.com/typesafehub/config" title="Configuration library for JVM languages" target="_blank" rel="external">typesafe-config</a></h1><p>最早接触这个配置库是在spray的时候，当时觉得语法还不错，而且这个库是纯Java写的，没有什么第三方依赖，这是最爽的，省得解决依赖蛋疼。</p>
+<p>配置:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">//application.conf</div><div class="line">SqlExecutorJDBC &#123;</div><div class="line">  zkQuorum = &quot;datanode0,datanode1,datanode2&quot;</div><div class="line">  zkPort = 2181</div><div class="line">  zkRoot = &quot;/hbase-unsecure&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>先来个Java的例子:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">Config conf = ConfigFactory.load();</div><div class="line">String zkQuorum = <span class="string">"datanode0,datanode1,datanode2"</span>;</div><div class="line"><span class="keyword">if</span> (conf.hasPath(<span class="string">"SqlExecutorJDBC.zkQuorum"</span>)) &#123;</div><div class="line">	zkQuorum = conf.getString(<span class="string">"SqlExecutorJDBC.zkQuorum"</span>);</div><div class="line">	logger.info(<span class="string">"zkQuorum[&#123;&#125;]"</span>, zkQuorum);</div><div class="line">&#125;</div><div class="line"><span class="keyword">int</span> zkPort = <span class="number">2181</span>;</div><div class="line"><span class="keyword">if</span> (conf.hasPath(<span class="string">"SqlExecutorJDBC.zkPort"</span>)) &#123;</div><div class="line">	zkPort = conf.getInt(<span class="string">"SqlExecutorJDBC.zkPort"</span>);</div><div class="line">	logger.info(<span class="string">"zkPort[&#123;&#125;]"</span>, zkPort);</div><div class="line">&#125;</div><div class="line">String zkRoot = <span class="string">"/hbase-unsecure"</span>;</div><div class="line"><span class="keyword">if</span> (conf.hasPath(<span class="string">"SqlExecutorJDBC.zkRoot"</span>)) &#123;</div><div class="line">	zkRoot = conf.getString(<span class="string">"SqlExecutorJDBC.zkRoot"</span>);</div><div class="line">	logger.info(<span class="string">"zkRoot[&#123;&#125;]"</span>, zkRoot);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>再来个Scala的例子:<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">val config = ConfigFactory.load()</div><div class="line">lazy val zkQuorum = Try(config.getString("SqlExecutorJDBC.zkQuorum")).getOrElse("datanode0,datanode1,datanode2")</div><div class="line">lazy val zkPort = Try(conf.getInt(SqlExecutorJDBC.zkPort")).getOrElse(2181)</div><div class="line">lazy val zkRoot = Try(conf.getString("SqlExecutorJDBC.zkRoot")).getOrElse("/hbase-unsecure")</div></pre></td></tr></table></figure></p>
+<p>用起来挺简单的，而且支持更多层级的配置，支持的类型也更多，比原始的.properties更强大，可读性更好，也比xml写起来更方便，所以以后有配置就用这个了。不过话说来，JVM的配置化简直是扯淡，所有程序都打在jar包里，改一个配置还得先解包，改完再重新打包，这和写程序里好像并没有什么卵区别啊？</p>
+<h1 id="HikariCP"><a href="#HikariCP" class="headerlink" title="HikariCP"></a><a href="https://github.com/brettwooldridge/HikariCP" title="光 HikariCP・A solid high-performance JDBC connection pool at last" target="_blank" rel="external">HikariCP</a></h1><p>说来也巧，最早知道HikariCP也是在研究spray的时候，话说现在HikariCP现在号称JDBC界性能第一连接池。当初搞JavaEE的时候，用iBatis比较多，对连接池基本采用配置封装，没有实际用过，那时候还是c3p0的天下，看来c3p0躺着睡觉的时候，HikariCP已经成为了老大。一开始还以为这个库是个日本人写的，不过在github上看了一下作者，是个在日本生活的欧美人。废话不多说，直接上代码：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">SqlExecutorJDBC</span>(<span class="params">zkQuorum: <span class="type">String</span>, zkPort: <span class="type">Int</span>, zkRoot: <span class="type">String</span></span>) </span>&#123;</div><div class="line">  <span class="keyword">val</span> logger = <span class="type">LoggerFactory</span>.getLogger(getClass)</div><div class="line">  <span class="keyword">val</span> config = <span class="keyword">new</span> <span class="type">HikariConfig</span>()</div><div class="line">  config.setJdbcUrl(<span class="string">s"jdbc:phoenix:<span class="subst">$zkQuorum</span>:<span class="subst">$zkPort</span>:<span class="subst">$zkRoot</span>"</span>)</div><div class="line">  config.addDataSourceProperty(<span class="string">"cachePrepStmts"</span>, <span class="string">"true"</span>)</div><div class="line">  config.addDataSourceProperty(<span class="string">"prepStmtCacheSize"</span>, <span class="string">"250"</span>)</div><div class="line">  config.addDataSourceProperty(<span class="string">"prepStmtCacheSqlLimit"</span>, <span class="string">"2048"</span>)</div><div class="line">  config.setAutoCommit(<span class="literal">true</span>)</div><div class="line">  config.setMaximumPoolSize(<span class="number">64</span>)</div><div class="line">  config.setMinimumIdle(<span class="number">16</span>)</div><div class="line">  <span class="keyword">val</span> ds = <span class="keyword">new</span> <span class="type">HikariDataSource</span>(config)</div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">getTaskResult</span></span>(key: <span class="type">String</span>): (<span class="type">String</span>, <span class="type">String</span>) = &#123;</div><div class="line">    <span class="keyword">val</span> sql = <span class="string">s"SELECT DATA_VALUE,DATA_STATUS FROM DATA_STATUS WHERE DATA_KEY='<span class="subst">$key</span>'"</span></div><div class="line">    <span class="type">Try</span>(ds.getConnection) <span class="keyword">match</span> &#123;</div><div class="line">      <span class="keyword">case</span> <span class="type">Success</span>(conn) =&gt;</div><div class="line">        <span class="type">Try</span>(conn.createStatement().executeQuery(removeTailing(sql))) <span class="keyword">match</span> &#123;</div><div class="line">          <span class="keyword">case</span> <span class="type">Success</span>(rs) =&gt;</div><div class="line">            <span class="type">Try</span>(rs.next())</div><div class="line">            <span class="keyword">val</span> value = <span class="type">Try</span>(rs.getString(<span class="number">1</span>)).getOrElse(<span class="string">""</span>)</div><div class="line">            <span class="keyword">val</span> status = <span class="type">Try</span>(rs.getString(<span class="number">2</span>)).getOrElse(<span class="string">"-1"</span>)</div><div class="line">            <span class="type">Try</span>(conn.close())</div><div class="line">            (value, status)</div><div class="line">          <span class="keyword">case</span> <span class="type">Failure</span>(e) =&gt;</div><div class="line">            logger.warn(<span class="string">s"execute sql failed, <span class="subst">$&#123;e.toString&#125;</span>"</span>)</div><div class="line">            <span class="type">Try</span>(conn.close())</div><div class="line">            (<span class="string">""</span>, <span class="string">"-1"</span>)</div><div class="line">        &#125;</div><div class="line">      <span class="keyword">case</span> <span class="type">Failure</span>(e) =&gt;</div><div class="line">        logger.warn(<span class="string">s"get connection from cp failed, <span class="subst">$&#123;e.toString&#125;</span>"</span>)</div><div class="line">        (<span class="string">""</span>, <span class="string">"-1"</span>)</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">stop</span></span>() = ds.close()</div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">removeTailing</span></span>(query: <span class="type">String</span>): <span class="type">String</span> = &#123;</div><div class="line">    <span class="keyword">if</span> (query != <span class="literal">null</span> &amp;&amp; query.length &gt; <span class="number">0</span> &amp;&amp; query.endsWith(<span class="string">";"</span>)) &#123;</div><div class="line">      <span class="keyword">return</span> query.substring(<span class="number">0</span>, query.length - <span class="number">1</span>)</div><div class="line">    &#125;</div><div class="line">    query</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>HikariCP初始化配置的方式很多，因为我项目里已经选用了typesafe-config做配置管理，就不采用配置文件的形式初始化了，直接用JDBC url，这里是一个apache phoenix的例子。之前没怎么用过JDBC，ResultSet在读取值之前先next一下真是蛋疼，这里卡了我好久……这里有一处比较蛋疼的，因为我要主动归还连接给连接池，所以要调用<code>Connection.close()</code>方法，但是本来可以只写一个Try的，但是为保留一个conn的引用，不得不多写了一些。</p>
+<h1 id="Apache-Phoenix"><a href="#Apache-Phoenix" class="headerlink" title="Apache Phoenix"></a><a href="http://phoenix.apache.org/" title="High performance relational database layer over HBase for low latency applications" target="_blank" rel="external">Apache Phoenix</a></h1><p>apache的大坑之一，简单的说是一个构建在HBase上的SQL引擎，将普通SQL语句翻译成HBase的基本api，兼容JDBC，对SQL的支持并不是什么都可以，有它自己的<a href="http://phoenix.apache.org/language/index.html" title="Grammar" target="_blank" rel="external">语法</a>。这个项目坑的地方在于，文档一点不实用，只说了它是干嘛，能用SQL语法怎么怎么样，但是一个example都没有，可能觉得JDBC大家应该都会吧……坑的第二个地方在于引入一个<code>phoenix-core</code>的包导致maven编译出现各种依赖冲突的问题，它自己依赖的下面都是各种冲突，真是搞不清楚maven的机制。</p>
+<p>这个东西是之前<a href="http://www.jone.tech/" title="焦文斌的blog" target="_blank" rel="external">焦老师</a>引入用来做DMP数据存储的，之前用了一个开源的<a href="https://github.com/jdye64/PhoenixRESTServer" title="Proxy Server to accepting REST requests and translating them into the appropritate Phoenix JDBC calls" target="_blank" rel="external">PhoenixRESTServer</a>，但是这货有一个问题，就是经常整个服务阻塞住了，不清楚是因为发生异常导致服务状态无法恢复，还是它的连接池的连接并不释放(没主动调用close)的缘故，反正就是很坑，我一怒之下就给改成自己通过JDBC连接了。不过这东西Google都搜不到，貌似是Hortonworks的一个员工自己做的。</p>
+<p>具体怎么用在上面HikariCP的例子已经有说明了，所以这里也不多说。总之东西倒是不错的东西，就是文档太简略了。而且最好自己通过JDBC连接，千万别用那个坑爹的PhoenixRESTServer。</p>
+<h1 id="spray-json"><a href="#spray-json" class="headerlink" title="spray-json"></a><a href="https://github.com/spray/spray-json" title="spray-json is a lightweight, clean and efficient JSON implementation in Scala." target="_blank" rel="external">spray-json</a></h1><p>话说spray让我接触了好多库，<code>spray-json</code>是独立发布的一个json的序列化反序列化工具，通过引入一个叫做json protocal的东西，定义如果把json序列化成一个scala对象，这点比jackson这种序列化成map的要好一些，毕竟强类型支持。这个库的文档还是比较细的(相对于其他spray的文档)，所以先不上例子了。强类型不方便的地方在于写转换方法比较麻烦，这点和go的变准json库差太多了，go的那个是目前我认为用起来最方便的。<code>spray-json</code>还有一个比较坑的地方在于，它写反序列化方法时，模式匹配的竟然是一个序列，特么的序列是什么鬼，如果有字段忽略的情况，那顺序就变了啊，好歹给个map啊……</p>
+<h1 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h1><p>已经到了第二期，JVM写一个服务真是蛋疼菊紧，1/3时间写代码，1/3时间等编译和JVM启动，1/3时间解决引入库之间的依赖版本冲突，还是Go又快又好啊。希望到了下一期，就可以写spray/slick/akka了……</p>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><ol>
+<li><a href="https://github.com/typesafehub/config" target="_blank" rel="external">Configuration library for JVM languages</a></li>
+<li><a href="https://github.com/brettwooldridge/HikariCP" target="_blank" rel="external">光 HikariCP・A solid high-performance JDBC connection pool at last</a></li>
+<li><a href="http://phoenix.apache.org/" target="_blank" rel="external">High performance relational database layer over HBase for low latency applications</a></li>
+<li><a href="https://github.com/spray/spray-json" target="_blank" rel="external">spray-json is a lightweight, clean and efficient JSON implementation in Scala</a></li>
+</ol>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/学习笔记/">学习笔记</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Scala/">Scala</a><a href="/tags/Java/">Java</a><a href="/tags/typesafe-config/">typesafe-config</a><a href="/tags/HikariCP/">HikariCP</a><a href="/tags/Phoenix/">Phoenix</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://odinliu.com/2015/12/14/Java-Scala杂记之二/" data-title="Java/Scala杂记之二 | Odin的自我修养" data-tsina="1873795663" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2016/01/04/hadoop流水账之HBase网页库设计/" title="hadoop流水账之HBase网页库设计">
+  <strong>上一篇：</strong><br/>
+  <span>
+  hadoop流水账之HBase网页库设计</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/12/07/小试ESXi做虚拟化/"  title="小试ESXi做虚拟化">
+ <strong>下一篇：</strong><br/> 
+ <span>小试ESXi做虚拟化
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2015/12/14/Java-Scala杂记之二/" data-title="Java/Scala杂记之二" data-url="https://odinliu.com/2015/12/14/Java-Scala杂记之二/"></div>
+</section>
+
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Overview"><span class="toc-number">1.</span> <span class="toc-text">Overview</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#typesafe-config"><span class="toc-number">2.</span> <span class="toc-text">typesafe-config</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#HikariCP"><span class="toc-number">3.</span> <span class="toc-text">HikariCP</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Apache-Phoenix"><span class="toc-number">4.</span> <span class="toc-text">Apache Phoenix</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#spray-json"><span class="toc-number">5.</span> <span class="toc-text">spray-json</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Conclusion"><span class="toc-number">6.</span> <span class="toc-text">Conclusion</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Reference"><span class="toc-number">7.</span> <span class="toc-text">Reference</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/产品乱弹/" title="产品乱弹">产品乱弹<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/垃圾箱/" title="垃圾箱">垃圾箱<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/学习笔记/" title="学习笔记">学习笔记<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/技术杂谈/" title="技术杂谈">技术杂谈<sup>20</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/谈股论金/" title="谈股论金">谈股论金<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/旧文搬迁/" title="旧文搬迁">旧文搬迁<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/虚拟化/" title="虚拟化">虚拟化<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/系统运维/" title="系统运维">系统运维<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Scala/" title="Scala">Scala<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hadoop/" title="hadoop">hadoop<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/HBase/" title="HBase">HBase<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/spring-boot/" title="spring-boot">spring-boot<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/实习总结/" title="实习总结">实习总结<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/golang/" title="golang">golang<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/语法/" title="语法">语法<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/推荐系统/" title="推荐系统">推荐系统<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/学习笔记/" title="学习笔记">学习笔记<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Phoenix/" title="Phoenix">Phoenix<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hadoop流水账/" title="hadoop流水账">hadoop流水账<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/双路工作站/" title="双路工作站">双路工作站<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spark/" title="Spark">Spark<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  
+<div class="commentslist">
+  <p class="asidetitle">文章评论</p>
+  <ul class="ds-recent-comments" data-num-items="5" data-show-avatars="0" data-show-time="1" data-show-admin="1" data-excerpt-length="32" data-show-title="1"></ul>
+</div>
+<!--多说js加载开始，一个页面只需要加载一次 -->
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"odinliu"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!--多说js加载结束，一个页面只需要加载一次 -->
+
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            <a href="http://jimliu.net" target="_blank" title="Again, Jim Liu&#39;s Blog">Jim Liu&#39;s Blog</a>
+          </li>
+        
+          <li>
+            <a href="http://chi66.taobao.com/" target="_blank" title="女流的零食店,赶紧买买买">全宇宙最最最好的零食店</a>
+          </li>
+        
+    </ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello, I&#39;m Odin Liu. <br/>
+			A Deveoper.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/odinushuaia" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/odinliu" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/odinliu" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/odinliu88" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/odinliu" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		
+		
+		<a href="https://plus.google.com/103006785183830050000?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
+		
+		<a href="/about" target="_blank" title="Odin">Odin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"odinliu"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?1b6bf7f43e970a9ed29fcb526f3f36f7";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

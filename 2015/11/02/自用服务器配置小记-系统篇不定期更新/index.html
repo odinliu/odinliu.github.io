@@ -1,0 +1,656 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>自用服务器配置小记-系统篇不定期更新 | Odin的自我修养</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Odin">
+    
+
+    
+    <meta name="description" content="Overview按照我取机器名用马刺队员的习惯，我决定将这台机器命名为DannyGreen，希望这台屌丝的DIY服务器可以像格林一样，成为一个廉价但是超值的服务器。
+操作系统系统选择操作系统自然选择国内生产环境使用最多的CentOS(RHEL)系列，目前最新版本是7.x，使用gcc 4.8+和kernel 3.x，不过7的系统配置管理方面修改了太多，我用6.x的比较多，而且国内基本还是用6的多，所">
+<meta property="og:type" content="article">
+<meta property="og:title" content="自用服务器配置小记-系统篇不定期更新">
+<meta property="og:url" content="https://odinliu.com/2015/11/02/自用服务器配置小记-系统篇不定期更新/index.html">
+<meta property="og:site_name" content="Odin的自我修养">
+<meta property="og:description" content="Overview按照我取机器名用马刺队员的习惯，我决定将这台机器命名为DannyGreen，希望这台屌丝的DIY服务器可以像格林一样，成为一个廉价但是超值的服务器。
+操作系统系统选择操作系统自然选择国内生产环境使用最多的CentOS(RHEL)系列，目前最新版本是7.x，使用gcc 4.8+和kernel 3.x，不过7的系统配置管理方面修改了太多，我用6.x的比较多，而且国内基本还是用6的多，所">
+<meta property="og:updated_time" content="2016-12-31T04:38:37.664Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="自用服务器配置小记-系统篇不定期更新">
+<meta name="twitter:description" content="Overview按照我取机器名用马刺队员的习惯，我决定将这台机器命名为DannyGreen，希望这台屌丝的DIY服务器可以像格林一样，成为一个廉价但是超值的服务器。
+操作系统系统选择操作系统自然选择国内生产环境使用最多的CentOS(RHEL)系列，目前最新版本是7.x，使用gcc 4.8+和kernel 3.x，不过7的系统配置管理方面修改了太多，我用6.x的比较多，而且国内基本还是用6的多，所">
+<meta name="twitter:creator" content="@odinliu">
+<link rel="publisher" href="103006785183830050000">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Odin的自我修养" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Odin的自我修养" title="Odin的自我修养"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Odin的自我修养">Odin的自我修养</a></h1>
+				<h2 class="blog-motto">Wanna Be The Man, Gotta Have A Plan</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/">技术杂谈</a></li>
+					
+						<li><a href="/categories/%E4%BA%A7%E5%93%81%E4%B9%B1%E5%BC%B9/">产品乱弹</a></li>
+					
+						<li><a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a></li>
+					
+						<li><a href="/categories/%E8%B0%88%E8%82%A1%E8%AE%BA%E9%87%91/">谈股论金</a></li>
+					
+						<li><a href="/categories/%E5%9E%83%E5%9C%BE%E7%AE%B1/">垃圾箱</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:odinliu.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/11/02/自用服务器配置小记-系统篇不定期更新/" title="自用服务器配置小记-系统篇不定期更新" itemprop="url">自用服务器配置小记-系统篇不定期更新</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/103006785183830050000?rel=author" title="Odin" target="_blank" itemprop="author">Odin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-11-02T03:08:50.000Z" itemprop="datePublished"> 发表于 2015-11-02</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Overview"><span class="toc-number">1.</span> <span class="toc-text">Overview</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#操作系统"><span class="toc-number">2.</span> <span class="toc-text">操作系统</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#系统选择"><span class="toc-number">2.1.</span> <span class="toc-text">系统选择</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#关于用U盘安装"><span class="toc-number">2.2.</span> <span class="toc-text">关于用U盘安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#系统配置"><span class="toc-number">2.3.</span> <span class="toc-text">系统配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#etc-sudoers"><span class="toc-number">2.3.1.</span> <span class="toc-text">/etc/sudoers</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#etc-sysctl-conf"><span class="toc-number">2.3.2.</span> <span class="toc-text">/etc/sysctl.conf</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#etc-security-limits-conf"><span class="toc-number">2.3.3.</span> <span class="toc-text">/etc/security/limits.conf</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SELinux"><span class="toc-number">2.3.4.</span> <span class="toc-text">SELinux</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#etc-profile"><span class="toc-number">2.3.5.</span> <span class="toc-text">/etc/profile</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#同步时间"><span class="toc-number">2.3.6.</span> <span class="toc-text">同步时间</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#iptables"><span class="toc-number">2.3.7.</span> <span class="toc-text">iptables</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sshd监听端口"><span class="toc-number">2.3.8.</span> <span class="toc-text">sshd监听端口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CPU温度检测"><span class="toc-number">2.3.9.</span> <span class="toc-text">CPU温度检测</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#samba"><span class="toc-number">2.3.10.</span> <span class="toc-text">samba</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#KVM"><span class="toc-number">2.3.11.</span> <span class="toc-text">KVM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CDH"><span class="toc-number">2.3.12.</span> <span class="toc-text">CDH</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#开发环境"><span class="toc-number">3.</span> <span class="toc-text">开发环境</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#yum"><span class="toc-number">3.1.</span> <span class="toc-text">yum</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#epel"><span class="toc-number">3.1.1.</span> <span class="toc-text">epel</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#其他库"><span class="toc-number">3.1.2.</span> <span class="toc-text">其他库</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#git"><span class="toc-number">3.2.</span> <span class="toc-text">git</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#基本配置"><span class="toc-number">3.2.1.</span> <span class="toc-text">基本配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#自动补全"><span class="toc-number">3.2.2.</span> <span class="toc-text">自动补全</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#vim"><span class="toc-number">3.3.</span> <span class="toc-text">vim</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#基本配置-1"><span class="toc-number">3.3.1.</span> <span class="toc-text">基本配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#插件"><span class="toc-number">3.3.2.</span> <span class="toc-text">插件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#node-js"><span class="toc-number">3.4.</span> <span class="toc-text">node.js</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#基本"><span class="toc-number">3.4.1.</span> <span class="toc-text">基本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#cnpm"><span class="toc-number">3.4.2.</span> <span class="toc-text">cnpm</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#其他包"><span class="toc-number">3.4.3.</span> <span class="toc-text">其他包</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java"><span class="toc-number">3.5.</span> <span class="toc-text">Java</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nginx-with-rtmp"><span class="toc-number">3.6.</span> <span class="toc-text">nginx(with rtmp)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Go"><span class="toc-number">3.7.</span> <span class="toc-text">Go</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#其他"><span class="toc-number">3.8.</span> <span class="toc-text">其他</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Reference"><span class="toc-number">4.</span> <span class="toc-text">Reference</span></a></li></ol>
+		
+		</div>
+		
+		<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>按照我取机器名用马刺队员的习惯，我决定将这台机器命名为<code>DannyGreen</code>，希望这台屌丝的DIY服务器可以像格林一样，成为一个廉价但是超值的服务器。</p>
+<h1 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h1><h2 id="系统选择"><a href="#系统选择" class="headerlink" title="系统选择"></a>系统选择</h2><p>操作系统自然选择国内生产环境使用最多的CentOS(RHEL)系列，目前最新版本是7.x，使用gcc 4.8+和kernel 3.x，不过7的系统配置管理方面修改了太多，我用6.x的比较多，而且国内基本还是用6的多，所以我还是选择了6系的最新版本6.7。</p>
+<h2 id="关于用U盘安装"><a href="#关于用U盘安装" class="headerlink" title="关于用U盘安装"></a>关于用U盘安装</h2><p>我最开始用UltraISO做的启动U盘，但是启动时一直卡在<code>Press the &lt;Enter&gt; key to begin the installation process</code>画面，用<a href="http://sourceforge.net/projects/win32diskimager/" title="Win32 Disk Imager" target="_blank" rel="external">Win32 Disk Imager</a>制作就没问题了。之前做前厂的系统也用过一次U盘，也是卡在那，还以为是镜像的问题。安装的具体过程就不说了，反正大家都会。</p>
+<h2 id="系统配置"><a href="#系统配置" class="headerlink" title="系统配置"></a>系统配置</h2><h3 id="etc-sudoers"><a href="#etc-sudoers" class="headerlink" title="/etc/sudoers"></a>/etc/sudoers</h3><p>root密码被我设置成一个复杂的密码了，所以自己账号的sudo权限加上比较方便，注意这个文件是没有写权限的，所以先给一个u的w权限，编辑完再去掉即可，在文件中添加：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">odin    ALL=(ALL)       NOPASSWD: ALL</div></pre></td></tr></table></figure></p>
+<h3 id="etc-sysctl-conf"><a href="#etc-sysctl-conf" class="headerlink" title="/etc/sysctl.conf"></a>/etc/sysctl.conf</h3><p>这里主要配置最大打开文件数，配置完后执行<code>sysctl -p /etc/sycctl.conf</code>生效，在文件结尾添加：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"># max open files</div><div class="line">fs.file-max = 409600</div></pre></td></tr></table></figure></p>
+<p>打开路由转发功能：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">net.ipv4.ip_forward = 1</div><div class="line">net.ipv4.conf.default.rp_filter = 1</div></pre></td></tr></table></figure></p>
+<h3 id="etc-security-limits-conf"><a href="#etc-security-limits-conf" class="headerlink" title="/etc/security/limits.conf"></a>/etc/security/limits.conf</h3><p>这里主要是配置最大打开文件数和core文件限制，也就是ulimit的配置，在文件中添加：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">* soft nofile 409600</div><div class="line">* hard nofile 409600</div><div class="line">* soft core unlimited</div><div class="line">* hard core unlimited</div></pre></td></tr></table></figure></p>
+<h3 id="SELinux"><a href="#SELinux" class="headerlink" title="SELinux"></a>SELinux</h3><p>这东西没卵用，还是禁用了吧，编辑<code>/etc/selinux/config</code>将<code>SELINUX</code>改成<code>disabled</code>，貌似要重启，即：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELINUX=disabled</div></pre></td></tr></table></figure></p>
+<h3 id="etc-profile"><a href="#etc-profile" class="headerlink" title="/etc/profile"></a>/etc/profile</h3><p>这里其实就是把<code>/usr/local</code>系的加入到相关环境变量，免得各个用户再配，在文件中添加：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">export PATH=&quot;/usr/local/bin:$PATH&quot;</div><div class="line">export LD_LIBRARY_PATH=&quot;/usr/local/lib:$LD_LIBRARY_PATH&quot;</div></pre></td></tr></table></figure></p>
+<h3 id="同步时间"><a href="#同步时间" class="headerlink" title="同步时间"></a>同步时间</h3><p>每次装完系统，时间都不对，只能重新设置一下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ntpdate time.windows.com &amp;&amp; hwclock -w</div></pre></td></tr></table></figure></p>
+<h3 id="iptables"><a href="#iptables" class="headerlink" title="iptables"></a>iptables</h3><p>直接上执行<code>service iptables save</code>命令后的<code>/etc/sysconfig/iptables</code>好了：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"># Generated by iptables-save v1.4.7 on Tue Nov  3 19:56:09 2015</div><div class="line">*nat</div><div class="line">:PREROUTING ACCEPT [2:486]</div><div class="line">:POSTROUTING ACCEPT [0:0]</div><div class="line">:OUTPUT ACCEPT [0:0]</div><div class="line">-A PREROUTING -d 199.9.249.0/24 -i eth0 -j REDIRECT</div><div class="line">-A PREROUTING -d 199.9.251.0/24 -i eth0 -j REDIRECT</div><div class="line">-A POSTROUTING -o eth0 -j MASQUERADE</div><div class="line">COMMIT</div><div class="line"># Completed on Tue Nov  3 19:56:09 2015</div><div class="line"># Generated by iptables-save v1.4.7 on Tue Nov  3 19:56:09 2015</div><div class="line">*filter</div><div class="line">:INPUT ACCEPT [0:0]</div><div class="line">:FORWARD ACCEPT [0:0]</div><div class="line">:OUTPUT ACCEPT [6117:1304278]</div><div class="line">-A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT</div><div class="line">-A INPUT -p icmp -j ACCEPT</div><div class="line">-A INPUT -i lo -j ACCEPT</div><div class="line">-A INPUT -p tcp -m state --state NEW -m multiport --dports 80,1935,2012 -j ACCEPT</div><div class="line">-A INPUT -j REJECT --reject-with icmp-host-prohibited</div><div class="line">-A FORWARD -s 192.168.199.0/24 -j ACCEPT</div><div class="line">-A FORWARD -d 192.168.199.0/24 -j ACCEPT</div><div class="line">-A FORWARD -j REJECT --reject-with icmp-host-prohibited</div><div class="line">COMMIT</div><div class="line"># Completed on Tue Nov  3 19:56:09 2015</div></pre></td></tr></table></figure></p>
+<h3 id="sshd监听端口"><a href="#sshd监听端口" class="headerlink" title="sshd监听端口"></a>sshd监听端口</h3><p>服务器放在家里，白天上班时在公司通过ssh访问，但是国内22端口root密码暴利破解的太多了，安全起见还是改一下端口吧，修改<code>/etc/ssh/sshd_config</code>：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Port 2012</div></pre></td></tr></table></figure></p>
+<h3 id="CPU温度检测"><a href="#CPU温度检测" class="headerlink" title="CPU温度检测"></a>CPU温度检测</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo yum install -y lm_sensors</div><div class="line">sudo sh -c &quot;yes|sensors-detect&quot;</div></pre></td></tr></table></figure>
+<p>之后执行<code>sensors</code>就行。</p>
+<h3 id="samba"><a href="#samba" class="headerlink" title="samba"></a>samba</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">yum install -y samba samba-client samba-swat</div><div class="line"># 给用户设置samba密码</div><div class="line">smbpasswd -a odin</div></pre></td></tr></table></figure>
+<h3 id="KVM"><a href="#KVM" class="headerlink" title="KVM"></a>KVM</h3><p>详见<a href="http://odinliu.com/2015/11/11/%E5%9C%A8CentOS-6%E4%B8%8A%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2KVM%E8%99%9A%E6%8B%9F%E6%9C%BA/">在CentOS 6上安装部署KVM虚拟机</a></p>
+<h3 id="CDH"><a href="#CDH" class="headerlink" title="CDH"></a>CDH</h3><p>详见<a href="http://www.cloudera.com/content/www/en-us/documentation/enterprise/latest/topics/cm_ig_install_path_a.html" target="_blank" rel="external">Installation Path A - Automated Installation by Cloudera Manager</a></p>
+<h1 id="开发环境"><a href="#开发环境" class="headerlink" title="开发环境"></a>开发环境</h1><h2 id="yum"><a href="#yum" class="headerlink" title="yum"></a>yum</h2><h3 id="epel"><a href="#epel" class="headerlink" title="epel"></a>epel</h3><p>epel相当于一个比较全的第三方仓库<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">wget http://mirrors.aliyun.com/epel/epel-release-latest-6.noarch.rpm &amp;&amp; rpm -ivh epel-release-latest-6.noarch.rpm</div></pre></td></tr></table></figure></p>
+<h3 id="其他库"><a href="#其他库" class="headerlink" title="其他库"></a>其他库</h3><p>这里收录所有用yum安装的类库</p>
+<ul>
+<li>mcelog</li>
+<li>clang</li>
+<li>clang-devel</li>
+<li>pcre-devel</li>
+<li>lm_sensors</li>
+<li>libicu-devel</li>
+<li>samba</li>
+<li>samba-client</li>
+<li>samba-swat</li>
+</ul>
+<h2 id="git"><a href="#git" class="headerlink" title="git"></a>git</h2><h3 id="基本配置"><a href="#基本配置" class="headerlink" title="基本配置"></a>基本配置</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">git config --global user.email=odinushuaia@gmail.com</div><div class="line">git config --global user.name=&quot;Liu Yiding&quot;</div><div class="line">git config --global core.editor=vim</div></pre></td></tr></table></figure>
+<h3 id="自动补全"><a href="#自动补全" class="headerlink" title="自动补全"></a>自动补全</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">git clone https://github.com/markgandolfo/git-bash-completion.git</div><div class="line">#再在.bashrc中添加一段source即可：</div><div class="line">source /path/to/git-completion.bash</div></pre></td></tr></table></figure>
+<h2 id="vim"><a href="#vim" class="headerlink" title="vim"></a>vim</h2><h3 id="基本配置-1"><a href="#基本配置-1" class="headerlink" title="基本配置"></a>基本配置</h3><p>vim基本只要把<code>$HOME/.vimrc</code>和<code>$HOME/.vim</code>拷贝一下就能用，这里有空再整理吧</p>
+<h3 id="插件"><a href="#插件" class="headerlink" title="插件"></a>插件</h3><h2 id="node-js"><a href="#node-js" class="headerlink" title="node.js"></a>node.js</h2><h3 id="基本"><a href="#基本" class="headerlink" title="基本"></a>基本</h3><p>由于node.js最新版编译安装需要g++ 4.8以上，而CentOS 6默认是4.4，所以直接用二进制安装就好。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">wget https://nodejs.org/dist/v5.0.0/node-v5.0.0-linux-x64.tar.gz`</div></pre></td></tr></table></figure></p>
+<p>在.bashrc中添加<code>NODE_HOME</code>环境变量，以及将<code>$NODE_HOME/bin</code>添加到<code>PATH</code>下</p>
+<h3 id="cnpm"><a href="#cnpm" class="headerlink" title="cnpm"></a>cnpm</h3><p>npm太慢，直接上淘宝的cnpm<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install -g cnpm --registry=https://registry.npm.taobao.org</div></pre></td></tr></table></figure></p>
+<h3 id="其他包"><a href="#其他包" class="headerlink" title="其他包"></a>其他包</h3><h2 id="Java"><a href="#Java" class="headerlink" title="Java"></a>Java</h2><p>首先需要卸载openjdk，<code>rpm -qa | grep java</code>，看看安装了哪些包，卸载一下就行。Oracle坑爹的网站下载真是太慢了，下好之后解压缩就行，然后配环境变量，顺便下个maven，很多工程要用到。在.bashrc中添加相关环境变量，记得把bin加到<code>PATH</code>中：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">export M2_HOME=&quot;$HOME/app/maven&quot;</div><div class="line">export JAVA_HOME=&quot;$HOME/app/jdk&quot;</div><div class="line">export CLASS_PATH=&quot;.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/jre/lib/rt.jar&quot;</div></pre></td></tr></table></figure></p>
+<h2 id="nginx-with-rtmp"><a href="#nginx-with-rtmp" class="headerlink" title="nginx(with rtmp)"></a>nginx(with rtmp)</h2><p>首先用yum安装<code>pcre-devel</code>，之后下载nginx和nginx-rtmp-module。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">./configure --add-module=../nginx-rtmp-module --with-http_ssl_module --prefix=/opt/nginx</div><div class="line">make -j 10 &amp;&amp; sudo make install</div></pre></td></tr></table></figure></p>
+<h2 id="Go"><a href="#Go" class="headerlink" title="Go"></a>Go</h2><p>懒得编译一个了，所以直接下载二进制分发就行。主要配置两个环境变量:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"># for go</div><div class="line">export GOROOT=&quot;$HOME/app/go&quot;</div><div class="line">export GOPATH=&quot;$HOME/gospace&quot;</div></pre></td></tr></table></figure></p>
+<p>其中<code>GOROOT</code>是解压出来的go目录，而<code>GOPATH</code>是go的包管理体系需要用到的路径，前者系统共用无所谓，后者放到自己家目录比较方便。</p>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
+<li><a href="http://www.colm.net/files/ragel/ragel-6.9.tar.gz" target="_blank" rel="external">ragel-6.9</a></li>
+<li><a href="https://github.com/ajwans/libtoml.git" target="_blank" rel="external">libtoml</a></li>
+</ul>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1>  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/技术杂谈/">技术杂谈</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/系统运维/">系统运维</a><a href="/tags/Linux/">Linux</a><a href="/tags/DIY/">DIY</a><a href="/tags/双路工作站/">双路工作站</a><a href="/tags/CentOS-6/">CentOS 6</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://odinliu.com/2015/11/02/自用服务器配置小记-系统篇不定期更新/" data-title="自用服务器配置小记-系统篇不定期更新 | Odin的自我修养" data-tsina="1873795663" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/11/02/吐槽一下Lucene的Field接口变化/" title="吐槽一下Lucene的Field接口变化(更新再吐槽)">
+  <strong>上一篇：</strong><br/>
+  <span>
+  吐槽一下Lucene的Field接口变化(更新再吐槽)</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/11/01/自用服务器配置小记(硬件篇)/"  title="自用服务器配置小记(硬件篇)">
+ <strong>下一篇：</strong><br/> 
+ <span>自用服务器配置小记(硬件篇)
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2015/11/02/自用服务器配置小记-系统篇不定期更新/" data-title="自用服务器配置小记-系统篇不定期更新" data-url="https://odinliu.com/2015/11/02/自用服务器配置小记-系统篇不定期更新/"></div>
+</section>
+
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Overview"><span class="toc-number">1.</span> <span class="toc-text">Overview</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#操作系统"><span class="toc-number">2.</span> <span class="toc-text">操作系统</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#系统选择"><span class="toc-number">2.1.</span> <span class="toc-text">系统选择</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#关于用U盘安装"><span class="toc-number">2.2.</span> <span class="toc-text">关于用U盘安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#系统配置"><span class="toc-number">2.3.</span> <span class="toc-text">系统配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#etc-sudoers"><span class="toc-number">2.3.1.</span> <span class="toc-text">/etc/sudoers</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#etc-sysctl-conf"><span class="toc-number">2.3.2.</span> <span class="toc-text">/etc/sysctl.conf</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#etc-security-limits-conf"><span class="toc-number">2.3.3.</span> <span class="toc-text">/etc/security/limits.conf</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SELinux"><span class="toc-number">2.3.4.</span> <span class="toc-text">SELinux</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#etc-profile"><span class="toc-number">2.3.5.</span> <span class="toc-text">/etc/profile</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#同步时间"><span class="toc-number">2.3.6.</span> <span class="toc-text">同步时间</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#iptables"><span class="toc-number">2.3.7.</span> <span class="toc-text">iptables</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sshd监听端口"><span class="toc-number">2.3.8.</span> <span class="toc-text">sshd监听端口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CPU温度检测"><span class="toc-number">2.3.9.</span> <span class="toc-text">CPU温度检测</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#samba"><span class="toc-number">2.3.10.</span> <span class="toc-text">samba</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#KVM"><span class="toc-number">2.3.11.</span> <span class="toc-text">KVM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CDH"><span class="toc-number">2.3.12.</span> <span class="toc-text">CDH</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#开发环境"><span class="toc-number">3.</span> <span class="toc-text">开发环境</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#yum"><span class="toc-number">3.1.</span> <span class="toc-text">yum</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#epel"><span class="toc-number">3.1.1.</span> <span class="toc-text">epel</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#其他库"><span class="toc-number">3.1.2.</span> <span class="toc-text">其他库</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#git"><span class="toc-number">3.2.</span> <span class="toc-text">git</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#基本配置"><span class="toc-number">3.2.1.</span> <span class="toc-text">基本配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#自动补全"><span class="toc-number">3.2.2.</span> <span class="toc-text">自动补全</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#vim"><span class="toc-number">3.3.</span> <span class="toc-text">vim</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#基本配置-1"><span class="toc-number">3.3.1.</span> <span class="toc-text">基本配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#插件"><span class="toc-number">3.3.2.</span> <span class="toc-text">插件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#node-js"><span class="toc-number">3.4.</span> <span class="toc-text">node.js</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#基本"><span class="toc-number">3.4.1.</span> <span class="toc-text">基本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#cnpm"><span class="toc-number">3.4.2.</span> <span class="toc-text">cnpm</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#其他包"><span class="toc-number">3.4.3.</span> <span class="toc-text">其他包</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java"><span class="toc-number">3.5.</span> <span class="toc-text">Java</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nginx-with-rtmp"><span class="toc-number">3.6.</span> <span class="toc-text">nginx(with rtmp)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Go"><span class="toc-number">3.7.</span> <span class="toc-text">Go</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#其他"><span class="toc-number">3.8.</span> <span class="toc-text">其他</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Reference"><span class="toc-number">4.</span> <span class="toc-text">Reference</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/产品乱弹/" title="产品乱弹">产品乱弹<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/垃圾箱/" title="垃圾箱">垃圾箱<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/学习笔记/" title="学习笔记">学习笔记<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/技术杂谈/" title="技术杂谈">技术杂谈<sup>20</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/谈股论金/" title="谈股论金">谈股论金<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/旧文搬迁/" title="旧文搬迁">旧文搬迁<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/虚拟化/" title="虚拟化">虚拟化<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/系统运维/" title="系统运维">系统运维<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Scala/" title="Scala">Scala<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hadoop/" title="hadoop">hadoop<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/HBase/" title="HBase">HBase<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/spring-boot/" title="spring-boot">spring-boot<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/实习总结/" title="实习总结">实习总结<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/golang/" title="golang">golang<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/语法/" title="语法">语法<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/推荐系统/" title="推荐系统">推荐系统<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/学习笔记/" title="学习笔记">学习笔记<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Phoenix/" title="Phoenix">Phoenix<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hadoop流水账/" title="hadoop流水账">hadoop流水账<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/双路工作站/" title="双路工作站">双路工作站<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spark/" title="Spark">Spark<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  
+<div class="commentslist">
+  <p class="asidetitle">文章评论</p>
+  <ul class="ds-recent-comments" data-num-items="5" data-show-avatars="0" data-show-time="1" data-show-admin="1" data-excerpt-length="32" data-show-title="1"></ul>
+</div>
+<!--多说js加载开始，一个页面只需要加载一次 -->
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"odinliu"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!--多说js加载结束，一个页面只需要加载一次 -->
+
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            <a href="http://jimliu.net" target="_blank" title="Again, Jim Liu&#39;s Blog">Jim Liu&#39;s Blog</a>
+          </li>
+        
+          <li>
+            <a href="http://chi66.taobao.com/" target="_blank" title="女流的零食店,赶紧买买买">全宇宙最最最好的零食店</a>
+          </li>
+        
+    </ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello, I&#39;m Odin Liu. <br/>
+			A Deveoper.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/odinushuaia" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/odinliu" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/odinliu" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/odinliu88" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/odinliu" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		
+		
+		<a href="https://plus.google.com/103006785183830050000?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
+		
+		<a href="/about" target="_blank" title="Odin">Odin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"odinliu"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?1b6bf7f43e970a9ed29fcb526f3f36f7";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

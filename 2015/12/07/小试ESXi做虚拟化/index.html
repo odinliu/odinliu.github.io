@@ -1,0 +1,636 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>小试ESXi做虚拟化 | Odin的自我修养</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Odin">
+    
+
+    
+    <meta name="description" content="Overview之前家里的机器做虚拟化用的是KVM，后来听小胖推荐了ESXi，之前用KVM比较不爽的是clone虚拟机实在太慢了，而且没有啥好用的管理软件，virt-manager需要有x-window软件，而mac os上那货又不太好使(不清楚是网速问题，还是软件问题)，所以这次公司的服务器搞虚拟化决定试试ESXi，反正公司的机器，玩坏了又不要钱，2333333
+很多Linux的分发都是以iso">
+<meta property="og:type" content="article">
+<meta property="og:title" content="小试ESXi做虚拟化">
+<meta property="og:url" content="https://odinliu.com/2015/12/07/小试ESXi做虚拟化/index.html">
+<meta property="og:site_name" content="Odin的自我修养">
+<meta property="og:description" content="Overview之前家里的机器做虚拟化用的是KVM，后来听小胖推荐了ESXi，之前用KVM比较不爽的是clone虚拟机实在太慢了，而且没有啥好用的管理软件，virt-manager需要有x-window软件，而mac os上那货又不太好使(不清楚是网速问题，还是软件问题)，所以这次公司的服务器搞虚拟化决定试试ESXi，反正公司的机器，玩坏了又不要钱，2333333
+很多Linux的分发都是以iso">
+<meta property="og:updated_time" content="2016-12-31T04:38:37.662Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="小试ESXi做虚拟化">
+<meta name="twitter:description" content="Overview之前家里的机器做虚拟化用的是KVM，后来听小胖推荐了ESXi，之前用KVM比较不爽的是clone虚拟机实在太慢了，而且没有啥好用的管理软件，virt-manager需要有x-window软件，而mac os上那货又不太好使(不清楚是网速问题，还是软件问题)，所以这次公司的服务器搞虚拟化决定试试ESXi，反正公司的机器，玩坏了又不要钱，2333333
+很多Linux的分发都是以iso">
+<meta name="twitter:creator" content="@odinliu">
+<link rel="publisher" href="103006785183830050000">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Odin的自我修养" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Odin的自我修养" title="Odin的自我修养"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Odin的自我修养">Odin的自我修养</a></h1>
+				<h2 class="blog-motto">Wanna Be The Man, Gotta Have A Plan</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/">技术杂谈</a></li>
+					
+						<li><a href="/categories/%E4%BA%A7%E5%93%81%E4%B9%B1%E5%BC%B9/">产品乱弹</a></li>
+					
+						<li><a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a></li>
+					
+						<li><a href="/categories/%E8%B0%88%E8%82%A1%E8%AE%BA%E9%87%91/">谈股论金</a></li>
+					
+						<li><a href="/categories/%E5%9E%83%E5%9C%BE%E7%AE%B1/">垃圾箱</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:odinliu.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/12/07/小试ESXi做虚拟化/" title="小试ESXi做虚拟化" itemprop="url">小试ESXi做虚拟化</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/103006785183830050000?rel=author" title="Odin" target="_blank" itemprop="author">Odin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-12-07T12:19:24.000Z" itemprop="datePublished"> 发表于 2015-12-07</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Overview"><span class="toc-number">1.</span> <span class="toc-text">Overview</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#制作安装u盘方法"><span class="toc-number">2.</span> <span class="toc-text">制作安装u盘方法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#准备"><span class="toc-number">2.1.</span> <span class="toc-text">准备</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#格式化u盘"><span class="toc-number">2.2.</span> <span class="toc-text">格式化u盘</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用syslinux制作启动盘"><span class="toc-number">2.3.</span> <span class="toc-text">用syslinux制作启动盘</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ESXi杂记"><span class="toc-number">3.</span> <span class="toc-text">ESXi杂记</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#克隆虚拟机"><span class="toc-number">3.1.</span> <span class="toc-text">克隆虚拟机</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#后记"><span class="toc-number">4.</span> <span class="toc-text">后记</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Reference"><span class="toc-number">5.</span> <span class="toc-text">Reference</span></a></li></ol>
+		
+		</div>
+		
+		<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>之前家里的机器做虚拟化用的是KVM，后来听小胖推荐了ESXi，之前用KVM比较不爽的是clone虚拟机实在太慢了，而且没有啥好用的管理软件，virt-manager需要有x-window软件，而mac os上那货又不太好使(不清楚是网速问题，还是软件问题)，所以这次公司的服务器搞虚拟化决定试试ESXi，反正公司的机器，玩坏了又不要钱，2333333</p>
+<p>很多Linux的分发都是以iso文件的形式，它是一个光盘镜像，一般来说刻录成光盘安装毫无问题，但是现在有光驱的机器越来越少了，一般还是u盘安装方便一些。但是Linux的u盘安装略蛋疼，按各种wiki上给的dd的方法，根本不好使。之前弄CentOS的安装盘，用的<a href="http://sourceforge.net/projects/win32diskimager/" title="win32 disk imager" target="_blank" rel="external">win32 disk imager</a>在windows下制作启动u盘没啥问题，但是这两天想弄个ESXi的启动盘就不好使了，当然目前不确定是因为我们服务器不支持6.0，还是win32_disk_imager不支持ESXi。因为公司这边手头没有Windows，用mac的dd试了n次均启动失败，而且最麻烦的是想修改isolinux.cfg也因为镜像是只读的没办法改。找了半天资料才在<a href="http://pubs.vmware.com/vsphere-55/index.jsp?topic=%2Fcom.vmware.vsphere.install.doc%2FGUID-33C3E7D5-20D0-4F84-B2E3-5CD33D32EAA8.html" title="Format a USB Flash Drive to Boot the ESXi Installation or Upgrade" target="_blank" rel="external">VMWare官网</a>找到可以用的了。</p>
+<h1 id="制作安装u盘方法"><a href="#制作安装u盘方法" class="headerlink" title="制作安装u盘方法"></a>制作安装u盘方法</h1><h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><p>一台装有syslinux 4.x以上的linux，ESXi的镜像，注意选对版本，我看官方文档，老的55xx/56xx系列的CPU是6.0不支持的，只能下5.5版本。</p>
+<h2 id="格式化u盘"><a href="#格式化u盘" class="headerlink" title="格式化u盘"></a>格式化u盘</h2><p>假如u盘是/dev/sdb，<code>fdisk /dev/sdb</code>进入fdisk的界面。按以下步骤操作：</p>
+<ul>
+<li>按<code>d</code>删除原有分区</li>
+<li>按<code>n</code>新建分区</li>
+<li>按<code>t</code>格式化为fat32文件系统</li>
+<li>按<code>a</code>设置分区1为活动分区</li>
+<li>按<code>p</code>打印当前分区</li>
+<li>按<code>w</code>写入分区</li>
+</ul>
+<p>之后执行<code>mkfs.vfat -F 32 -n USB /dev/sdb1</code>，初始化工作就OK了</p>
+<h2 id="用syslinux制作启动盘"><a href="#用syslinux制作启动盘" class="headerlink" title="用syslinux制作启动盘"></a>用syslinux制作启动盘</h2><p>注意<code>sdb</code>是设备，<code>sdb1</code>是分区<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"># syslinux /dev/sdb1</div><div class="line"># cat /usr/share/syslinux/mbr.bin &gt; /dev/sdb</div><div class="line"># mkdir /mnt/usb &amp;&amp; mount /dev/sdb1 /mnt/usb</div><div class="line"># mkdir /mnt/cdrom &amp;&amp; mount -o loop VMware-VMvisor-Installer-5.x.x-XXXXXX.x86_64.iso /mnt/cdrom</div><div class="line"># cp -rf /mnt/cdrom/* /mnt/usb/</div><div class="line"># mv /mnt/usb/isolinux.cfg /mnt/usb/syslinux.cfg</div><div class="line"># mv /usr/share/syslinux/menu.c32 /mnt/usb/</div><div class="line">### 这两步改完syslinux.cfg再执行。</div><div class="line"># umount /mnt/usb/</div><div class="line"># umount /mnt/cdrom/</div></pre></td></tr></table></figure></p>
+<p>接下来修改<code>syslinux.cfg</code>，将<code>APPEND -c boot.cfg</code>改为<code>APPEND -c boot.cfg -p 1</code>。</p>
+<h1 id="ESXi杂记"><a href="#ESXi杂记" class="headerlink" title="ESXi杂记"></a>ESXi杂记</h1><p>ESXi安装过程就不详述了，没遇到啥问题。比较蛋疼的是VMWare只提供了Windows的管理工具，并没有提供Mac下的图形工具，但是Fusion Pro是可以管理虚拟机的，而且，Fusion 8破解非常简单，只要一个序列号就行了……</p>
+<h2 id="克隆虚拟机"><a href="#克隆虚拟机" class="headerlink" title="克隆虚拟机"></a>克隆虚拟机</h2><p>在管理界面的Diagnose中把ssh打开，因为fusion里没有克隆，只能通过命令行来完成，克隆时最好还是停个机吧。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"># 克隆磁盘</div><div class="line">vmkfstools -i src.vmdk -d thin dest.vmdk</div><div class="line"># 拷贝配置文件</div><div class="line">cp -rf /vmfs/volumes/&lt;current-uuid&gt;/src /vmfs/volumes/&lt;current-uuid&gt;/dest</div><div class="line">rm -rf /vmfs/volumes/&lt;current-uuid&gt;/dest/*.log</div><div class="line">rm -rf /vmfs/volumes/&lt;current-uuid&gt;/dest/*.nvram</div><div class="line">for file in `ls /vmfs/volumes/&lt;current-uuid&gt;/dest/`; do SUF=`echo $file | awk -F&apos;.&apos; &apos;&#123; print $NF &#125;&apos;`; mv /vmfs/volumes/&lt;current-uuid&gt;/dest/$file /vmfs/volumes/&lt;current-uuid&gt;/dest/dest.$SUF; done</div><div class="line">vim-cmd solo/registervm /vmfs/volumes/&lt;current-uuid&gt;/dest/dest.vmx</div></pre></td></tr></table></figure></p>
+<p>之后需要手动修改一下<code>/vmfs/volumes/&lt;current-uuid&gt;/dest/</code>下的配置文件，把原来的虚拟机名改成新的名字。之后在fusion里面打开虚拟机的时候，就会询问这个虚拟机重复了，是移动过来的还是复制的，选复制的就会自动分配网卡的MAC了，再在系统里修改一下机器名、ip、网卡mac就行了，这个具体改法可以参考<a href="http://odinliu.com/2015/11/11/%E5%9C%A8CentOS-6%E4%B8%8A%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2KVM%E8%99%9A%E6%8B%9F%E6%9C%BA/#克隆虚拟机" title="在CentOS 6上安装部署KVM虚拟机">之前的文章</a>，这里不再重复了。</p>
+<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p>从使用上来说，ESXi要比KVM方便一些，主要是clone磁盘的速度非常快，感觉机器的速度也要好于KVM，但是还要手动改clone后的配置文件这个比较不爽，应该有命令吧，要不也太土了……</p>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><ol>
+<li><a href="http://pubs.vmware.com/vsphere-51/index.jsp#com.vmware.vsphere.storage.doc/GUID-9CC98802-82D9-44B0-9735-97675258FAAE.html" target="_blank" rel="external">Supported Disk Formats</a></li>
+<li><a href="http://blog.csdn.net/zhengmengjia/article/details/25620757" target="_blank" rel="external">请使用命令clone esxi虚拟机</a></li>
+<li><a href="http://kb.vmware.com/selfservice/microsites/search.do?language=en_US&amp;cmd=displayKC&amp;externalId=1006160" target="_blank" rel="external">Registering or adding a virtual machine to the inventory on vCenter Server or on an ESX/ESXi host (1006160)</a></li>
+</ol>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/技术杂谈/">技术杂谈</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/虚拟化/">虚拟化</a><a href="/tags/ESXi/">ESXi</a><a href="/tags/syslinux/">syslinux</a><a href="/tags/isolinux/">isolinux</a><a href="/tags/U盘启动/">U盘启动</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://odinliu.com/2015/12/07/小试ESXi做虚拟化/" data-title="小试ESXi做虚拟化 | Odin的自我修养" data-tsina="1873795663" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/12/14/Java-Scala杂记之二/" title="Java/Scala杂记之二">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Java/Scala杂记之二</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/12/04/Java-Scala杂记之一/"  title="Java/Scala杂记之一">
+ <strong>下一篇：</strong><br/> 
+ <span>Java/Scala杂记之一
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2015/12/07/小试ESXi做虚拟化/" data-title="小试ESXi做虚拟化" data-url="https://odinliu.com/2015/12/07/小试ESXi做虚拟化/"></div>
+</section>
+
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Overview"><span class="toc-number">1.</span> <span class="toc-text">Overview</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#制作安装u盘方法"><span class="toc-number">2.</span> <span class="toc-text">制作安装u盘方法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#准备"><span class="toc-number">2.1.</span> <span class="toc-text">准备</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#格式化u盘"><span class="toc-number">2.2.</span> <span class="toc-text">格式化u盘</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用syslinux制作启动盘"><span class="toc-number">2.3.</span> <span class="toc-text">用syslinux制作启动盘</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ESXi杂记"><span class="toc-number">3.</span> <span class="toc-text">ESXi杂记</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#克隆虚拟机"><span class="toc-number">3.1.</span> <span class="toc-text">克隆虚拟机</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#后记"><span class="toc-number">4.</span> <span class="toc-text">后记</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Reference"><span class="toc-number">5.</span> <span class="toc-text">Reference</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/产品乱弹/" title="产品乱弹">产品乱弹<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/垃圾箱/" title="垃圾箱">垃圾箱<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/学习笔记/" title="学习笔记">学习笔记<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/技术杂谈/" title="技术杂谈">技术杂谈<sup>20</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/谈股论金/" title="谈股论金">谈股论金<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/旧文搬迁/" title="旧文搬迁">旧文搬迁<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/虚拟化/" title="虚拟化">虚拟化<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/系统运维/" title="系统运维">系统运维<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Scala/" title="Scala">Scala<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hadoop/" title="hadoop">hadoop<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/HBase/" title="HBase">HBase<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/spring-boot/" title="spring-boot">spring-boot<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/实习总结/" title="实习总结">实习总结<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/golang/" title="golang">golang<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/语法/" title="语法">语法<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/推荐系统/" title="推荐系统">推荐系统<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/学习笔记/" title="学习笔记">学习笔记<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Phoenix/" title="Phoenix">Phoenix<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hadoop流水账/" title="hadoop流水账">hadoop流水账<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/双路工作站/" title="双路工作站">双路工作站<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spark/" title="Spark">Spark<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  
+<div class="commentslist">
+  <p class="asidetitle">文章评论</p>
+  <ul class="ds-recent-comments" data-num-items="5" data-show-avatars="0" data-show-time="1" data-show-admin="1" data-excerpt-length="32" data-show-title="1"></ul>
+</div>
+<!--多说js加载开始，一个页面只需要加载一次 -->
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"odinliu"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!--多说js加载结束，一个页面只需要加载一次 -->
+
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            <a href="http://jimliu.net" target="_blank" title="Again, Jim Liu&#39;s Blog">Jim Liu&#39;s Blog</a>
+          </li>
+        
+          <li>
+            <a href="http://chi66.taobao.com/" target="_blank" title="女流的零食店,赶紧买买买">全宇宙最最最好的零食店</a>
+          </li>
+        
+    </ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello, I&#39;m Odin Liu. <br/>
+			A Deveoper.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/odinushuaia" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/odinliu" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/odinliu" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/odinliu88" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/odinliu" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		
+		
+		<a href="https://plus.google.com/103006785183830050000?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
+		
+		<a href="/about" target="_blank" title="Odin">Odin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"odinliu"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?1b6bf7f43e970a9ed29fcb526f3f36f7";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

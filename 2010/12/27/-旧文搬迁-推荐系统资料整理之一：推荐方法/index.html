@@ -1,0 +1,637 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>[旧文搬迁]推荐系统资料整理之一：推荐方法 | Odin的自我修养</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Odin">
+    
+
+    
+    <meta name="description" content="感谢IT牛人博客聚合上还能找到我之前博客的一些内容，因为之前主机没续费等各种原因，也懒得翻之前的备份文档了，就把那上面的文章直接拷过来整理一下好了，只搬迁一些还有意义的内容好了，其他的就让它随风而去吧。
+
+基于内容的推荐系统基于内容推荐是推荐系统中比较常见的一种做法，这种方法对于每个item基于其自身属性，抽取一些特征用来表示这个item的内容，从而推荐那些和当前item含有相同或相近特征的一些">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[旧文搬迁]推荐系统资料整理之一：推荐方法">
+<meta property="og:url" content="https://odinliu.com/2010/12/27/-旧文搬迁-推荐系统资料整理之一：推荐方法/index.html">
+<meta property="og:site_name" content="Odin的自我修养">
+<meta property="og:description" content="感谢IT牛人博客聚合上还能找到我之前博客的一些内容，因为之前主机没续费等各种原因，也懒得翻之前的备份文档了，就把那上面的文章直接拷过来整理一下好了，只搬迁一些还有意义的内容好了，其他的就让它随风而去吧。
+
+基于内容的推荐系统基于内容推荐是推荐系统中比较常见的一种做法，这种方法对于每个item基于其自身属性，抽取一些特征用来表示这个item的内容，从而推荐那些和当前item含有相同或相近特征的一些">
+<meta property="og:updated_time" content="2016-12-31T04:38:37.647Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="[旧文搬迁]推荐系统资料整理之一：推荐方法">
+<meta name="twitter:description" content="感谢IT牛人博客聚合上还能找到我之前博客的一些内容，因为之前主机没续费等各种原因，也懒得翻之前的备份文档了，就把那上面的文章直接拷过来整理一下好了，只搬迁一些还有意义的内容好了，其他的就让它随风而去吧。
+
+基于内容的推荐系统基于内容推荐是推荐系统中比较常见的一种做法，这种方法对于每个item基于其自身属性，抽取一些特征用来表示这个item的内容，从而推荐那些和当前item含有相同或相近特征的一些">
+<meta name="twitter:creator" content="@odinliu">
+<link rel="publisher" href="103006785183830050000">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Odin的自我修养" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Odin的自我修养" title="Odin的自我修养"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Odin的自我修养">Odin的自我修养</a></h1>
+				<h2 class="blog-motto">Wanna Be The Man, Gotta Have A Plan</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/">技术杂谈</a></li>
+					
+						<li><a href="/categories/%E4%BA%A7%E5%93%81%E4%B9%B1%E5%BC%B9/">产品乱弹</a></li>
+					
+						<li><a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a></li>
+					
+						<li><a href="/categories/%E8%B0%88%E8%82%A1%E8%AE%BA%E9%87%91/">谈股论金</a></li>
+					
+						<li><a href="/categories/%E5%9E%83%E5%9C%BE%E7%AE%B1/">垃圾箱</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:odinliu.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2010/12/27/-旧文搬迁-推荐系统资料整理之一：推荐方法/" title="[旧文搬迁]推荐系统资料整理之一：推荐方法" itemprop="url">[旧文搬迁]推荐系统资料整理之一：推荐方法</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/103006785183830050000?rel=author" title="Odin" target="_blank" itemprop="author">Odin</a>
+		
+  <p class="article-time">
+    <time datetime="2010-12-27T12:04:35.000Z" itemprop="datePublished"> 发表于 2010-12-27</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#基于内容的推荐系统"><span class="toc-number">1.</span> <span class="toc-text">基于内容的推荐系统</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基于关联规则的推荐系统"><span class="toc-number">2.</span> <span class="toc-text">基于关联规则的推荐系统</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基于协同过滤的推荐系统"><span class="toc-number">3.</span> <span class="toc-text">基于协同过滤的推荐系统</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#User-based-协同过滤系统"><span class="toc-number">3.1.</span> <span class="toc-text">User-based 协同过滤系统</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Item-based-协同过滤系统"><span class="toc-number">3.2.</span> <span class="toc-text">Item-based 协同过滤系统</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基于用户模型学习的推荐系统"><span class="toc-number">4.</span> <span class="toc-text">基于用户模型学习的推荐系统</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#其他"><span class="toc-number">5.</span> <span class="toc-text">其他</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#综述"><span class="toc-number">6.</span> <span class="toc-text">综述</span></a></li></ol>
+		
+		</div>
+		
+		<blockquote>
+<p>感谢<a href="http://www.udpwork.com/item/6379.html" target="_blank" rel="external">IT牛人博客聚合</a>上还能找到我之前博客的一些内容，因为之前主机没续费等各种原因，也懒得翻之前的备份文档了，就把那上面的文章直接拷过来整理一下好了，只搬迁一些还有意义的内容好了，其他的就让它随风而去吧。</p>
+</blockquote>
+<h2 id="基于内容的推荐系统"><a href="#基于内容的推荐系统" class="headerlink" title="基于内容的推荐系统"></a>基于内容的推荐系统</h2><p>基于内容推荐是推荐系统中比较常见的一种做法，这种方法对于每个item基于其自身属性，抽取一些特征用来表示这个item的内容，从而推荐那些和当前item含有相同或相近特征的一些item。</p>
+<p>这种推荐系统多用于一些资讯类的应用上，针对文章本身抽取一些tag作为该文章的关键词，继而可以通过这些tag来评价两篇文章的相似度。抽取tag经常采用的方案是基于TF-IDF得到的一系列权值较高的term，即认为：在一篇文章中，那些出现频率高的（除停用词）词，并且在其他文章中出现频率较低的词更能代表这篇文章的内容。经过TF-IDF公式计算，权重大于某一阈值的term作为该文章的tag。通常，也考虑tag的词性，一般来说名词和形容词更加适合作为tag。</p>
+<p>这种推荐系统的优点在于易于实现，不需要用户数据因此不存在稀疏性和冷启动问题。基于item本身特征推荐，因此不存在过度推荐热门的问题。所涉及的技术都是搜索引擎中应用比较成熟的技术。</p>
+<p>缺点在于抽取的特征既要保证准确性又要具有一定的实际意义，否则很难保证推荐结果的相关性。豆瓣网采用人工维护tag的策略，依靠用户去维护item的tag的准确性。</p>
+<h2 id="基于关联规则的推荐系统"><a href="#基于关联规则的推荐系统" class="headerlink" title="基于关联规则的推荐系统"></a>基于关联规则的推荐系统</h2><p>基于关联规则的推荐更常见于电子商务系统中，并且也被证明行之有效。其实际的意义为购买了一些物品的用户更倾向于购买另一些物品。基于关联规则的推荐系统的首要目标是挖掘出关联规则，也就是那些同时被很多用户购买的物品集合，这些集合内的物品可以相互进行推荐。</p>
+<p>目前关联规则挖掘算法主要从Apriori和FP-Growth两个算法发展演变而来。Apriori算法思路实现简单，通过迭代不断通过K-1元频繁项目集生成K元频繁项目集，直到不能生成为止，最终可以得到最大频繁项目集。Apriori算法存在的问题是每次迭代都要判断生成K元集合的K-1元子集是否都是频繁项目集，计算量巨大；并且Apriori算法是一个挖掘最大频繁项目集的算法，无法得到全部频繁模式集合。FP-Growth算法通过构建FP-Tree（频繁模式树），去发现频繁模式集。相比于Apriori算法，计算量较少，并且可以得出几乎所有的频繁项目集；但该算法实现起来要比Apriori复杂，并且FP-Growth需要将全部数据库事务加载到内存中，而Apriori虽然需要反复读取数据库事务，但是不需要全部载入内存。一般而言，FP-Growth要比Apriori快至少一个数量级。</p>
+<p>关联规则挖掘中有两个主要的概念，支持度和置信度。支持度是指包含某频繁项目集的事务数和总数据库事务数的百分比。置信度指包含某频繁项目集的事务数和包含被推荐项目集的事务数的百分比。而最小支持度阈值和最小置信度阈值也是决定一个事务集合是否是频繁事务集和一个关联规则是否成立的决定因素。因此这两个阈值也决定了推荐系统的准确率和召回率。</p>
+<p>基于关联规则的推荐系统一般转化率较高，因为当用户已经购买了频繁集合中的若干项目后，购买该频繁集合中其他项目的可能性更高。缺点在于计算量较大，但是可以离线计算，因此影响不大。同时基于关联规则的推荐系统由于采用用户数据，不可避免的存在冷启动和稀疏性问题。并且存在热门项目容易被过度推荐的问题。此外，基于item的推荐体系多采用1toN的推荐模式，因此实际的关联规则相当于从二元频繁项目集产生（即1to1的模式），1-&gt;1这种关联规则的相关性要远低于M-&gt;N这种最初关联规则的推荐形式。因此基于关联规则的推荐系统很少被应用于item的推荐体系。</p>
+<h2 id="基于协同过滤的推荐系统"><a href="#基于协同过滤的推荐系统" class="headerlink" title="基于协同过滤的推荐系统"></a>基于协同过滤的推荐系统</h2><p>协同过滤是一种在推荐系统中广泛采用的推荐方法。这种算法基于一个假设，喜欢相同item的用户更有可能具有相同的兴趣。基于协同过滤的推荐系统一般应用于有用户评分的系统之中，通过分数去刻画用户对于item的好恶。协同过滤被视为利用集体智慧的典范，不需要对项目进行特殊处理，而是通过用户建立项目与项目之间的联系。</p>
+<p>经过发展演变，协同过滤逐渐分化为两种类型：基于用户(User-based)的协同过滤系统和基于项目(Item-based)的协同过滤系统。</p>
+<h3 id="User-based-协同过滤系统"><a href="#User-based-协同过滤系统" class="headerlink" title="User-based 协同过滤系统"></a>User-based 协同过滤系统</h3><p>采用这种方法的推荐系统通过比较当前用户和其他用户阅读的项目进行比较（其评分为权值），从而选择当前用户的TopN邻近用户，然后根据当前用户的临近用户，对当前用户的未评分项进行模拟评分，然后再将评分高的项目推荐给用户。</p>
+<p>这种推荐系统的优点在于推荐项目之间在内容上可能完全不相关，因此可以发现用户的潜在兴趣，并且针对每个用户生成其个性化的推荐结果。缺点在于一般的Web系统中，用户的增长速度都远远大于项目的增长速度，因此其计算量的增长巨大，系统性能容易成为瓶颈。因此在业界中单纯的使用User-based协同过滤系统较少。</p>
+<p>豆瓣网的“豆瓣猜”是一种个性化的推荐，因此推荐其背后可能采用了User-based协同过滤技术。但是可以看出，豆瓣猜页面上仍主要采用了基于tag的推荐技术，并且利用“友邻”代替了协同过滤技术中的临近用户计算，并且“豆瓣猜”也并非豆瓣网的主打推荐系统。</p>
+<h3 id="Item-based-协同过滤系统"><a href="#Item-based-协同过滤系统" class="headerlink" title="Item-based 协同过滤系统"></a>Item-based 协同过滤系统</h3><p>这种协同过滤和User-based协同过滤相似，只不过是通过比较对当前item的用户评分和其他item的用户评分来选择当前item的相似item进行推荐。Item-based协同过滤可以看作是关联规则推荐的一种退化（尤其是进行1to1形式的推荐时），但由于协同过滤更多考虑了用户的实际评分，并且只是计算相似度而非寻找频繁集，因此可以认为Item-based协同过滤准确率较高并且覆盖率更高。</p>
+<p>同User-based相比Item-based应用更为广泛，扩展性和算法性能更好。由于项目的增长速度一般较为平缓，因此性能变化不大。缺点就是无法提供个性化的推荐结果。</p>
+<h2 id="基于用户模型学习的推荐系统"><a href="#基于用户模型学习的推荐系统" class="headerlink" title="基于用户模型学习的推荐系统"></a>基于用户模型学习的推荐系统</h2><p>这种推荐系统根据用户已阅读（或评分）项目进行监督学习，从而得到该用户的行为模型，继而根据该用户的模型去对用户未评分的项目进行分类预测，从而得到用户可能喜欢的项目。根据用户模型的学习算法，一般也需要抽取项目的一些特征。目前这种推荐系统的效果还没有生产环境应用的资料证实，因此尚无法判断其优缺点。</p>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p>推荐系统和搜索引擎都是海量信息的过滤器，因此有人提出利用搜索引擎的一些成熟技术去解决推荐系统的问题。例如，将item看作是一个doc，将对该item有过评价的用户看作是该doc的一个term，然后利用BM-25、TF-IDF等算法对item的相似度进行计算，这种方案可以避免热门问题，同时搜索引擎技术的发展相对要比推荐系统成熟。存在的问题就是，同基于用户模型学习的推荐系统并未有生产系统使用效果的资料。</p>
+<p>除此之外还有基于效用和基于知识的推荐系统。</p>
+<h2 id="综述"><a href="#综述" class="headerlink" title="综述"></a>综述</h2><p>推荐系统的未来发展方向不会是用单一方案解决问题，很有可能是通过组合以上几种推荐方法，来确定最终的推荐结果。可以采用加权、变换、混合、特征组合等方法综合考虑这些推荐方法。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/技术杂谈/">技术杂谈</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/旧文搬迁/">旧文搬迁</a><a href="/tags/推荐系统/">推荐系统</a><a href="/tags/算法/">算法</a><a href="/tags/关联规则挖掘/">关联规则挖掘</a><a href="/tags/协同过滤/">协同过滤</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://odinliu.com/2010/12/27/-旧文搬迁-推荐系统资料整理之一：推荐方法/" data-title="[旧文搬迁]推荐系统资料整理之一：推荐方法 | Odin的自我修养" data-tsina="1873795663" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2010/12/28/-旧文搬迁-推荐系统资料整理之二：常用相似度计算方法/" title="[旧文搬迁]推荐系统资料整理之二：常用相似度计算方法">
+  <strong>上一篇：</strong><br/>
+  <span>
+  [旧文搬迁]推荐系统资料整理之二：常用相似度计算方法</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2010/12/04/-旧文搬迁-在不清楚发生了什么前，不要随便使用语法糖/"  title="[旧文搬迁]在不清楚发生了什么前，不要随便使用语法糖">
+ <strong>下一篇：</strong><br/> 
+ <span>[旧文搬迁]在不清楚发生了什么前，不要随便使用语法糖
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2010/12/27/-旧文搬迁-推荐系统资料整理之一：推荐方法/" data-title="[旧文搬迁]推荐系统资料整理之一：推荐方法" data-url="https://odinliu.com/2010/12/27/-旧文搬迁-推荐系统资料整理之一：推荐方法/"></div>
+</section>
+
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#基于内容的推荐系统"><span class="toc-number">1.</span> <span class="toc-text">基于内容的推荐系统</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基于关联规则的推荐系统"><span class="toc-number">2.</span> <span class="toc-text">基于关联规则的推荐系统</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基于协同过滤的推荐系统"><span class="toc-number">3.</span> <span class="toc-text">基于协同过滤的推荐系统</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#User-based-协同过滤系统"><span class="toc-number">3.1.</span> <span class="toc-text">User-based 协同过滤系统</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Item-based-协同过滤系统"><span class="toc-number">3.2.</span> <span class="toc-text">Item-based 协同过滤系统</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基于用户模型学习的推荐系统"><span class="toc-number">4.</span> <span class="toc-text">基于用户模型学习的推荐系统</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#其他"><span class="toc-number">5.</span> <span class="toc-text">其他</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#综述"><span class="toc-number">6.</span> <span class="toc-text">综述</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/产品乱弹/" title="产品乱弹">产品乱弹<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/垃圾箱/" title="垃圾箱">垃圾箱<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/学习笔记/" title="学习笔记">学习笔记<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/技术杂谈/" title="技术杂谈">技术杂谈<sup>20</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/谈股论金/" title="谈股论金">谈股论金<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/旧文搬迁/" title="旧文搬迁">旧文搬迁<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/虚拟化/" title="虚拟化">虚拟化<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/系统运维/" title="系统运维">系统运维<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Scala/" title="Scala">Scala<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hadoop/" title="hadoop">hadoop<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/HBase/" title="HBase">HBase<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/spring-boot/" title="spring-boot">spring-boot<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/实习总结/" title="实习总结">实习总结<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/golang/" title="golang">golang<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/语法/" title="语法">语法<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/推荐系统/" title="推荐系统">推荐系统<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/学习笔记/" title="学习笔记">学习笔记<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Phoenix/" title="Phoenix">Phoenix<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hadoop流水账/" title="hadoop流水账">hadoop流水账<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/双路工作站/" title="双路工作站">双路工作站<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spark/" title="Spark">Spark<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  
+<div class="commentslist">
+  <p class="asidetitle">文章评论</p>
+  <ul class="ds-recent-comments" data-num-items="5" data-show-avatars="0" data-show-time="1" data-show-admin="1" data-excerpt-length="32" data-show-title="1"></ul>
+</div>
+<!--多说js加载开始，一个页面只需要加载一次 -->
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"odinliu"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!--多说js加载结束，一个页面只需要加载一次 -->
+
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            <a href="http://jimliu.net" target="_blank" title="Again, Jim Liu&#39;s Blog">Jim Liu&#39;s Blog</a>
+          </li>
+        
+          <li>
+            <a href="http://chi66.taobao.com/" target="_blank" title="女流的零食店,赶紧买买买">全宇宙最最最好的零食店</a>
+          </li>
+        
+    </ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello, I&#39;m Odin Liu. <br/>
+			A Deveoper.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/odinushuaia" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/odinliu" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/odinliu" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/odinliu88" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/odinliu" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		
+		
+		<a href="https://plus.google.com/103006785183830050000?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
+		
+		<a href="/about" target="_blank" title="Odin">Odin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"odinliu"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?1b6bf7f43e970a9ed29fcb526f3f36f7";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

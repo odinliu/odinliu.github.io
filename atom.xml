@@ -1,0 +1,618 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Odin的自我修养</title>
+  <subtitle>Wanna Be The Man, Gotta Have A Plan</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="https://odinliu.com/"/>
+  <updated>2016-12-31T04:38:37.661Z</updated>
+  <id>https://odinliu.com/</id>
+  
+  <author>
+    <name>Odin</name>
+    <email>odinushuaia@gmail.com</email>
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>小试Apache Kudu之基础篇</title>
+    <link href="https://odinliu.com/2016/12/27/%E5%B0%8F%E8%AF%95Apache-Kudu%E4%B9%8B%E5%9F%BA%E7%A1%80%E7%AF%87/"/>
+    <id>https://odinliu.com/2016/12/27/小试Apache-Kudu之基础篇/</id>
+    <published>2016-12-27T08:40:41.000Z</published>
+    <updated>2016-12-31T04:38:37.661Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;缘起&quot;&gt;&lt;a href=&quot;#缘起&quot; class=&quot;headerlink&quot; title=&quot;缘起&quot;&gt;&lt;/a&gt;缘起&lt;/h1&gt;&lt;p&gt;&lt;a href=&quot;http://kudu.apache.org/&quot; title=&quot;A new addition to the open so
+    
+    </summary>
+    
+      <category term="技术杂谈" scheme="https://odinliu.com/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/"/>
+    
+    
+      <category term="hadoop" scheme="https://odinliu.com/tags/hadoop/"/>
+    
+      <category term="kudu" scheme="https://odinliu.com/tags/kudu/"/>
+    
+      <category term="大数据" scheme="https://odinliu.com/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>spring-boot学习笔记</title>
+    <link href="https://odinliu.com/2016/12/27/spring-boot%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+    <id>https://odinliu.com/2016/12/27/spring-boot学习笔记/</id>
+    <published>2016-12-27T08:40:12.000Z</published>
+    <updated>2016-12-31T04:38:37.657Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;坑了。。。&quot;&gt;&lt;a href=&quot;#坑了。。。&quot; class=&quot;headerlink&quot; title=&quot;坑了。。。&quot;&gt;&lt;/a&gt;坑了。。。&lt;/h1&gt;&lt;p&gt;这篇blog已经不打算填坑了，一来以后不太会用spring-boot，二来坑填的也没啥意义，所以就这样吧。&lt;/p&gt;
+
+    
+    </summary>
+    
+      <category term="学习笔记" scheme="https://odinliu.com/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+    
+    
+      <category term="Java" scheme="https://odinliu.com/tags/Java/"/>
+    
+      <category term="spring-boot" scheme="https://odinliu.com/tags/spring-boot/"/>
+    
+      <category term="Spring" scheme="https://odinliu.com/tags/Spring/"/>
+    
+      <category term="restful" scheme="https://odinliu.com/tags/restful/"/>
+    
+      <category term="web开发" scheme="https://odinliu.com/tags/web%E5%BC%80%E5%8F%91/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Docker上手101</title>
+    <link href="https://odinliu.com/2016/04/11/Docker%E4%B8%8A%E6%89%8B101/"/>
+    <id>https://odinliu.com/2016/04/11/Docker上手101/</id>
+    <published>2016-04-11T10:18:30.000Z</published>
+    <updated>2016-12-31T04:38:37.652Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;Overview&quot;&gt;&lt;a href=&quot;#Overview&quot; class=&quot;headerlink&quot; title=&quot;Overview&quot;&gt;&lt;/a&gt;Overview&lt;/h1&gt;&lt;p&gt;久闻docker的大名，之前用daocloud也是用了docker，正好最近有时间，就简单研
+    
+    </summary>
+    
+      <category term="学习笔记" scheme="https://odinliu.com/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+    
+    
+      <category term="Docker" scheme="https://odinliu.com/tags/Docker/"/>
+    
+      <category term="LXC" scheme="https://odinliu.com/tags/LXC/"/>
+    
+      <category term="虚拟化" scheme="https://odinliu.com/tags/%E8%99%9A%E6%8B%9F%E5%8C%96/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Java/Scala杂记之三</title>
+    <link href="https://odinliu.com/2016/03/28/Java-Scala%E6%9D%82%E8%AE%B0%E4%B9%8B%E4%B8%89/"/>
+    <id>https://odinliu.com/2016/03/28/Java-Scala杂记之三/</id>
+    <published>2016-03-28T09:50:04.000Z</published>
+    <updated>2016-12-31T04:38:37.655Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;Overview&quot;&gt;&lt;a href=&quot;#Overview&quot; class=&quot;headerlink&quot; title=&quot;Overview&quot;&gt;&lt;/a&gt;Overview&lt;/h1&gt;&lt;p&gt;话说前段时间在用spring-boot的时候，还想专门写一篇学习笔记，不过后来嫌麻烦就弃坑了
+    
+    </summary>
+    
+      <category term="技术杂谈" scheme="https://odinliu.com/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/"/>
+    
+    
+      <category term="Scala" scheme="https://odinliu.com/tags/Scala/"/>
+    
+      <category term="Java" scheme="https://odinliu.com/tags/Java/"/>
+    
+      <category term="sbt" scheme="https://odinliu.com/tags/sbt/"/>
+    
+      <category term="spring-boot" scheme="https://odinliu.com/tags/spring-boot/"/>
+    
+      <category term="Hikari-CP" scheme="https://odinliu.com/tags/Hikari-CP/"/>
+    
+      <category term="finatra" scheme="https://odinliu.com/tags/finatra/"/>
+    
+      <category term="slick" scheme="https://odinliu.com/tags/slick/"/>
+    
+      <category term="future" scheme="https://odinliu.com/tags/future/"/>
+    
+      <category term="promise" scheme="https://odinliu.com/tags/promise/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>最近搞Hadoop集群迁移踩的坑杂记</title>
+    <link href="https://odinliu.com/2016/02/02/%E6%9C%80%E8%BF%91%E6%90%9EHadoop%E9%9B%86%E7%BE%A4%E8%BF%81%E7%A7%BB%E8%B8%A9%E7%9A%84%E5%9D%91%E6%9D%82%E8%AE%B0/"/>
+    <id>https://odinliu.com/2016/02/02/最近搞Hadoop集群迁移踩的坑杂记/</id>
+    <published>2016-02-02T07:33:47.000Z</published>
+    <updated>2016-12-31T04:38:37.662Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;Overview&quot;&gt;&lt;a href=&quot;#Overview&quot; class=&quot;headerlink&quot; title=&quot;Overview&quot;&gt;&lt;/a&gt;Overview&lt;/h1&gt;&lt;p&gt;最近一段时间都在搞集群迁移。最早公司的hadoop数据集群实在阿里云上的，机器不多，大概4台
+    
+    </summary>
+    
+      <category term="技术杂谈" scheme="https://odinliu.com/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/"/>
+    
+    
+      <category term="Phoenix" scheme="https://odinliu.com/tags/Phoenix/"/>
+    
+      <category term="HBase" scheme="https://odinliu.com/tags/HBase/"/>
+    
+      <category term="Spark" scheme="https://odinliu.com/tags/Spark/"/>
+    
+      <category term="Hadoop" scheme="https://odinliu.com/tags/Hadoop/"/>
+    
+      <category term="CDH" scheme="https://odinliu.com/tags/CDH/"/>
+    
+      <category term="HDP" scheme="https://odinliu.com/tags/HDP/"/>
+    
+      <category term="ambari" scheme="https://odinliu.com/tags/ambari/"/>
+    
+      <category term="cloudera" scheme="https://odinliu.com/tags/cloudera/"/>
+    
+      <category term="Hive" scheme="https://odinliu.com/tags/Hive/"/>
+    
+      <category term="Hue" scheme="https://odinliu.com/tags/Hue/"/>
+    
+      <category term="集群迁移" scheme="https://odinliu.com/tags/%E9%9B%86%E7%BE%A4%E8%BF%81%E7%A7%BB/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>hadoop流水账之HBase网页库设计</title>
+    <link href="https://odinliu.com/2016/01/04/hadoop%E6%B5%81%E6%B0%B4%E8%B4%A6%E4%B9%8BHBase%E7%BD%91%E9%A1%B5%E5%BA%93%E8%AE%BE%E8%AE%A1/"/>
+    <id>https://odinliu.com/2016/01/04/hadoop流水账之HBase网页库设计/</id>
+    <published>2016-01-04T03:30:53.000Z</published>
+    <updated>2016-12-31T04:38:37.656Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;Overview&quot;&gt;&lt;a href=&quot;#Overview&quot; class=&quot;headerlink&quot; title=&quot;Overview&quot;&gt;&lt;/a&gt;Overview&lt;/h1&gt;&lt;p&gt;话说之前挖了一套&lt;a href=&quot;http://odinliu.com/2015/11/09
+    
+    </summary>
+    
+      <category term="技术杂谈" scheme="https://odinliu.com/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/"/>
+    
+    
+      <category term="网页库" scheme="https://odinliu.com/tags/%E7%BD%91%E9%A1%B5%E5%BA%93/"/>
+    
+      <category term="hadoop" scheme="https://odinliu.com/tags/hadoop/"/>
+    
+      <category term="hadoop流水账" scheme="https://odinliu.com/tags/hadoop%E6%B5%81%E6%B0%B4%E8%B4%A6/"/>
+    
+      <category term="HBase" scheme="https://odinliu.com/tags/HBase/"/>
+    
+      <category term="数据库设计" scheme="https://odinliu.com/tags/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1/"/>
+    
+      <category term="数据模型" scheme="https://odinliu.com/tags/%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B/"/>
+    
+      <category term="pagedb" scheme="https://odinliu.com/tags/pagedb/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Java/Scala杂记之二</title>
+    <link href="https://odinliu.com/2015/12/14/Java-Scala%E6%9D%82%E8%AE%B0%E4%B9%8B%E4%BA%8C/"/>
+    <id>https://odinliu.com/2015/12/14/Java-Scala杂记之二/</id>
+    <published>2015-12-14T09:47:08.000Z</published>
+    <updated>2016-12-31T04:38:37.655Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;Overview&quot;&gt;&lt;a href=&quot;#Overview&quot; class=&quot;headerlink&quot; title=&quot;Overview&quot;&gt;&lt;/a&gt;Overview&lt;/h1&gt;&lt;p&gt;最近的Java/Scala项目又积累了一些工具，研究不深，权当记录。至于spray系列，等把
+    
+    </summary>
+    
+      <category term="学习笔记" scheme="https://odinliu.com/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+    
+    
+      <category term="Scala" scheme="https://odinliu.com/tags/Scala/"/>
+    
+      <category term="Java" scheme="https://odinliu.com/tags/Java/"/>
+    
+      <category term="typesafe-config" scheme="https://odinliu.com/tags/typesafe-config/"/>
+    
+      <category term="HikariCP" scheme="https://odinliu.com/tags/HikariCP/"/>
+    
+      <category term="Phoenix" scheme="https://odinliu.com/tags/Phoenix/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>小试ESXi做虚拟化</title>
+    <link href="https://odinliu.com/2015/12/07/%E5%B0%8F%E8%AF%95ESXi%E5%81%9A%E8%99%9A%E6%8B%9F%E5%8C%96/"/>
+    <id>https://odinliu.com/2015/12/07/小试ESXi做虚拟化/</id>
+    <published>2015-12-07T12:19:24.000Z</published>
+    <updated>2016-12-31T04:38:37.662Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;Overview&quot;&gt;&lt;a href=&quot;#Overview&quot; class=&quot;headerlink&quot; title=&quot;Overview&quot;&gt;&lt;/a&gt;Overview&lt;/h1&gt;&lt;p&gt;之前家里的机器做虚拟化用的是KVM，后来听小胖推荐了ESXi，之前用KVM比较不爽的是clo
+    
+    </summary>
+    
+      <category term="技术杂谈" scheme="https://odinliu.com/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/"/>
+    
+    
+      <category term="虚拟化" scheme="https://odinliu.com/tags/%E8%99%9A%E6%8B%9F%E5%8C%96/"/>
+    
+      <category term="ESXi" scheme="https://odinliu.com/tags/ESXi/"/>
+    
+      <category term="syslinux" scheme="https://odinliu.com/tags/syslinux/"/>
+    
+      <category term="isolinux" scheme="https://odinliu.com/tags/isolinux/"/>
+    
+      <category term="U盘启动" scheme="https://odinliu.com/tags/U%E7%9B%98%E5%90%AF%E5%8A%A8/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Java/Scala杂记之一</title>
+    <link href="https://odinliu.com/2015/12/04/Java-Scala%E6%9D%82%E8%AE%B0%E4%B9%8B%E4%B8%80/"/>
+    <id>https://odinliu.com/2015/12/04/Java-Scala杂记之一/</id>
+    <published>2015-12-03T16:24:14.000Z</published>
+    <updated>2016-12-31T04:38:37.654Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;Overview&quot;&gt;&lt;a href=&quot;#Overview&quot; class=&quot;headerlink&quot; title=&quot;Overview&quot;&gt;&lt;/a&gt;Overview&lt;/h1&gt;&lt;p&gt;最近工作中都是些Java/Scala的项目，这块的技术栈(Technology stack，
+    
+    </summary>
+    
+      <category term="学习笔记" scheme="https://odinliu.com/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+    
+    
+      <category term="java" scheme="https://odinliu.com/tags/java/"/>
+    
+      <category term="scala" scheme="https://odinliu.com/tags/scala/"/>
+    
+      <category term="jsoup" scheme="https://odinliu.com/tags/jsoup/"/>
+    
+      <category term="maven" scheme="https://odinliu.com/tags/maven/"/>
+    
+      <category term="play-json" scheme="https://odinliu.com/tags/play-json/"/>
+    
+      <category term="jetty" scheme="https://odinliu.com/tags/jetty/"/>
+    
+      <category term="Option" scheme="https://odinliu.com/tags/Option/"/>
+    
+      <category term="Try" scheme="https://odinliu.com/tags/Try/"/>
+    
+      <category term="字符串插值" scheme="https://odinliu.com/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%8F%92%E5%80%BC/"/>
+    
+      <category term="fold" scheme="https://odinliu.com/tags/fold/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>hadoop流水账之HBase,Spark和在Spark上操作HBase</title>
+    <link href="https://odinliu.com/2015/11/20/hadoop%E6%B5%81%E6%B0%B4%E8%B4%A6%E4%B9%8BHBase-Spark%E5%92%8C%E5%9C%A8Spark%E4%B8%8A%E6%93%8D%E4%BD%9CHBase/"/>
+    <id>https://odinliu.com/2015/11/20/hadoop流水账之HBase-Spark和在Spark上操作HBase/</id>
+    <published>2015-11-20T08:26:38.000Z</published>
+    <updated>2016-12-31T04:38:37.656Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;Overview&quot;&gt;&lt;a href=&quot;#Overview&quot; class=&quot;headerlink&quot; title=&quot;Overview&quot;&gt;&lt;/a&gt;Overview&lt;/h1&gt;&lt;p&gt;话说最近搜索相关工作没啥改进空间，所以正好抽出时间来学习一下hadoop的上层工具，这边用的
+    
+    </summary>
+    
+      <category term="技术杂谈" scheme="https://odinliu.com/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/"/>
+    
+    
+      <category term="Scala" scheme="https://odinliu.com/tags/Scala/"/>
+    
+      <category term="Go" scheme="https://odinliu.com/tags/Go/"/>
+    
+      <category term="hadoop" scheme="https://odinliu.com/tags/hadoop/"/>
+    
+      <category term="hadoop流水账" scheme="https://odinliu.com/tags/hadoop%E6%B5%81%E6%B0%B4%E8%B4%A6/"/>
+    
+      <category term="HBase" scheme="https://odinliu.com/tags/HBase/"/>
+    
+      <category term="分布式存储" scheme="https://odinliu.com/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8/"/>
+    
+      <category term="Spark" scheme="https://odinliu.com/tags/Spark/"/>
+    
+      <category term="SBT" scheme="https://odinliu.com/tags/SBT/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Golang学习笔记——高级特性</title>
+    <link href="https://odinliu.com/2015/11/13/Golang%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7/"/>
+    <id>https://odinliu.com/2015/11/13/Golang学习笔记——高级特性/</id>
+    <published>2015-11-13T07:49:30.000Z</published>
+    <updated>2016-12-31T04:38:37.653Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;strong&gt;这个坑好像坑了很久，终于填好了……&lt;/strong&gt;&lt;/p&gt;
+&lt;h1 id=&quot;高级特性&quot;&gt;&lt;a href=&quot;#高级特性&quot; class=&quot;headerlink&quot; title=&quot;高级特性&quot;&gt;&lt;/a&gt;高级特性&lt;/h1&gt;&lt;h2 id=&quot;接口与多态&quot;&gt;&lt;a href=
+    
+    </summary>
+    
+      <category term="学习笔记" scheme="https://odinliu.com/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+    
+    
+      <category term="学习笔记" scheme="https://odinliu.com/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+    
+      <category term="golang" scheme="https://odinliu.com/tags/golang/"/>
+    
+      <category term="语法" scheme="https://odinliu.com/tags/%E8%AF%AD%E6%B3%95/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>在CentOS 6上安装部署KVM虚拟机</title>
+    <link href="https://odinliu.com/2015/11/11/%E5%9C%A8CentOS-6%E4%B8%8A%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2KVM%E8%99%9A%E6%8B%9F%E6%9C%BA/"/>
+    <id>https://odinliu.com/2015/11/11/在CentOS-6上安装部署KVM虚拟机/</id>
+    <published>2015-11-11T07:06:52.000Z</published>
+    <updated>2016-12-31T04:38:37.660Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;Overview&quot;&gt;&lt;a href=&quot;#Overview&quot; class=&quot;headerlink&quot; title=&quot;Overview&quot;&gt;&lt;/a&gt;Overview&lt;/h1&gt;&lt;p&gt;很多新的开源库对kernel的要求是3.0+，对gcc的要求是4.8+，但是我的开发机用的是
+    
+    </summary>
+    
+      <category term="技术杂谈" scheme="https://odinliu.com/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/"/>
+    
+    
+      <category term="虚拟化" scheme="https://odinliu.com/tags/%E8%99%9A%E6%8B%9F%E5%8C%96/"/>
+    
+      <category term="KVM" scheme="https://odinliu.com/tags/KVM/"/>
+    
+      <category term="虚拟机" scheme="https://odinliu.com/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/"/>
+    
+      <category term="CentOS6" scheme="https://odinliu.com/tags/CentOS6/"/>
+    
+      <category term="Linux" scheme="https://odinliu.com/tags/Linux/"/>
+    
+      <category term="Xen" scheme="https://odinliu.com/tags/Xen/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>大型坑之naive-qie抓取系统设计</title>
+    <link href="https://odinliu.com/2015/11/09/%E5%A4%A7%E5%9E%8B%E5%9D%91%E4%B9%8Bnaive-qie%E6%8A%93%E5%8F%96%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/"/>
+    <id>https://odinliu.com/2015/11/09/大型坑之naive-qie抓取系统设计/</id>
+    <published>2015-11-09T06:23:16.000Z</published>
+    <updated>2016-12-31T04:38:37.660Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;Overview&quot;&gt;&lt;a href=&quot;#Overview&quot; class=&quot;headerlink&quot; title=&quot;Overview&quot;&gt;&lt;/a&gt;Overview&lt;/h1&gt;&lt;p&gt;话说最近工作中有一些去别人网站抓数据的需求，一般就是写俩脚本搞定，一两个需求还好，多了挺麻烦
+    
+    </summary>
+    
+      <category term="技术杂谈" scheme="https://odinliu.com/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/"/>
+    
+    
+      <category term="naive-pagedb" scheme="https://odinliu.com/tags/naive-pagedb/"/>
+    
+      <category term="spider" scheme="https://odinliu.com/tags/spider/"/>
+    
+      <category term="抓取系统" scheme="https://odinliu.com/tags/%E6%8A%93%E5%8F%96%E7%B3%BB%E7%BB%9F/"/>
+    
+      <category term="分布式" scheme="https://odinliu.com/tags/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
+    
+      <category term="总体设计" scheme="https://odinliu.com/tags/%E6%80%BB%E4%BD%93%E8%AE%BE%E8%AE%A1/"/>
+    
+      <category term="大型坑" scheme="https://odinliu.com/tags/%E5%A4%A7%E5%9E%8B%E5%9D%91/"/>
+    
+      <category term="naive系列" scheme="https://odinliu.com/tags/naive%E7%B3%BB%E5%88%97/"/>
+    
+      <category term="naive-spider" scheme="https://odinliu.com/tags/naive-spider/"/>
+    
+      <category term="naive-crawlcenter" scheme="https://odinliu.com/tags/naive-crawlcenter/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>吐槽一下Lucene的Field接口变化(更新再吐槽)</title>
+    <link href="https://odinliu.com/2015/11/02/%E5%90%90%E6%A7%BD%E4%B8%80%E4%B8%8BLucene%E7%9A%84Field%E6%8E%A5%E5%8F%A3%E5%8F%98%E5%8C%96/"/>
+    <id>https://odinliu.com/2015/11/02/吐槽一下Lucene的Field接口变化/</id>
+    <published>2015-11-02T04:30:13.000Z</published>
+    <updated>2016-12-31T04:38:37.659Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;a href=&quot;http://lucene.apache.org/&quot; title=&quot;Apache Lucene&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Lucene&lt;/a&gt;是老牌搜索引擎索引工具了，我最早接触是10年夏天在淘宝实习的时候，作为一个小
+    
+    </summary>
+    
+      <category term="技术杂谈" scheme="https://odinliu.com/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/"/>
+    
+    
+      <category term="Java" scheme="https://odinliu.com/tags/Java/"/>
+    
+      <category term="Lucene" scheme="https://odinliu.com/tags/Lucene/"/>
+    
+      <category term="搜索引擎" scheme="https://odinliu.com/tags/%E6%90%9C%E7%B4%A2%E5%BC%95%E6%93%8E/"/>
+    
+      <category term="索引" scheme="https://odinliu.com/tags/%E7%B4%A2%E5%BC%95/"/>
+    
+      <category term="TextField" scheme="https://odinliu.com/tags/TextField/"/>
+    
+      <category term="StringFeild" scheme="https://odinliu.com/tags/StringFeild/"/>
+    
+      <category term="Field" scheme="https://odinliu.com/tags/Field/"/>
+    
+      <category term="Filter" scheme="https://odinliu.com/tags/Filter/"/>
+    
+      <category term="BooleanClause.Occur.FILTER" scheme="https://odinliu.com/tags/BooleanClause-Occur-FILTER/"/>
+    
+      <category term="BooleanClause" scheme="https://odinliu.com/tags/BooleanClause/"/>
+    
+      <category term="FilteredQuery" scheme="https://odinliu.com/tags/FilteredQuery/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>自用服务器配置小记-系统篇不定期更新</title>
+    <link href="https://odinliu.com/2015/11/02/%E8%87%AA%E7%94%A8%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%85%8D%E7%BD%AE%E5%B0%8F%E8%AE%B0-%E7%B3%BB%E7%BB%9F%E7%AF%87%E4%B8%8D%E5%AE%9A%E6%9C%9F%E6%9B%B4%E6%96%B0/"/>
+    <id>https://odinliu.com/2015/11/02/自用服务器配置小记-系统篇不定期更新/</id>
+    <published>2015-11-02T03:08:50.000Z</published>
+    <updated>2016-12-31T04:38:37.664Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;Overview&quot;&gt;&lt;a href=&quot;#Overview&quot; class=&quot;headerlink&quot; title=&quot;Overview&quot;&gt;&lt;/a&gt;Overview&lt;/h1&gt;&lt;p&gt;按照我取机器名用马刺队员的习惯，我决定将这台机器命名为&lt;code&gt;DannyGreen&lt;/c
+    
+    </summary>
+    
+      <category term="技术杂谈" scheme="https://odinliu.com/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/"/>
+    
+    
+      <category term="系统运维" scheme="https://odinliu.com/tags/%E7%B3%BB%E7%BB%9F%E8%BF%90%E7%BB%B4/"/>
+    
+      <category term="Linux" scheme="https://odinliu.com/tags/Linux/"/>
+    
+      <category term="DIY" scheme="https://odinliu.com/tags/DIY/"/>
+    
+      <category term="双路工作站" scheme="https://odinliu.com/tags/%E5%8F%8C%E8%B7%AF%E5%B7%A5%E4%BD%9C%E7%AB%99/"/>
+    
+      <category term="CentOS 6" scheme="https://odinliu.com/tags/CentOS-6/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>自用服务器配置小记(硬件篇)</title>
+    <link href="https://odinliu.com/2015/11/01/%E8%87%AA%E7%94%A8%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%85%8D%E7%BD%AE%E5%B0%8F%E8%AE%B0(%E7%A1%AC%E4%BB%B6%E7%AF%87)/"/>
+    <id>https://odinliu.com/2015/11/01/自用服务器配置小记(硬件篇)/</id>
+    <published>2015-11-01T03:22:22.000Z</published>
+    <updated>2016-12-31T04:38:37.664Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;Overview&quot;&gt;&lt;a href=&quot;#Overview&quot; class=&quot;headerlink&quot; title=&quot;Overview&quot;&gt;&lt;/a&gt;Overview&lt;/h1&gt;&lt;p&gt;因为家里的台式机要用来打游戏，所以只能装Windows，平时做点业余开发娱乐都是用虚拟机装个
+    
+    </summary>
+    
+      <category term="技术杂谈" scheme="https://odinliu.com/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/"/>
+    
+    
+      <category term="系统运维" scheme="https://odinliu.com/tags/%E7%B3%BB%E7%BB%9F%E8%BF%90%E7%BB%B4/"/>
+    
+      <category term="DIY" scheme="https://odinliu.com/tags/DIY/"/>
+    
+      <category term="双路工作站" scheme="https://odinliu.com/tags/%E5%8F%8C%E8%B7%AF%E5%B7%A5%E4%BD%9C%E7%AB%99/"/>
+    
+      <category term="1366" scheme="https://odinliu.com/tags/1366/"/>
+    
+      <category term="L5640" scheme="https://odinliu.com/tags/L5640/"/>
+    
+      <category term="180g6" scheme="https://odinliu.com/tags/180g6/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>从国外券商提取现金回国</title>
+    <link href="https://odinliu.com/2015/03/24/%E4%BB%8E%E5%9B%BD%E5%A4%96%E5%88%B8%E5%95%86%E6%8F%90%E5%8F%96%E7%8E%B0%E9%87%91%E5%9B%9E%E5%9B%BD/"/>
+    <id>https://odinliu.com/2015/03/24/从国外券商提取现金回国/</id>
+    <published>2015-03-24T08:07:13.000Z</published>
+    <updated>2016-12-31T04:38:37.659Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;13年美股大热，于是果断开了美股账户，当时选择的券商是美国的第一理财(Firstrade)。可惜好景不长，在美联储加息等消息的刺激下，中概股一直萎靡不振，加上去年下半年开始A股走强，投资美股中概已经类似赌博了，再加上懒得半夜看盘，所以很久都没有进行过交易了。赶上年后在老爸的
+    
+    </summary>
+    
+      <category term="谈股论金" scheme="https://odinliu.com/categories/%E8%B0%88%E8%82%A1%E8%AE%BA%E9%87%91/"/>
+    
+    
+      <category term="Firstrade" scheme="https://odinliu.com/tags/Firstrade/"/>
+    
+      <category term="美股" scheme="https://odinliu.com/tags/%E7%BE%8E%E8%82%A1/"/>
+    
+      <category term="香港一卡通" scheme="https://odinliu.com/tags/%E9%A6%99%E6%B8%AF%E4%B8%80%E5%8D%A1%E9%80%9A/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>不用采集卡搭建PS4直播环境&amp;CentOS 7网络设置</title>
+    <link href="https://odinliu.com/2015/01/28/%E4%B8%8D%E7%94%A8%E9%87%87%E9%9B%86%E5%8D%A1%E6%90%AD%E5%BB%BAPS4%E7%9B%B4%E6%92%AD%E7%8E%AF%E5%A2%83-CentOS-7%E7%BD%91%E7%BB%9C%E8%AE%BE%E7%BD%AE/"/>
+    <id>https://odinliu.com/2015/01/28/不用采集卡搭建PS4直播环境-CentOS-7网络设置/</id>
+    <published>2015-01-27T17:29:27.000Z</published>
+    <updated>2016-12-31T04:38:37.658Z</updated>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;嗯，这么两个话题参杂在一起确实有点怪。最近买了台式机，为了不浪费我16G的内存，果断搞了个Linux的虚拟机作为开发机。选择系统时没有用常用的debian/ubuntu，选择了自己比较熟悉的CentOS系列，然后正好顺便试试最新的CentOS 7。
+    
+    </summary>
+    
+      <category term="技术杂谈" scheme="https://odinliu.com/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/"/>
+    
+    
+      <category term="ps4" scheme="https://odinliu.com/tags/ps4/"/>
+    
+      <category term="直播" scheme="https://odinliu.com/tags/%E7%9B%B4%E6%92%AD/"/>
+    
+      <category term="CentOS 7" scheme="https://odinliu.com/tags/CentOS-7/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Golang学习笔记——基础</title>
+    <link href="https://odinliu.com/2014/12/12/Golang%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%9F%BA%E7%A1%80/"/>
+    <id>https://odinliu.com/2014/12/12/Golang学习笔记——基础/</id>
+    <published>2014-12-12T11:18:23.000Z</published>
+    <updated>2016-12-31T04:38:37.653Z</updated>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;平时工作语言是c/c++，做后端开发很强大，但是毕竟写起来还是麻烦了一些，缺乏现代语言特性。所以一直在找一门辅助语言，它有便捷的语法，可以随手写一些小工具甚至小服务啥的。之前考虑过node.js，写c bundle感觉还可以，但是v8的用法感觉写起
+    
+    </summary>
+    
+      <category term="学习笔记" scheme="https://odinliu.com/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+    
+    
+      <category term="学习笔记" scheme="https://odinliu.com/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+    
+      <category term="golang" scheme="https://odinliu.com/tags/golang/"/>
+    
+      <category term="语法" scheme="https://odinliu.com/tags/%E8%AF%AD%E6%B3%95/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>给hexo/pacman增加“最新评论”的widget</title>
+    <link href="https://odinliu.com/2014/12/03/%E7%BB%99hexo-pacman%E5%A2%9E%E5%8A%A0%E2%80%9C%E6%9C%80%E6%96%B0%E8%AF%84%E8%AE%BA%E2%80%9D%E7%9A%84widget/"/>
+    <id>https://odinliu.com/2014/12/03/给hexo-pacman增加“最新评论”的widget/</id>
+    <published>2014-12-03T04:21:31.000Z</published>
+    <updated>2016-12-31T04:38:37.663Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;自从不买vps以来，已经很久没写过blog了，之前用bae还得备案啥的，看起来还是在国外托管比较方便。最近发现github pages速度还挺不错的，于是研究了一下用hexo搭还挺方便的，pacman主题用着也比较方便，不过还有一些blog的常见功能不支持，比如最新评论。p
+    
+    </summary>
+    
+      <category term="技术杂谈" scheme="https://odinliu.com/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/"/>
+    
+    
+      <category term="hexo" scheme="https://odinliu.com/tags/hexo/"/>
+    
+      <category term="pacman" scheme="https://odinliu.com/tags/pacman/"/>
+    
+      <category term="多说评论" scheme="https://odinliu.com/tags/%E5%A4%9A%E8%AF%B4%E8%AF%84%E8%AE%BA/"/>
+    
+  </entry>
+  
+</feed>

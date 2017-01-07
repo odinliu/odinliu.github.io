@@ -1,0 +1,660 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>hadoop流水账之HBase,Spark和在Spark上操作HBase | Odin的自我修养</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Odin">
+    
+
+    
+    <meta name="description" content="Overview话说最近搜索相关工作没啥改进空间，所以正好抽出时间来学习一下hadoop的上层工具，这边用的挺多的，但是之前在某搜索引擎大厂基本都是在用hadoop streaming，对于Hadoop上的上层工具基本上没用过，也不了解，而且2年了hadoop也有了很多发展，和之前有了很多变化，所以磨刀不误砍柴功(强行打酱油)，还是需要研究研究的。
+背景设计没有目标的学习都是耍流氓，所以得给自己设">
+<meta property="og:type" content="article">
+<meta property="og:title" content="hadoop流水账之HBase,Spark和在Spark上操作HBase">
+<meta property="og:url" content="https://odinliu.com/2015/11/20/hadoop流水账之HBase-Spark和在Spark上操作HBase/index.html">
+<meta property="og:site_name" content="Odin的自我修养">
+<meta property="og:description" content="Overview话说最近搜索相关工作没啥改进空间，所以正好抽出时间来学习一下hadoop的上层工具，这边用的挺多的，但是之前在某搜索引擎大厂基本都是在用hadoop streaming，对于Hadoop上的上层工具基本上没用过，也不了解，而且2年了hadoop也有了很多发展，和之前有了很多变化，所以磨刀不误砍柴功(强行打酱油)，还是需要研究研究的。
+背景设计没有目标的学习都是耍流氓，所以得给自己设">
+<meta property="og:image" content="http://7xi8sr.com1.z0.glb.clouddn.com/sbt-tree.jpg">
+<meta property="og:updated_time" content="2016-12-31T04:38:37.656Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="hadoop流水账之HBase,Spark和在Spark上操作HBase">
+<meta name="twitter:description" content="Overview话说最近搜索相关工作没啥改进空间，所以正好抽出时间来学习一下hadoop的上层工具，这边用的挺多的，但是之前在某搜索引擎大厂基本都是在用hadoop streaming，对于Hadoop上的上层工具基本上没用过，也不了解，而且2年了hadoop也有了很多发展，和之前有了很多变化，所以磨刀不误砍柴功(强行打酱油)，还是需要研究研究的。
+背景设计没有目标的学习都是耍流氓，所以得给自己设">
+<meta name="twitter:image" content="http://7xi8sr.com1.z0.glb.clouddn.com/sbt-tree.jpg">
+<meta name="twitter:creator" content="@odinliu">
+<link rel="publisher" href="103006785183830050000">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Odin的自我修养" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Odin的自我修养" title="Odin的自我修养"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Odin的自我修养">Odin的自我修养</a></h1>
+				<h2 class="blog-motto">Wanna Be The Man, Gotta Have A Plan</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/">技术杂谈</a></li>
+					
+						<li><a href="/categories/%E4%BA%A7%E5%93%81%E4%B9%B1%E5%BC%B9/">产品乱弹</a></li>
+					
+						<li><a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a></li>
+					
+						<li><a href="/categories/%E8%B0%88%E8%82%A1%E8%AE%BA%E9%87%91/">谈股论金</a></li>
+					
+						<li><a href="/categories/%E5%9E%83%E5%9C%BE%E7%AE%B1/">垃圾箱</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:odinliu.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/11/20/hadoop流水账之HBase-Spark和在Spark上操作HBase/" title="hadoop流水账之HBase,Spark和在Spark上操作HBase" itemprop="url">hadoop流水账之HBase,Spark和在Spark上操作HBase</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/103006785183830050000?rel=author" title="Odin" target="_blank" itemprop="author">Odin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-11-20T08:26:38.000Z" itemprop="datePublished"> 发表于 2015-11-20</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Overview"><span class="toc-number">1.</span> <span class="toc-text">Overview</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#背景设计"><span class="toc-number">2.</span> <span class="toc-text">背景设计</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#集群搭建"><span class="toc-number">3.</span> <span class="toc-text">集群搭建</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#HBase建库"><span class="toc-number">4.</span> <span class="toc-text">HBase建库</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#网页入库"><span class="toc-number">5.</span> <span class="toc-text">网页入库</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#SBT"><span class="toc-number">6.</span> <span class="toc-text">SBT</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#HBase基本操作"><span class="toc-number">7.</span> <span class="toc-text">HBase基本操作</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#build-sbt"><span class="toc-number">7.1.</span> <span class="toc-text">build.sbt</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#主程序"><span class="toc-number">7.2.</span> <span class="toc-text">主程序</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Spark基本操作"><span class="toc-number">8.</span> <span class="toc-text">Spark基本操作</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#build-sbt-1"><span class="toc-number">8.1.</span> <span class="toc-text">build.sbt</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#主程序-1"><span class="toc-number">8.2.</span> <span class="toc-text">主程序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#那些踩过的坑"><span class="toc-number">8.3.</span> <span class="toc-text">那些踩过的坑</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#spark用户提交无法读取用户目录"><span class="toc-number">8.3.1.</span> <span class="toc-text">spark用户提交无法读取用户目录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#缺少org-apache-htrace"><span class="toc-number">8.3.2.</span> <span class="toc-text">缺少org.apache.htrace</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Scala版本和集群不对"><span class="toc-number">8.3.3.</span> <span class="toc-text">Scala版本和集群不对</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#后记"><span class="toc-number">9.</span> <span class="toc-text">后记</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Reference"><span class="toc-number">10.</span> <span class="toc-text">Reference</span></a></li></ol>
+		
+		</div>
+		
+		<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>话说最近搜索相关工作没啥改进空间，所以正好抽出时间来学习一下hadoop的上层工具，这边用的挺多的，但是之前在某搜索引擎大厂基本都是在用hadoop streaming，对于Hadoop上的上层工具基本上没用过，也不了解，而且2年了hadoop也有了很多发展，和之前有了很多变化，所以磨刀不误砍柴功(强行打酱油)，还是需要研究研究的。</p>
+<h1 id="背景设计"><a href="#背景设计" class="headerlink" title="背景设计"></a>背景设计</h1><p>没有目标的学习都是耍流氓，所以得给自己设计一个虚拟的目标。这里场景假设为将抓取下来的网页存入到HBase中，然后再通过Spark对网页进行处理，解析出有用的字段。所以主要学习目标如下：</p>
+<ol>
+<li>将之前抓的存在文件系统中的网页存入HBase</li>
+<li>对HBase的基本API操作</li>
+<li>Spark上处理HBase内的网页</li>
+</ol>
+<p>好吧，其实这也是之前挖过的坑<a href="http://odinliu.com/2015/11/09/%E5%A4%A7%E5%9E%8B%E5%9D%91%E4%B9%8Bnaive-qie%E6%8A%93%E5%8F%96%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/" title="大型坑之naive-qie抓取系统设计">Naive-Qie</a>系列，坑还没填呢，就推到重构了，2333333</p>
+<h1 id="集群搭建"><a href="#集群搭建" class="headerlink" title="集群搭建"></a>集群搭建</h1><p>这部分有空再写一篇总结一下心得吧，直接用的小胖推荐的<a href="http://www.cloudera.com/content/www/en-us/documentation/enterprise/latest/topics/cm_ig_install_path_a.html" title="Automated Installation by Cloudera Manager" target="_blank" rel="external">Cloudera Manager</a>，虽然和Red Hat一样，用着免费服务收费的模式，但是界面还挺不错的，自动模式也省心，虽然踩了不少坑。这类Hadoop全家桶的工具挺多的，这边好像用的是<a href="http://ambari.apache.org/" title="Apache Ambari project" target="_blank" rel="external">Apache Ambari</a>。哪个更好用就不知道了，不过开源项目，你懂的。</p>
+<h1 id="HBase建库"><a href="#HBase建库" class="headerlink" title="HBase建库"></a>HBase建库</h1><p>关于HBase的设计，目前还没有仔细了解，就纯粹当成NoSQL去用，不考虑性能。这里RowKey用url的md5，但其实这是不对的，虽然可以把数据散列开，但是最大的问题是没办法利用key是有序的特点，进行范围查询，所以有空会研究一下HBase表设计的最佳实践，再设计一个实用的网页库。包括两个列族，<code>meta</code>用于存储url等信息，<code>data</code>用于存储网页内容。用HBase的shell建表：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hbase(main):004:0&gt; create &apos;pagedb&apos;, &apos;meta&apos;, &apos;data&apos;</div></pre></td></tr></table></figure>
+<h1 id="网页入库"><a href="#网页入库" class="headerlink" title="网页入库"></a>网页入库</h1><p>之前抓了1000多某电商网站的网页，正好全部丢到HBase里去，省得重新抓了，也省略了抓取部分(反正就是个perl脚本)。正好最近刚填完了<a href="http://odinliu.com/2015/11/13/Golang%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7/" title="Golang学习笔记——高级特性">Golang学习笔记</a>的坑，HBase还有thrift接口，正好Scala才开始复习，就打算用Go了。虽然thrift之前没用过，但是github上有封装好的<a href="https://github.com/sdming/goh" title="golang client of hbase (via thrift)" target="_blank" rel="external">goh</a>。大致了解了一下，HBase的thrift接口目前有v1和v2两个版本，v2是在v1上重构的，提供了更简洁的接口，然而，goh还是基于v1的，所以反正我懒得研究thrift了，先用v1吧就。废话不多说，先上代码，这里就是把go当成脚本写了，写的丑别怪我，毕竟之前0行Go的工程经验：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> main</div><div class="line"><span class="keyword">import</span> (</div><div class="line">	<span class="string">"fmt"</span></div><div class="line">	<span class="string">"bufio"</span></div><div class="line">	<span class="string">"os"</span></div><div class="line">	<span class="string">"strings"</span></div><div class="line">	<span class="string">"crypto/md5"</span></div><div class="line">	<span class="string">"io"</span></div><div class="line">	<span class="string">"io/ioutil"</span></div><div class="line">	<span class="string">"github.com/sdming/goh"</span></div><div class="line">	<span class="string">"github.com/sdming/goh/Hbase"</span></div><div class="line">)</div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">	<span class="keyword">if</span> <span class="built_in">len</span>(os.Args) != <span class="number">2</span> &#123;</div><div class="line">		fmt.Println(<span class="string">"need filename"</span>)</div><div class="line">		<span class="keyword">return</span></div><div class="line">	&#125;</div><div class="line">	address := <span class="string">"datanode2:9090"</span></div><div class="line">	client, err := goh.NewTcpClient(address, goh.TBinaryProtocol, <span class="literal">false</span>)</div><div class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</div><div class="line">		fmt.Println(err)</div><div class="line">		<span class="keyword">return</span></div><div class="line">	&#125;</div><div class="line">	<span class="keyword">if</span> err = client.Open(); err != <span class="literal">nil</span> &#123;</div><div class="line">		fmt.Println(err)</div><div class="line">		<span class="keyword">return</span></div><div class="line">	&#125;</div><div class="line">	<span class="keyword">defer</span> client.Close()</div><div class="line">	<span class="comment">//读入一个url\t/path/to/html的文件</span></div><div class="line">	f, err := os.Open(os.Args[<span class="number">1</span>])</div><div class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</div><div class="line">		fmt.Println(err)</div><div class="line">		<span class="keyword">return</span></div><div class="line">	&#125;</div><div class="line">	<span class="keyword">defer</span> f.Close()</div><div class="line">	table := <span class="string">"pagedb"</span></div><div class="line">	reader := bufio.NewReader(f)</div><div class="line">	<span class="keyword">for</span> &#123;</div><div class="line">		line, err := reader.ReadString(<span class="string">'\n'</span>)</div><div class="line">		<span class="keyword">if</span> err == io.EOF &#123;</div><div class="line">			<span class="keyword">break</span></div><div class="line">		&#125;</div><div class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</div><div class="line">			<span class="keyword">continue</span></div><div class="line">		&#125;</div><div class="line">		vs := strings.Split(strings.Trim(line, <span class="string">"\n"</span>), <span class="string">"\t"</span>)</div><div class="line">		bv, err := ioutil.ReadFile(vs[<span class="number">1</span>])</div><div class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</div><div class="line">			fmt.Println(err)</div><div class="line">			<span class="keyword">continue</span></div><div class="line">		&#125;</div><div class="line">		key := fmt.Sprintf(<span class="string">"%x"</span>, md5.Sum([]<span class="keyword">byte</span>(vs[<span class="number">0</span>])))</div><div class="line">		mutations := <span class="built_in">make</span>([]*Hbase.Mutation, <span class="number">2</span>)</div><div class="line">		mutations[<span class="number">0</span>] = goh.NewMutation(<span class="string">"meta:url"</span>, []<span class="keyword">byte</span>(vs[<span class="number">0</span>]))</div><div class="line">		mutations[<span class="number">1</span>] = goh.NewMutation(<span class="string">"data:content"</span>, bv)</div><div class="line">		fmt.Println(client.MutateRow(table, []<span class="keyword">byte</span>(key), mutations, <span class="literal">nil</span>))</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>Go其实还是非常简单实用的，这部分花的时间最少，因为不涉及什么依赖，目标也简单，Go写起来还比较舒服的，小研究了一下就写出来了。</p>
+<h1 id="SBT"><a href="#SBT" class="headerlink" title="SBT"></a>SBT</h1><p>yet another build tools…话说JVM圈的构建工具真是太多了，从大学开始接触过的开源构建工具就有<code>ant</code>, <code>maven</code>, <code>gradle</code>, <code>ivy</code>, <code>sbt</code>，就这还不算他们的不同版本。sbt(跟我一起念shi bian tai)是scala主推的构建工具，既然决定要学习一下Scala，那么sbt肯定不能放过，工具还是很简单的，但是感觉主要还是编译用，打包功能还得靠插件，配置上就是scala程序，感觉还是挺蛋疼的，不过也比maven的xml舒服一点。<br><img src="http://7xi8sr.com1.z0.glb.clouddn.com/sbt-tree.jpg" alt="一个典型的SBT项目组织结构"></p>
+<p>project目录下的<code>plugins.sbt</code>是配置插件用的，我这里主要是配置一个<a href="https://github.com/sbt/sbt-assembly" title="Deploy fat JARs. Restart processes" target="_blank" rel="external">sbt-assembly</a>插件，虽然并没有用上，不过也写着吧。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// project/plugins.sbt</span></div><div class="line">addSbtPlugin(<span class="string">"com.eed3si9n"</span> % <span class="string">"sbt-assembly"</span> % <span class="string">"0.14.0"</span>)</div></pre></td></tr></table></figure>
+<h1 id="HBase基本操作"><a href="#HBase基本操作" class="headerlink" title="HBase基本操作"></a>HBase基本操作</h1><h2 id="build-sbt"><a href="#build-sbt" class="headerlink" title="build.sbt"></a>build.sbt</h2><figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">name := <span class="string">"hbase test"</span></div><div class="line">version := <span class="string">"1.0"</span></div><div class="line">scalaVersion := <span class="string">"2.10.4"</span></div><div class="line">javacOptions ++= <span class="type">Seq</span>(<span class="string">"-source"</span>, <span class="string">"1.6"</span>, <span class="string">"-target"</span>, <span class="string">"1.6"</span>)</div><div class="line">libraryDependencies ++= <span class="type">Seq</span>(</div><div class="line">  <span class="string">"org.apache.hadoop"</span> % <span class="string">"hadoop-common"</span> % <span class="string">"2.6.0"</span>,</div><div class="line">  <span class="string">"org.apache.hbase"</span> % <span class="string">"hbase-common"</span> % <span class="string">"1.0.0"</span>,</div><div class="line">  <span class="string">"org.apache.hbase"</span> % <span class="string">"hbase-client"</span> % <span class="string">"1.0.0"</span></div><div class="line">)</div><div class="line">assemblyOption in assembly := (assemblyOption in assembly).value.copy(includeScala = <span class="literal">false</span>)</div></pre></td></tr></table></figure>
+<h2 id="主程序"><a href="#主程序" class="headerlink" title="主程序"></a>主程序</h2><figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.odinliu.test</div><div class="line"><span class="keyword">import</span> org.apache.hadoop.hbase.&#123;<span class="type">HBaseConfiguration</span>,<span class="type">TableName</span>&#125;</div><div class="line"><span class="keyword">import</span> org.apache.hadoop.hbase.client.&#123;<span class="type">ConnectionFactory</span>,<span class="type">HBaseAdmin</span>,<span class="type">HTable</span>,<span class="type">Put</span>,<span class="type">Get</span>,<span class="type">Scan</span>,<span class="type">Result</span>,<span class="type">ResultScanner</span>&#125;</div><div class="line"><span class="keyword">import</span> org.apache.hadoop.hbase.util.<span class="type">Bytes</span></div><div class="line"><span class="keyword">import</span> org.apache.hadoop.fs.<span class="type">Path</span></div><div class="line"><span class="keyword">import</span> scala.util.matching.<span class="type">Regex</span></div><div class="line"><span class="class"><span class="keyword">object</span> <span class="title">TestHbase</span> </span>&#123;</div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">printRowKey</span></span>(rs: <span class="type">ResultScanner</span>) &#123;</div><div class="line">    <span class="keyword">val</span> result = rs.next()</div><div class="line">    <span class="keyword">if</span> (result != <span class="literal">null</span>) &#123;</div><div class="line">      println(<span class="type">Bytes</span>.toString(result.getRow()))</div><div class="line">      <span class="comment">//println(Bytes.toString(result.getValue(Bytes.toBytes("meta"), Bytes.toBytes("title"))))</span></div><div class="line">      printRowKey(rs)</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">main</span></span>(args: <span class="type">Array</span>[<span class="type">String</span>]) &#123;</div><div class="line">    <span class="keyword">val</span> conf = <span class="type">HBaseConfiguration</span>.create()</div><div class="line">    <span class="keyword">val</span> connection = <span class="type">ConnectionFactory</span>.createConnection(conf)</div><div class="line">    <span class="keyword">val</span> admin = connection.getAdmin()</div><div class="line">    <span class="keyword">val</span> listtables = admin.listTables()</div><div class="line">    listtables.foreach(println)</div><div class="line">    <span class="keyword">val</span> table = connection.getTable(<span class="type">TableName</span>.valueOf(<span class="string">"pagedb"</span>))</div><div class="line">    <span class="keyword">val</span> rs = table.getScanner(<span class="keyword">new</span> <span class="type">Scan</span>())</div><div class="line">    printRowKey(rs)</div><div class="line">    rs.close()</div><div class="line">    <span class="keyword">val</span> result = table.get(<span class="keyword">new</span> <span class="type">Get</span>(<span class="type">Bytes</span>.toBytes(<span class="string">"fbc9fdefb5e1391c34abd4da2c88a13f"</span>)))</div><div class="line">    <span class="keyword">val</span> value = <span class="type">Bytes</span>.toString(result.getValue(<span class="type">Bytes</span>.toBytes(<span class="string">"data"</span>), <span class="type">Bytes</span>.toBytes(<span class="string">"content"</span>)))</div><div class="line">    println(value)</div><div class="line">    table.close()</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>其实Scala也是一门挺强大的语言，就是语法糖太多，太甜，但是好处就是写起来比较随意，当成Java来写倒是也不会出什么问题。因为读写HBase是本地的，直接<code>sbt clean run</code>就可以运行了，还是挺方便的。唯一需要注意的是各个依赖版本的问题，最好和CDH的各个版本一致。HBase这里没出啥问题，不过由于HBase新的API和之前不大一样，网上很多范例都没办法用，特别是HBase自己的手册也是用的老版本，真是无语。</p>
+<h1 id="Spark基本操作"><a href="#Spark基本操作" class="headerlink" title="Spark基本操作"></a>Spark基本操作</h1><h2 id="build-sbt-1"><a href="#build-sbt-1" class="headerlink" title="build.sbt"></a>build.sbt</h2><figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">name := <span class="string">"spark with hbase"</span></div><div class="line">version := <span class="string">"1.0"</span></div><div class="line">scalaVersion := <span class="string">"2.10.4"</span></div><div class="line">javacOptions ++= <span class="type">Seq</span>(<span class="string">"-source"</span>, <span class="string">"1.6"</span>, <span class="string">"-target"</span>, <span class="string">"1.6"</span>)</div><div class="line">libraryDependencies ++= <span class="type">Seq</span>(</div><div class="line">  <span class="string">"org.apache.spark"</span> %% <span class="string">"spark-core"</span> % <span class="string">"1.3.0"</span> % <span class="string">"provided"</span>,</div><div class="line">  <span class="string">"org.apache.hadoop"</span> % <span class="string">"hadoop-common"</span> % <span class="string">"2.6.0"</span> % <span class="string">"provided"</span>,</div><div class="line">  <span class="string">"org.apache.hbase"</span> % <span class="string">"hbase-common"</span> % <span class="string">"1.0.0"</span> % <span class="string">"provided"</span>,</div><div class="line">  <span class="string">"org.apache.hbase"</span> % <span class="string">"hbase-server"</span> % <span class="string">"1.0.0"</span> % <span class="string">"provided"</span>,</div><div class="line">  <span class="string">"org.apache.htrace"</span> % <span class="string">"htrace-core"</span> % <span class="string">"3.1.0-incubating"</span>,</div><div class="line">  <span class="string">"org.apache.hbase"</span> % <span class="string">"hbase-client"</span> % <span class="string">"1.0.0"</span> % <span class="string">"provided"</span></div><div class="line">)</div><div class="line">assemblyOption in assembly := (assemblyOption in assembly).value.copy(includeScala = <span class="literal">false</span>)</div></pre></td></tr></table></figure>
+<p>这里这些包都是编译用的，提交到Spark集群上是用CDH的包，所以版本一定要注意，我用的<strong>CDH-5.4.8-1.cdh5.4.8.p0.4</strong>版本相关版本是这样的，如果不注意版本是要踩坑的。</p>
+<h2 id="主程序-1"><a href="#主程序-1" class="headerlink" title="主程序"></a>主程序</h2><figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.odinliu.test</div><div class="line"><span class="keyword">import</span> org.apache.spark.<span class="type">SparkContext</span></div><div class="line"><span class="keyword">import</span> org.apache.spark.<span class="type">SparkContext</span>._</div><div class="line"><span class="keyword">import</span> org.apache.spark.<span class="type">SparkConf</span></div><div class="line"><span class="keyword">import</span> org.apache.hadoop.hbase.&#123;<span class="type">HBaseConfiguration</span>,<span class="type">TableName</span>&#125;</div><div class="line"><span class="keyword">import</span> org.apache.hadoop.hbase.client.&#123;<span class="type">ConnectionFactory</span>,<span class="type">HBaseAdmin</span>,<span class="type">HTable</span>,<span class="type">Put</span>,<span class="type">Get</span>,<span class="type">Scan</span>,<span class="type">Result</span>,<span class="type">ResultScanner</span>&#125;</div><div class="line"><span class="keyword">import</span> org.apache.hadoop.hbase.util.<span class="type">Bytes</span></div><div class="line"><span class="keyword">import</span> org.apache.hadoop.hbase.io.<span class="type">ImmutableBytesWritable</span></div><div class="line"><span class="keyword">import</span> org.apache.hadoop.hbase.mapreduce.&#123;<span class="type">TableInputFormat</span>&#125;</div><div class="line"><span class="keyword">import</span> org.apache.hadoop.hbase.mapred.&#123;<span class="type">TableOutputFormat</span>&#125;</div><div class="line"><span class="keyword">import</span> org.apache.hadoop.fs.<span class="type">Path</span></div><div class="line"><span class="keyword">import</span> org.apache.hadoop.mapred.&#123;<span class="type">JobConf</span>&#125;</div><div class="line"><span class="keyword">import</span> scala.util.matching.<span class="type">Regex</span></div><div class="line"><span class="class"><span class="keyword">object</span> <span class="title">SparkHbase</span> </span>&#123;</div><div class="line">  <span class="keyword">private</span> <span class="keyword">val</span> titleRegex = <span class="keyword">new</span> <span class="type">Regex</span>(<span class="string">""</span><span class="string">"&lt;title&gt;([^&lt;]+)&lt;/title&gt;"</span><span class="string">""</span>, <span class="string">"title"</span>)</div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">saveTitle</span></span>(result: <span class="type">Result</span>) = &#123;</div><div class="line">    <span class="keyword">val</span> key = <span class="type">Bytes</span>.toString(result.getRow)</div><div class="line">    <span class="keyword">val</span> title = parseTitle(<span class="type">Bytes</span>.toString(result.getValue(<span class="type">Bytes</span>.toBytes(<span class="string">"data"</span>), <span class="type">Bytes</span>.toBytes(<span class="string">"content"</span>))))</div><div class="line">    println(<span class="string">"rowkey["</span>+key+<span class="string">"] title["</span>+title+<span class="string">"]"</span>)</div><div class="line">    <span class="keyword">val</span> p = <span class="keyword">new</span> <span class="type">Put</span>(<span class="type">Bytes</span>.toBytes(key))</div><div class="line">    p.addColumn(<span class="type">Bytes</span>.toBytes(<span class="string">"meta"</span>), <span class="type">Bytes</span>.toBytes(<span class="string">"title"</span>), <span class="type">Bytes</span>.toBytes(title))</div><div class="line">    (<span class="keyword">new</span> <span class="type">ImmutableBytesWritable</span>, p)</div><div class="line">  &#125;</div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">parseTitle</span></span>(page: <span class="type">String</span>) = titleRegex.findFirstMatchIn(page).get.group(<span class="string">"title"</span>)</div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">main</span></span>(args: <span class="type">Array</span>[<span class="type">String</span>]) &#123;</div><div class="line">    <span class="keyword">val</span> sconf = <span class="keyword">new</span> <span class="type">SparkConf</span>().setAppName(<span class="string">"HBase With Spark"</span>)</div><div class="line">    <span class="keyword">val</span> sc = <span class="keyword">new</span> <span class="type">SparkContext</span>(sconf)</div><div class="line">    <span class="keyword">val</span> hconf = <span class="type">HBaseConfiguration</span>.create()</div><div class="line">    hconf.set(<span class="string">"hbase.zookeeper.property.clientPort"</span>, <span class="string">"2181"</span>)</div><div class="line">    hconf.set(<span class="string">"hbase.zookeeper.quorum"</span>, <span class="string">"datanode1,datanode2,datanode0"</span>)</div><div class="line">    hconf.set(<span class="type">TableInputFormat</span>.<span class="type">INPUT_TABLE</span>, <span class="string">"pagedb"</span>)</div><div class="line">    <span class="keyword">val</span> jobConf = <span class="keyword">new</span> <span class="type">JobConf</span>(hconf, <span class="keyword">this</span>.getClass)</div><div class="line">    jobConf.setOutputFormat(classOf[<span class="type">TableOutputFormat</span>])</div><div class="line">    jobConf.set(<span class="type">TableOutputFormat</span>.<span class="type">OUTPUT_TABLE</span>, <span class="string">"pagedb"</span>)</div><div class="line">    <span class="keyword">val</span> dbRDD = sc.newAPIHadoopRDD(hconf, classOf[<span class="type">TableInputFormat</span>],</div><div class="line">      classOf[<span class="type">ImmutableBytesWritable</span>],</div><div class="line">      classOf[<span class="type">Result</span>])</div><div class="line">    <span class="keyword">val</span> count = dbRDD.count()</div><div class="line">    println(<span class="string">"pagedb count: "</span> + count)</div><div class="line">    dbRDD.cache()</div><div class="line">    <span class="comment">//处理网页</span></div><div class="line">    <span class="keyword">val</span> save = dbRDD.map &#123;</div><div class="line">      <span class="keyword">case</span> (_, result) =&gt; saveTitle(result)</div><div class="line">    &#125;</div><div class="line">    save.saveAsHadoopDataset(jobConf)</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这里主程序解析网页直接用正则了，因为主要是试验一下在Spark里读写HBase，所以用正则意思意思，正常还是要用xpath。提交任务:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[odin@DannyGreen tmp]$ sudo -u spark spark-submit --class &quot;com.odinliu.test.SparkHbase&quot; /tmp/spark-with-hbase_2.10-1.0.jar</div></pre></td></tr></table></figure></p>
+<h2 id="那些踩过的坑"><a href="#那些踩过的坑" class="headerlink" title="那些踩过的坑"></a>那些踩过的坑</h2><h3 id="spark用户提交无法读取用户目录"><a href="#spark用户提交无法读取用户目录" class="headerlink" title="spark用户提交无法读取用户目录"></a>spark用户提交无法读取用户目录</h3><p>这个比较诡异，有的机器有，有的没有，但是在我写码的机器就不行，只能把包拷贝到/tmp/下，并到那个目录下面执行spark-submit。</p>
+<h3 id="缺少org-apache-htrace"><a href="#缺少org-apache-htrace" class="headerlink" title="缺少org.apache.htrace"></a>缺少org.apache.htrace</h3><blockquote>
+<p>ERROR TableInputFormat: java.io.IOException: java.lang.reflect.InvocationTargetException<br>Caused by: java.lang.NoClassDefFoundError: org/apache/htrace/Trace<br>Caused by: java.lang.ClassNotFoundException: org.apache.htrace.Trace</p>
+</blockquote>
+<p>CDH的Spark的classpath中引入的是<code>/opt/cloudera/parcels/CDH/jars/htrace-core-3.0.4.jar</code>，而这个版本的时候，htrace还是<code>org.htrace</code>，而3.1.0的时候已经贡献给Apache了，改叫<code>org.apache.htrace</code>了。虽然Spark里也有3.1.0的jar包，但是并没有引入，我没找到Cloudera Manager在哪里配这个，只能手动修改作业提交机器的<code>/etc/alternatives/spark-conf/classpath.txt</code>，在最后添上<code>/opt/cloudera/parcels/CDH-5.4.8-1.cdh5.4.8.p0.4/jars/htrace-core-3.1.0-incubating.jar</code>即可。虽然说spark-submit可以通过<code>--jars</code>指定提交哪些jar包，但是我试了一下，不能用，而且把3.1.0的jar包assemble到我的任务jar里也不行，就只能用这个土办法了，不好的地方就是重新deploy client configuration后可能需要再修改一下。</p>
+<h3 id="Scala版本和集群不对"><a href="#Scala版本和集群不对" class="headerlink" title="Scala版本和集群不对"></a>Scala版本和集群不对</h3><blockquote>
+<p>Exception in thread “main” java.lang.NoSuchMethodError: scala.Predef$.$conforms()Lscala/Predef$$less$colon$less;</p>
+</blockquote>
+<p>一开始我用系统的Scala 2.11版本做编译，但是提交到集群上会报这个错，原来是CDH的Scala版本是2.10，所以会出问题，把build.sbt的Scala版本改一下就行了。</p>
+<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p>总的来说，在Spark上操作HBase还是挺方便的，但是网上很多文章的API版本都比较旧，在新版本集群里程序根本跑不了。而且JVM的classpath简直是蛋疼，各种依赖版本不对，虽然这东西和linux的<code>LD_LIBRARY_PATH</code>是一个东西，但是感觉完全不是那么回事啊，能编译过的，各种运行时异常，都是因为JVM上加载的类和编译的不是一个。另外CDH虽然安装挺方便的，但是很多东西不知道在哪改，但反正“又不是不能用”。</p>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><ul>
+<li><a href="http://spark.apache.org/docs/latest/quick-start.html" target="_blank" rel="external">Spark Quick Start</a></li>
+<li><a href="https://hbase.apache.org/book.html" target="_blank" rel="external">Apache HBase Reference Guide</a></li>
+<li><a href="http://0b4af6cdc2f0c5998459-c0245c5c937c5dedcca3f1764ecc9b2f.r43.cf2.rackcdn.com/9353-login1210_khurana.pdf" target="_blank" rel="external">Introduction to HBase Schema Design</a></li>
+<li><a href="http://wuchong.me/blog/2015/04/06/spark-on-hbase-new-api/" target="_blank" rel="external">Spark 下操作 HBase（1.0.0 新 API）</a></li>
+<li><a href="http://www.qt4.net/spark-load-hbase/" target="_blank" rel="external">spark读取hbase内容及在集群环境下的配置</a></li>
+<li><a href="http://www.zhihu.com/question/34099679" target="_blank" rel="external">scala代码能够在spark-shell运行，但是不能通过spark-submit提交运行，why？</a></li>
+<li><a href="http://hadoop.apache.org/docs/r2.6.0/api/index.html" target="_blank" rel="external">Apache Hadoop Main 2.6.0 API</a></li>
+<li><a href="https://hbase.apache.org/apidocs/index.html" target="_blank" rel="external">Apache HBase 2.0.0-SNAPSHOT API</a></li>
+<li><a href="http://spark.apache.org/docs/latest/api/scala/index.html" target="_blank" rel="external">Apache Spark Apidoc</a></li>
+<li><a href="http://www.scala-sbt.org/0.13/tutorial/zh-cn/index.html" target="_blank" rel="external">sbt 入门</a></li>
+</ul>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/技术杂谈/">技术杂谈</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Scala/">Scala</a><a href="/tags/Go/">Go</a><a href="/tags/hadoop/">hadoop</a><a href="/tags/hadoop流水账/">hadoop流水账</a><a href="/tags/HBase/">HBase</a><a href="/tags/分布式存储/">分布式存储</a><a href="/tags/Spark/">Spark</a><a href="/tags/SBT/">SBT</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://odinliu.com/2015/11/20/hadoop流水账之HBase-Spark和在Spark上操作HBase/" data-title="hadoop流水账之HBase,Spark和在Spark上操作HBase | Odin的自我修养" data-tsina="1873795663" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/12/04/Java-Scala杂记之一/" title="Java/Scala杂记之一">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Java/Scala杂记之一</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/11/13/Golang学习笔记——高级特性/"  title="Golang学习笔记——高级特性">
+ <strong>下一篇：</strong><br/> 
+ <span>Golang学习笔记——高级特性
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2015/11/20/hadoop流水账之HBase-Spark和在Spark上操作HBase/" data-title="hadoop流水账之HBase,Spark和在Spark上操作HBase" data-url="https://odinliu.com/2015/11/20/hadoop流水账之HBase-Spark和在Spark上操作HBase/"></div>
+</section>
+
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Overview"><span class="toc-number">1.</span> <span class="toc-text">Overview</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#背景设计"><span class="toc-number">2.</span> <span class="toc-text">背景设计</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#集群搭建"><span class="toc-number">3.</span> <span class="toc-text">集群搭建</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#HBase建库"><span class="toc-number">4.</span> <span class="toc-text">HBase建库</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#网页入库"><span class="toc-number">5.</span> <span class="toc-text">网页入库</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#SBT"><span class="toc-number">6.</span> <span class="toc-text">SBT</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#HBase基本操作"><span class="toc-number">7.</span> <span class="toc-text">HBase基本操作</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#build-sbt"><span class="toc-number">7.1.</span> <span class="toc-text">build.sbt</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#主程序"><span class="toc-number">7.2.</span> <span class="toc-text">主程序</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Spark基本操作"><span class="toc-number">8.</span> <span class="toc-text">Spark基本操作</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#build-sbt-1"><span class="toc-number">8.1.</span> <span class="toc-text">build.sbt</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#主程序-1"><span class="toc-number">8.2.</span> <span class="toc-text">主程序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#那些踩过的坑"><span class="toc-number">8.3.</span> <span class="toc-text">那些踩过的坑</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#spark用户提交无法读取用户目录"><span class="toc-number">8.3.1.</span> <span class="toc-text">spark用户提交无法读取用户目录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#缺少org-apache-htrace"><span class="toc-number">8.3.2.</span> <span class="toc-text">缺少org.apache.htrace</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Scala版本和集群不对"><span class="toc-number">8.3.3.</span> <span class="toc-text">Scala版本和集群不对</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#后记"><span class="toc-number">9.</span> <span class="toc-text">后记</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Reference"><span class="toc-number">10.</span> <span class="toc-text">Reference</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/产品乱弹/" title="产品乱弹">产品乱弹<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/垃圾箱/" title="垃圾箱">垃圾箱<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/学习笔记/" title="学习笔记">学习笔记<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/技术杂谈/" title="技术杂谈">技术杂谈<sup>20</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/谈股论金/" title="谈股论金">谈股论金<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/旧文搬迁/" title="旧文搬迁">旧文搬迁<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/虚拟化/" title="虚拟化">虚拟化<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/系统运维/" title="系统运维">系统运维<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Scala/" title="Scala">Scala<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hadoop/" title="hadoop">hadoop<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/HBase/" title="HBase">HBase<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/spring-boot/" title="spring-boot">spring-boot<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/实习总结/" title="实习总结">实习总结<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/golang/" title="golang">golang<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/语法/" title="语法">语法<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/推荐系统/" title="推荐系统">推荐系统<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/学习笔记/" title="学习笔记">学习笔记<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Phoenix/" title="Phoenix">Phoenix<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hadoop流水账/" title="hadoop流水账">hadoop流水账<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/双路工作站/" title="双路工作站">双路工作站<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spark/" title="Spark">Spark<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  
+<div class="commentslist">
+  <p class="asidetitle">文章评论</p>
+  <ul class="ds-recent-comments" data-num-items="5" data-show-avatars="0" data-show-time="1" data-show-admin="1" data-excerpt-length="32" data-show-title="1"></ul>
+</div>
+<!--多说js加载开始，一个页面只需要加载一次 -->
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"odinliu"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!--多说js加载结束，一个页面只需要加载一次 -->
+
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            <a href="http://jimliu.net" target="_blank" title="Again, Jim Liu&#39;s Blog">Jim Liu&#39;s Blog</a>
+          </li>
+        
+          <li>
+            <a href="http://chi66.taobao.com/" target="_blank" title="女流的零食店,赶紧买买买">全宇宙最最最好的零食店</a>
+          </li>
+        
+    </ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello, I&#39;m Odin Liu. <br/>
+			A Deveoper.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/odinushuaia" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/odinliu" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/odinliu" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/odinliu88" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/odinliu" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		
+		
+		<a href="https://plus.google.com/103006785183830050000?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
+		
+		<a href="/about" target="_blank" title="Odin">Odin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"odinliu"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?1b6bf7f43e970a9ed29fcb526f3f36f7";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

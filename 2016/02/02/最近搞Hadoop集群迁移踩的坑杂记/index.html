@@ -1,0 +1,661 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>最近搞Hadoop集群迁移踩的坑杂记 | Odin的自我修养</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Odin">
+    
+
+    
+    <meta name="description" content="Overview最近一段时间都在搞集群迁移。最早公司的hadoop数据集群实在阿里云上的，机器不多，大概4台的样子，据说每个月要花7000多。从成本的角度，公司采购了4台2手服务器(E5-2420 v2 * 2+96G内存)在办公室自己搭数据集群。虽然说机房条件艰苦，没空调就算了，还有暖气呢，但是机器还是挺不错的，比阿里云32G的的机器强多了，4台大概2万，还不够阿里云烧3个月的，理论上只要能用3">
+<meta property="og:type" content="article">
+<meta property="og:title" content="最近搞Hadoop集群迁移踩的坑杂记">
+<meta property="og:url" content="https://odinliu.com/2016/02/02/最近搞Hadoop集群迁移踩的坑杂记/index.html">
+<meta property="og:site_name" content="Odin的自我修养">
+<meta property="og:description" content="Overview最近一段时间都在搞集群迁移。最早公司的hadoop数据集群实在阿里云上的，机器不多，大概4台的样子，据说每个月要花7000多。从成本的角度，公司采购了4台2手服务器(E5-2420 v2 * 2+96G内存)在办公室自己搭数据集群。虽然说机房条件艰苦，没空调就算了，还有暖气呢，但是机器还是挺不错的，比阿里云32G的的机器强多了，4台大概2万，还不够阿里云烧3个月的，理论上只要能用3">
+<meta property="og:image" content="http://7xi8sr.com1.z0.glb.clouddn.com/network.png">
+<meta property="og:updated_time" content="2016-12-31T04:38:37.662Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="最近搞Hadoop集群迁移踩的坑杂记">
+<meta name="twitter:description" content="Overview最近一段时间都在搞集群迁移。最早公司的hadoop数据集群实在阿里云上的，机器不多，大概4台的样子，据说每个月要花7000多。从成本的角度，公司采购了4台2手服务器(E5-2420 v2 * 2+96G内存)在办公室自己搭数据集群。虽然说机房条件艰苦，没空调就算了，还有暖气呢，但是机器还是挺不错的，比阿里云32G的的机器强多了，4台大概2万，还不够阿里云烧3个月的，理论上只要能用3">
+<meta name="twitter:image" content="http://7xi8sr.com1.z0.glb.clouddn.com/network.png">
+<meta name="twitter:creator" content="@odinliu">
+<link rel="publisher" href="103006785183830050000">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Odin的自我修养" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Odin的自我修养" title="Odin的自我修养"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Odin的自我修养">Odin的自我修养</a></h1>
+				<h2 class="blog-motto">Wanna Be The Man, Gotta Have A Plan</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/">技术杂谈</a></li>
+					
+						<li><a href="/categories/%E4%BA%A7%E5%93%81%E4%B9%B1%E5%BC%B9/">产品乱弹</a></li>
+					
+						<li><a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a></li>
+					
+						<li><a href="/categories/%E8%B0%88%E8%82%A1%E8%AE%BA%E9%87%91/">谈股论金</a></li>
+					
+						<li><a href="/categories/%E5%9E%83%E5%9C%BE%E7%AE%B1/">垃圾箱</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:odinliu.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/02/02/最近搞Hadoop集群迁移踩的坑杂记/" title="最近搞Hadoop集群迁移踩的坑杂记" itemprop="url">最近搞Hadoop集群迁移踩的坑杂记</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/103006785183830050000?rel=author" title="Odin" target="_blank" itemprop="author">Odin</a>
+		
+  <p class="article-time">
+    <time datetime="2016-02-02T07:33:47.000Z" itemprop="datePublished"> 发表于 2016-02-02</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Overview"><span class="toc-number">1.</span> <span class="toc-text">Overview</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#迁移相关"><span class="toc-number">2.</span> <span class="toc-text">迁移相关</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Hive导入-导出"><span class="toc-number">2.1.</span> <span class="toc-text">Hive导入/导出</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HBase-Phoenix-导入-导出"><span class="toc-number">2.2.</span> <span class="toc-text">HBase(Phoenix)导入/导出</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CDH安装Apache-Phoenix"><span class="toc-number">2.3.</span> <span class="toc-text">CDH安装Apache Phoenix</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hive添加额外的Jar包"><span class="toc-number">2.4.</span> <span class="toc-text">Hive添加额外的Jar包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Spark直接引入额外Jar包-Phoenix集成"><span class="toc-number">2.5.</span> <span class="toc-text">Spark直接引入额外Jar包(Phoenix集成)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#修改sqoop的job信息"><span class="toc-number">2.6.</span> <span class="toc-text">修改sqoop的job信息</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#踩过的坑"><span class="toc-number">3.</span> <span class="toc-text">踩过的坑</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#phoenix-spark不支持Spark-1-5"><span class="toc-number">3.1.</span> <span class="toc-text">phoenix-spark不支持Spark 1.5</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hue用sqlite性能问题"><span class="toc-number">3.2.</span> <span class="toc-text">Hue用sqlite性能问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CDH5-5中Spark-Hive对于-t分隔符的兼容性问题"><span class="toc-number">3.3.</span> <span class="toc-text">CDH5.5中Spark-Hive对于\t分隔符的兼容性问题</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Conclusion"><span class="toc-number">4.</span> <span class="toc-text">Conclusion</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Reference"><span class="toc-number">5.</span> <span class="toc-text">Reference</span></a></li></ol>
+		
+		</div>
+		
+		<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>最近一段时间都在搞集群迁移。最早公司的hadoop数据集群实在阿里云上的，机器不多，大概4台的样子，据说每个月要花7000多。从成本的角度，公司采购了4台2手服务器(E5-2420 v2 * 2+96G内存)在办公室自己搭数据集群。虽然说机房条件艰苦，没空调就算了，还有暖气呢，但是机器还是挺不错的，比阿里云32G的的机器强多了，4台大概2万，还不够阿里云烧3个月的，理论上只要能用3个月就已经很划算了。</p>
+<p><img src="http://7xi8sr.com1.z0.glb.clouddn.com/network.png" alt="网络拓扑图"></p>
+<p>硬件分配方面，因为磁盘不大，外加后续还有一些其他用途，所以有三台机器直接用的物理机，一台拿出来用esxi做虚拟机。用阿里云很蛋疼的是，要想通过内网访问还得走vpn，而且vpn不太稳定，也就1m左右的速度，和阿里云宣称的上传无限速差多了。而且还有一个蛋疼的问题是，从阿里云的机器访问办公网，由于没有那么多公网ip，所以只能在办公网搭一套vpn，那边需要访问的服务通过vpn接入进来。</p>
+<p>之前公司的hadoop是用的<a href="http://ambari.apache.org/" title="Apache Ambari" target="_blank" rel="external">ambari</a>搭的，<a href="http://www.cloudera.com/" title="cloudera" target="_blank" rel="external">cloudera</a>的CDH和ambari的HDP都用过一阵子，个人感觉上HDP没有CDH稳定，而且CDH的管理程序易用性也好于HDP。而且cloudera的市场占有率也好于ambari，参考CentOS之于Red Hat，这种商业公司的开源社区产品在稳定性上应该是好于纯社区版的，尽管ambari后面也有<a href="http://www.hortonworks.com/" title="Hortonworks" target="_blank" rel="external">Hortonworks</a>这家公司支撑，但是还是更倾向于用CDH。</p>
+<p>既然连全家桶的都变了，自然每一个服务的版本也不可能完全对应兼容，话说回来，哪怕相同全家桶的不同版本，也无法保证兼容不是。</p>
+<h1 id="迁移相关"><a href="#迁移相关" class="headerlink" title="迁移相关"></a>迁移相关</h1><h2 id="Hive导入-导出"><a href="#Hive导入-导出" class="headerlink" title="Hive导入/导出"></a>Hive导入/导出</h2><p>Hive作为一个“数据库”，竟然没有一个逻辑备份工具，我也是醉了。虽然没看过Hive架构、源码，不过从最近的迁移工作中感觉Hive基本文件是存在HDFS上的，而HiveMetaStore(MySQL/PostgreSQL)存储一些元信息，而SQL查询就是编译成MapReduce在HDFS进行查询，所以Hive相对来说比较慢。基本上Hive在HDFS就是采用一定序列化方式的文本文件而已。尽管Hive wiki上有一篇关于怎么<a href="https://cwiki.apache.org/confluence/display/Hive/LanguageManual+ImportExport" title="LanguageManual ImportExport" target="_blank" rel="external">导入/导出</a>的方法的介绍，但是一点不好用，而且其实没那么麻烦。刚也说了，其实Hive基本数据就是存在HDFS上的，都是存在类似/somepath/hive/warehouse/dbname.db/tablename下的，而schema是存在MetaStore的，如果两边是相同的配置方式，其实只要把warehouse全部distcp到目标集群对应目录下，再把MetaStore给dump还原回去就好了。不过因为这次迁移是从HDP(用的MySQL)迁移到CDH(用的PostgreSQL)，所以并没有直接还原MetaStore，而且用<code>show create table &lt;table_name&gt;;</code>打印出创建Schema的语句，然后在新的目标集群创建新表，然后再通过类似命令<code>load data inpath &#39;/tmp/credit_apply/dt=2016-01-21&#39; into table credit_apply partition (dt=&#39;2016-01-21&#39;);</code>直接导入就好。这里写了一个Perl脚本来生成导入语句：</p>
+<p>这个脚本用来导入本地文件系统数据文件，HDFS上也是类似的，只要稍微改下，去掉inpath前的local。提供的输入是文件完整路径列表，里面需要包含<code>dbname.db/tablename</code>这类信息。<br><figure class="highlight perl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!/usr/bin/env perl</span></div><div class="line"></div><div class="line"><span class="keyword">use</span> strict;</div><div class="line"><span class="keyword">use</span> warnings;</div><div class="line"></div><div class="line"><span class="keyword">my</span> %filter = ();</div><div class="line"></div><div class="line"><span class="comment"># ./xiaomai_report.db/zhuanti_site/dt=2015-12-27/000000_0</span></div><div class="line"><span class="comment"># load data inpath '/tmp/credit_apply/dt=2016-01-12' into table credit_apply partition (dt='2016-01-12');</span></div><div class="line"><span class="keyword">while</span> (<span class="keyword">defined</span> (<span class="keyword">my</span> $line = &lt;STDIN&gt;)) &#123;</div><div class="line">    <span class="keyword">chomp</span> $line;</div><div class="line">    <span class="keyword">if</span> ($line =~ <span class="regexp">m/\/([^\/]+)\.db\/([^\/]+)\/(\w\w)=(\d&#123;4&#125;-*\d\d-*\d\d)\/(?:([^=]+)=([^\/]+)\/)*/</span>) &#123;</div><div class="line">        <span class="keyword">my</span> $key = <span class="string">"$1\t$2\t$3\t$4"</span>;</div><div class="line">        <span class="keyword">if</span> (<span class="keyword">defined</span> $5 <span class="keyword">and</span> <span class="keyword">defined</span> $6) &#123;</div><div class="line">            $key = <span class="string">"$key\t$5\t$6"</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">unless</span> (<span class="keyword">exists</span> $filter&#123;$key&#125;) &#123;</div><div class="line">            <span class="keyword">if</span> (<span class="keyword">defined</span> $5 <span class="keyword">and</span> <span class="keyword">defined</span> $6 <span class="keyword">and</span> $5 <span class="keyword">ne</span> <span class="string">''</span>) &#123;</div><div class="line">                <span class="keyword">print</span> STDOUT <span class="string">"load data local inpath '/var/lib/hive/data/$1.db/$2/$3=$4/$5=$6' OVERWRITE into table $1.$2 "</span>;</div><div class="line">                <span class="keyword">print</span> STDOUT <span class="string">"partition($3='$4',$5='$6');\n"</span>;</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                <span class="keyword">print</span> STDOUT <span class="string">"load data local inpath '/var/lib/hive/data/$1.db/$2/$3=$4' OVERWRITE into table $1.$2 "</span>;</div><div class="line">                <span class="keyword">print</span> STDOUT <span class="string">"partition($3='$4');\n"</span>;</div><div class="line">            &#125;</div><div class="line">            $filter&#123;$key&#125;++;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="HBase-Phoenix-导入-导出"><a href="#HBase-Phoenix-导入-导出" class="headerlink" title="HBase(Phoenix)导入/导出"></a>HBase(Phoenix)导入/导出</h2><p>相较于Hive的傻大粗的迁移方式，HBase就人性化多了，提供了各种小工具方便<a href="https://hbase.apache.org/book.html#_export" title="Export is a utility that will dump the contents of table to HDFS in a sequence file" target="_blank" rel="external">导入/导出</a>。</p>
+<blockquote>
+<p>$ bin/hbase org.apache.hadoop.hbase.mapreduce.Export <tablename> <outputdir> [<versions> [<starttime> [<endtime>]]]</endtime></starttime></versions></outputdir></tablename></p>
+</blockquote>
+<p>可以看看手册，不仅仅有导入导出工具，还有一些诸如RowCount的小工具(虽然RowCount并没有输出结果……)，不过坑的是导出好像不能导出表结构，还得自己手动创建，也是蛋疼，好在HBase其实只是知道CF就行了。最坑的是Phoenix，它是有schema的，但是Phoenix坑爹的是它没有命令查看怎么创建的schema，你说你这不是坑爹么……</p>
+<h2 id="CDH安装Apache-Phoenix"><a href="#CDH安装Apache-Phoenix" class="headerlink" title="CDH安装Apache Phoenix"></a><a href="http://blog.cloudera.com/blog/2015/05/apache-phoenix-joins-cloudera-labs/" title="Apache Phoenix Joins Cloudera Labs" target="_blank" rel="external">CDH安装Apache Phoenix</a></h2><p>值得注意的是，不像HDP，CDH全家桶里并不包含Phoenix，你得单点。好在<a href="http://www.cloudera.com/developers/cloudera-labs.html" title="Cloudera Labs" target="_blank" rel="external">Cloudera Labs</a>提供了发行版以便尽可能简单的安装使用。那篇文件里介绍的比较详细，怕Cloudera挂了，所以这里留个备胎:</p>
+<ol>
+<li>在<a href="http://archive.cloudera.com/cloudera-labs/phoenix/" title="phoenix" target="_blank" rel="external">parcels</a>里面添加对应的分支，5.4之前的5.x对应1.1版本，而5.5是对应1.2版本，因为HBase/Spark版本和Phoenix有很大关系，所以还是要找对应的版本，不过好在即使添加错了，安装时也会告诉你错了，就是浪费时间罢了。。。。</li>
+<li>在ClouderaManager里安装</li>
+<li><p>在HBase的Configuration里修改<code>hbase-site.xml</code>，添加：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">name</span>&gt;</span>hbase.regionserver.wal.codec<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">value</span>&gt;</span>org.apache.hadoop.hbase.regionserver.wal.IndexedWALEditCodec<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>之后重启HBase就可以支持Phoenix了，其实就是添加Phoenix的jar包。</p>
+</li>
+</ol>
+<p>另外，虽然Phoenix吹的挺牛逼，但是对于复杂查询，速度还是特别慢，默认的timeout是1分钟，很多查询远远不够，可以在<code>hbase-site.xml</code>里添加配置：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!-- 很多文章说是改这个，而且HDP的配置也是加的这个，但是我简单看了一下Phoenix的源码，这个值默认是10分钟，下面keepAlive是1分钟，所以应该调大下面的值，两个都调也可以</span></div><div class="line">&lt;property&gt;</div><div class="line">  &lt;name&gt;phoenix.query.timeoutMs&lt;/name&gt;</div><div class="line">  &lt;value&gt;180000&lt;/value&gt;</div><div class="line">&lt;/property&gt;</div><div class="line">--&gt;</div><div class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">name</span>&gt;</span>phoenix.query.keepAliveMs<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">value</span>&gt;</span>180000<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<h2 id="Hive添加额外的Jar包"><a href="#Hive添加额外的Jar包" class="headerlink" title="Hive添加额外的Jar包"></a>Hive添加额外的Jar包</h2><p>公司之前的Hive用了<a href="https://github.com/rcongiu/Hive-JSON-Serde" title="Hive-JSON-Serde" target="_blank" rel="external">Hive-JSON-Serde</a>用于让Hive支持JSON，他们用的时候一般要在脚本前面加上<code>add jar /path/to/jar</code>，但是这样多蛋疼，让Hive启动时带着多方便。实际上Hive提供了一个环境变量<code>HIVE_AUX_JARS_PATH</code>用来引用额外的jar包，而CM的Hive配置里有Hive Auxiliary JARs Directory这一项，在相关机器上创建一个目录，加到这个环境变量里即可。</p>
+<h2 id="Spark直接引入额外Jar包-Phoenix集成"><a href="#Spark直接引入额外Jar包-Phoenix集成" class="headerlink" title="Spark直接引入额外Jar包(Phoenix集成)"></a>Spark直接引入额外Jar包(Phoenix集成)</h2><p>因为公司用了Phoenix，而Spark默认是不加在相关Driver的，但是每次启动spark-shell/spark-submit时都要带上<code>--jars</code>参数又有点蛋疼，所以还是在CM的Spark配置里找到spark-env.sh的配置，加上：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SPARK_DIST_CLASSPATH=&quot;$SPARK_DIST_CLASSPATH:/opt/cloudera/parcels/CLABS_PHOENIX/lib/phoenix/lib/*&quot;</div></pre></td></tr></table></figure></p>
+<h2 id="修改sqoop的job信息"><a href="#修改sqoop的job信息" class="headerlink" title="修改sqoop的job信息"></a>修改sqoop的job信息</h2><p>公司定时导数据用的sqoop，这是一个RDBMS/Hive之间互导数据的工具，据说sqoop2已经是一个服务了，但是我们用的还是sqoop1代，看起来像是一个普通工具，修改它的任务信息其实也挺简单的，直接修改<code>~/.sqoop/metastore.db.script</code>就行，看起来它是一个sql脚本，但是却是每次运行sqoop都重新执行一遍，大概用的一个mem数据库，不知道可不可以配置成持久化数据库，反正现在弱爆了，本来java启动就慢，每次启动再重构一遍数据表也是蛋疼。不过好处就是改了方便，直接改文本文件就行。</p>
+<h1 id="踩过的坑"><a href="#踩过的坑" class="headerlink" title="踩过的坑"></a>踩过的坑</h1><p>终于进入了喜大普奔的踩坑环节，因为hadoop全家桶的各个服务实际上都是独立的社区，所以难免会有兼容性问题，所以这里就变成了各种坑让人踩。像CDH/HDP这种全家桶一般都是有过相关兼容性测试的，所以其实还好，如果自己from scratch搭建一套，估计问题更多，下面说几个比较典型的吧。</p>
+<h2 id="phoenix-spark不支持Spark-1-5"><a href="#phoenix-spark不支持Spark-1-5" class="headerlink" title="phoenix-spark不支持Spark 1.5"></a>phoenix-spark不支持Spark 1.5</h2><p>CDH5.5直接把Spark升级到了1.5版本，而5.4版还是在用1.3，真是挺激进。而phoenix-spark的依赖是Spark1.4，1.5有一些内部结构的变动导致了一些不兼容的问题，详见番号<a href="https://issues.apache.org/jira/browse/PHOENIX-2287" title="Spark Plugin Exception - java.lang.ClassCastException: org.apache.spark.sql.catalyst.expressions.GenericMutableRow cannot be cast to org.apache.spark.sql.Row" target="_blank" rel="external">PHOENIX-2287</a>，这是我实实在在遇到的一个问题，就是用spark-sql读取phoenix产生的问题，抛出异常：</p>
+<blockquote>
+<p>java.lang.ClassCastException: org.apache.spark.sql.catalyst.expressions.GenericMutableRow cannot be cast to org.apache.spark.sql.Row</p>
+</blockquote>
+<p>找到了官方JIRA上对应的CASE(<a href="https://issues.apache.org/jira/browse/PHOENIX-2287" title="Spark Plugin Exception - java.lang.ClassCastException: org.apache.spark.sql.catalyst.expressions.GenericMutableRow cannot be cast to org.apache.spark.sql.Row" target="_blank" rel="external">PHOENIX-2287</a>)，看到在phoenix-spark的4.6.0和4.5.3版本已经修复了这个问题，遗憾的是Cloudera Labs提供的phoenix版本正好是4.5.2，并且他们还没提供更新的版本。这个问题直接影响到我们的一个服务的功能了，所以只能自己动手修复。好在开源大法好，cloudera早就将他们的Phoenix的发行版的源码开源了，可以去它的<a href="https://github.com/cloudera-labs/phoenix" title="cloudera-labs/phoenix" target="_blank" rel="external">github</a>上clone出来。并且自己下载2287上面的patch，用<code>git apply</code>功能打上补丁自己build一个phoenix-spark的jar出来替换掉原先的。需要注意的是，一定要checkout出自己CDH对应的的分支，5.5对应是1.2。替换了jar包之后重启HBase就可以了。</p>
+<h2 id="Hue用sqlite性能问题"><a href="#Hue用sqlite性能问题" class="headerlink" title="Hue用sqlite性能问题"></a>Hue用sqlite性能问题</h2><p>刚装好CDH时Hue总遇到提示<a href="https://community.cloudera.com/t5/Web-UI-Hue-Beeswax/DatabaseError-database-is-locked/td-p/14070" title="DatabaseError: database is locked" target="_blank" rel="external">DatabaseError: database is locked</a>，而且执行查询经常看不见结果，需要过一会点Recent Queries才能看结果。搜了一下原来是Hue默认用的是sqlite，但是在多用户场景下会存在性能问题，大概是个大锁，所以需要修改一下让它使用pgsql或者mysql。直接在CM的Hue的配置里搜索database相关的就能改了，还是挺方便的。可以参考<a href="http://www.cloudera.com/documentation/enterprise/latest/topics/cdh_ig_hue_database.html" title="Using an External Database for Hue Using the Command Line" target="_blank" rel="external">reference3</a>。</p>
+<h2 id="CDH5-5中Spark-Hive对于-t分隔符的兼容性问题"><a href="#CDH5-5中Spark-Hive对于-t分隔符的兼容性问题" class="headerlink" title="CDH5.5中Spark-Hive对于\t分隔符的兼容性问题"></a>CDH5.5中Spark-Hive对于\t分隔符的兼容性问题</h2><p>这是遇到的一个比较诡异的问题，google上不知道怎么表达好，也没找到类似的按理，但确实是一个可以复现的问题。之前公司有一些Hive表是用<code>\t</code>分隔字段的，但是导入到新的集群之后，在spark中查询结果，返回的字段全是NULL，将分隔符改成<code>\u0001</code>之后或者没有partition的表就没有任何问题，猜想是一个spark1.5和hive1.1之间兼容性的问题吧，反正spark1.5的兼容性已经见怪不怪了。这个问题我在<a href="http://apache-spark-user-list.1001560.n3.nabble.com/SparkSQL-return-all-null-fields-when-FIELDS-TERMINATED-BY-t-and-have-a-partition-tt26056.html" title="SparkSQL return all null fields when FIELDS TERMINATED BY &#39;\t&#39; and have a partition." target="_blank" rel="external">spark-user邮件组</a>里面咨询过，不知道是我表达不好，还是怎样，反正没人鸟我，这个邮件组点击率和回复率都挺低，社区不给力啊。</p>
+<p>下面说一下复现方法：</p>
+<ul>
+<li><p>在hive中创建<code>\t</code>分隔的表，并导入<code>\t</code>分隔的文本文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">$ cat /var/lib/hive/dataimport/mendian/target/test.txt</div><div class="line">1       test</div><div class="line">2       xxxx</div><div class="line"># in hive</div><div class="line">hive&gt; create table `tmp.test_d`(`id` int, `name` string) PARTITIONED BY (`dt` string) ROW FORMAT DELIMITED FIELDS TERMINATED BY &apos;\t&apos;; </div><div class="line">hive&gt; load data local inpath &apos;/var/lib/hive/dataimport/mendian/target/test.txt&apos; OVERWRITE into table tmp.test_d partition(dt=&apos;2016-01-25&apos;); </div><div class="line">hive&gt; select * from tmp.test_d; </div><div class="line">1       test    2016-01-25 </div><div class="line">2       xxxx    2016-01-25</div></pre></td></tr></table></figure>
+</li>
+<li><p>在spark中查看数据，可以看到除partition字段以外，值全是null</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">scala&gt; sqlContext.sql(&quot;select * from tmp.test_d&quot;).collect </div><div class="line">res9: Array[org.apache.spark.sql.Row] = Array([null,null,2016-01-25], [null,null,2016-01-25])</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>目前解决办法只能是不用<code>\t</code>，全部用<code>\u0001</code>。</p>
+<h1 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h1><p>这次迁移数据还是踩了一些坑的，主要是兼容性方面的问题，所以做集群迁移时，保险期间还是选用相同版本的比较靠谱。总体来说，这两周还是收获颇丰的，至少快速的熟悉了一把hadoop相关的一些工具，对hive/hbase/sqoop/phoenix/spark有了一些新的了解。之前在百度时，基本只用过hadoop streaming，那时候还没有这么多上层工具。现在虽然说对这些工具只是一个了解熟悉，远没有精通，但至少丰富了自己的技术栈，以后遇到问题时可以选择的解决办法又多了一些。</p>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><ol>
+<li><a href="http://blog.cloudera.com/blog/2015/05/apache-phoenix-joins-cloudera-labs/" target="_blank" rel="external">Apache Phoenix Joins Cloudera Labs</a></li>
+<li><a href="https://community.cloudera.com/t5/Web-UI-Hue-Beeswax/DatabaseError-database-is-locked/td-p/14070" target="_blank" rel="external">DatabaseError: database is locked</a></li>
+<li><a href="http://www.cloudera.com/documentation/enterprise/latest/topics/cdh_ig_hue_database.html" target="_blank" rel="external">Using an External Database for Hue Using the Command Line</a></li>
+</ol>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/技术杂谈/">技术杂谈</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Phoenix/">Phoenix</a><a href="/tags/HBase/">HBase</a><a href="/tags/Spark/">Spark</a><a href="/tags/Hadoop/">Hadoop</a><a href="/tags/CDH/">CDH</a><a href="/tags/HDP/">HDP</a><a href="/tags/ambari/">ambari</a><a href="/tags/cloudera/">cloudera</a><a href="/tags/Hive/">Hive</a><a href="/tags/Hue/">Hue</a><a href="/tags/集群迁移/">集群迁移</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://odinliu.com/2016/02/02/最近搞Hadoop集群迁移踩的坑杂记/" data-title="最近搞Hadoop集群迁移踩的坑杂记 | Odin的自我修养" data-tsina="1873795663" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2016/03/28/Java-Scala杂记之三/" title="Java/Scala杂记之三">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Java/Scala杂记之三</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2016/01/04/hadoop流水账之HBase网页库设计/"  title="hadoop流水账之HBase网页库设计">
+ <strong>下一篇：</strong><br/> 
+ <span>hadoop流水账之HBase网页库设计
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2016/02/02/最近搞Hadoop集群迁移踩的坑杂记/" data-title="最近搞Hadoop集群迁移踩的坑杂记" data-url="https://odinliu.com/2016/02/02/最近搞Hadoop集群迁移踩的坑杂记/"></div>
+</section>
+
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Overview"><span class="toc-number">1.</span> <span class="toc-text">Overview</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#迁移相关"><span class="toc-number">2.</span> <span class="toc-text">迁移相关</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Hive导入-导出"><span class="toc-number">2.1.</span> <span class="toc-text">Hive导入/导出</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HBase-Phoenix-导入-导出"><span class="toc-number">2.2.</span> <span class="toc-text">HBase(Phoenix)导入/导出</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CDH安装Apache-Phoenix"><span class="toc-number">2.3.</span> <span class="toc-text">CDH安装Apache Phoenix</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hive添加额外的Jar包"><span class="toc-number">2.4.</span> <span class="toc-text">Hive添加额外的Jar包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Spark直接引入额外Jar包-Phoenix集成"><span class="toc-number">2.5.</span> <span class="toc-text">Spark直接引入额外Jar包(Phoenix集成)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#修改sqoop的job信息"><span class="toc-number">2.6.</span> <span class="toc-text">修改sqoop的job信息</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#踩过的坑"><span class="toc-number">3.</span> <span class="toc-text">踩过的坑</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#phoenix-spark不支持Spark-1-5"><span class="toc-number">3.1.</span> <span class="toc-text">phoenix-spark不支持Spark 1.5</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hue用sqlite性能问题"><span class="toc-number">3.2.</span> <span class="toc-text">Hue用sqlite性能问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CDH5-5中Spark-Hive对于-t分隔符的兼容性问题"><span class="toc-number">3.3.</span> <span class="toc-text">CDH5.5中Spark-Hive对于\t分隔符的兼容性问题</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Conclusion"><span class="toc-number">4.</span> <span class="toc-text">Conclusion</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Reference"><span class="toc-number">5.</span> <span class="toc-text">Reference</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/产品乱弹/" title="产品乱弹">产品乱弹<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/垃圾箱/" title="垃圾箱">垃圾箱<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/学习笔记/" title="学习笔记">学习笔记<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/技术杂谈/" title="技术杂谈">技术杂谈<sup>20</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/谈股论金/" title="谈股论金">谈股论金<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/旧文搬迁/" title="旧文搬迁">旧文搬迁<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/虚拟化/" title="虚拟化">虚拟化<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/系统运维/" title="系统运维">系统运维<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Scala/" title="Scala">Scala<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hadoop/" title="hadoop">hadoop<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/HBase/" title="HBase">HBase<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/spring-boot/" title="spring-boot">spring-boot<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/实习总结/" title="实习总结">实习总结<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/golang/" title="golang">golang<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/语法/" title="语法">语法<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/推荐系统/" title="推荐系统">推荐系统<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/学习笔记/" title="学习笔记">学习笔记<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Phoenix/" title="Phoenix">Phoenix<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hadoop流水账/" title="hadoop流水账">hadoop流水账<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/双路工作站/" title="双路工作站">双路工作站<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spark/" title="Spark">Spark<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  
+<div class="commentslist">
+  <p class="asidetitle">文章评论</p>
+  <ul class="ds-recent-comments" data-num-items="5" data-show-avatars="0" data-show-time="1" data-show-admin="1" data-excerpt-length="32" data-show-title="1"></ul>
+</div>
+<!--多说js加载开始，一个页面只需要加载一次 -->
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"odinliu"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!--多说js加载结束，一个页面只需要加载一次 -->
+
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            <a href="http://jimliu.net" target="_blank" title="Again, Jim Liu&#39;s Blog">Jim Liu&#39;s Blog</a>
+          </li>
+        
+          <li>
+            <a href="http://chi66.taobao.com/" target="_blank" title="女流的零食店,赶紧买买买">全宇宙最最最好的零食店</a>
+          </li>
+        
+    </ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello, I&#39;m Odin Liu. <br/>
+			A Deveoper.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/odinushuaia" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/odinliu" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/odinliu" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/odinliu88" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/odinliu" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		
+		
+		<a href="https://plus.google.com/103006785183830050000?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
+		
+		<a href="/about" target="_blank" title="Odin">Odin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"odinliu"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?1b6bf7f43e970a9ed29fcb526f3f36f7";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

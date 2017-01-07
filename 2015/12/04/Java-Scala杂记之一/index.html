@@ -1,0 +1,645 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Java/Scala杂记之一 | Odin的自我修养</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Odin">
+    
+
+    
+    <meta name="description" content="Overview最近工作中都是些Java/Scala的项目，这块的技术栈(Technology stack，咱也赶个时髦)都停留在5年前了，现在需要补充一下，平时遇到的东西就随手摘抄一下好了。
+ScalaOptionScala里的Option非常好用，主要就是取代了Java里的null，避免了漫天飞的NullPointerException。结合case match简直是神器啊，例如12345va">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java/Scala杂记之一">
+<meta property="og:url" content="https://odinliu.com/2015/12/04/Java-Scala杂记之一/index.html">
+<meta property="og:site_name" content="Odin的自我修养">
+<meta property="og:description" content="Overview最近工作中都是些Java/Scala的项目，这块的技术栈(Technology stack，咱也赶个时髦)都停留在5年前了，现在需要补充一下，平时遇到的东西就随手摘抄一下好了。
+ScalaOptionScala里的Option非常好用，主要就是取代了Java里的null，避免了漫天飞的NullPointerException。结合case match简直是神器啊，例如12345va">
+<meta property="og:updated_time" content="2016-12-31T04:38:37.654Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java/Scala杂记之一">
+<meta name="twitter:description" content="Overview最近工作中都是些Java/Scala的项目，这块的技术栈(Technology stack，咱也赶个时髦)都停留在5年前了，现在需要补充一下，平时遇到的东西就随手摘抄一下好了。
+ScalaOptionScala里的Option非常好用，主要就是取代了Java里的null，避免了漫天飞的NullPointerException。结合case match简直是神器啊，例如12345va">
+<meta name="twitter:creator" content="@odinliu">
+<link rel="publisher" href="103006785183830050000">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Odin的自我修养" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Odin的自我修养" title="Odin的自我修养"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Odin的自我修养">Odin的自我修养</a></h1>
+				<h2 class="blog-motto">Wanna Be The Man, Gotta Have A Plan</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/">技术杂谈</a></li>
+					
+						<li><a href="/categories/%E4%BA%A7%E5%93%81%E4%B9%B1%E5%BC%B9/">产品乱弹</a></li>
+					
+						<li><a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a></li>
+					
+						<li><a href="/categories/%E8%B0%88%E8%82%A1%E8%AE%BA%E9%87%91/">谈股论金</a></li>
+					
+						<li><a href="/categories/%E5%9E%83%E5%9C%BE%E7%AE%B1/">垃圾箱</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:odinliu.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/12/04/Java-Scala杂记之一/" title="Java/Scala杂记之一" itemprop="url">Java/Scala杂记之一</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/103006785183830050000?rel=author" title="Odin" target="_blank" itemprop="author">Odin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-12-03T16:24:14.000Z" itemprop="datePublished"> 发表于 2015-12-04</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Overview"><span class="toc-number">1.</span> <span class="toc-text">Overview</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Scala"><span class="toc-number">2.</span> <span class="toc-text">Scala</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Option"><span class="toc-number">2.1.</span> <span class="toc-text">Option</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#scala-util-Try"><span class="toc-number">2.2.</span> <span class="toc-text">scala.util.Try</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#字符串插值"><span class="toc-number">2.3.</span> <span class="toc-text">字符串插值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#fold-foldLeft-foldRight"><span class="toc-number">2.4.</span> <span class="toc-text">fold/foldLeft/foldRight</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#工具类"><span class="toc-number">3.</span> <span class="toc-text">工具类</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#jsoup"><span class="toc-number">3.1.</span> <span class="toc-text">jsoup</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Scala-Java混合项目的pom文件写法"><span class="toc-number">3.2.</span> <span class="toc-text">Scala/Java混合项目的pom文件写法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Jetty"><span class="toc-number">3.3.</span> <span class="toc-text">Jetty</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#play-json"><span class="toc-number">3.4.</span> <span class="toc-text">play-json</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#下集预告"><span class="toc-number">4.</span> <span class="toc-text">下集预告</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Reference"><span class="toc-number">5.</span> <span class="toc-text">Reference</span></a></li></ol>
+		
+		</div>
+		
+		<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>最近工作中都是些Java/Scala的项目，这块的技术栈(Technology stack，咱也赶个时髦)都停留在5年前了，现在需要补充一下，平时遇到的东西就随手摘抄一下好了。</p>
+<h1 id="Scala"><a href="#Scala" class="headerlink" title="Scala"></a>Scala</h1><h2 id="Option"><a href="#Option" class="headerlink" title="Option"></a><a href="http://www.scala-lang.org/files/archive/api/2.10.4/index.html#scala.Option" title="scala.Option" target="_blank" rel="external">Option</a></h2><p>Scala里的Option非常好用，主要就是取代了Java里的null，避免了漫天飞的NullPointerException。结合case match简直是神器啊，例如<br><figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">val</span> test: <span class="type">Option</span>[<span class="type">String</span>] = <span class="comment">//someting</span></div><div class="line">test <span class="keyword">match</span> &#123;</div><div class="line">  <span class="type">Some</span>(v) =&gt; doSometingWithString(v)</div><div class="line">  <span class="type">None</span> =&gt; doSometingWithNull()</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="scala-util-Try"><a href="#scala-util-Try" class="headerlink" title="scala.util.Try"></a><a href="http://www.scala-lang.org/files/archive/api/2.10.4/index.html#scala.util.Try" title="scala.util.Try" target="_blank" rel="external">scala.util.Try</a></h2><p>Try是一个让人兴奋的“语法糖”，用于取代Java非常讨厌的try-catch，结合模式匹配，比繁琐的try-catch方便多了，话不多说，直接上例子：<br><figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">updateKey</span></span>(): <span class="type">Unit</span> = &#123;</div><div class="line">  rowkey = <span class="type">Try</span>(<span class="type">MessageDigest</span>.getInstance(<span class="string">"MD5"</span>)) <span class="keyword">match</span> &#123;</div><div class="line">    <span class="keyword">case</span> <span class="type">Success</span>(digger) =&gt; <span class="type">Express</span>.byte2hex(digger.digest(filecont.getBytes))</div><div class="line">    <span class="keyword">case</span> _ =&gt; <span class="string">f"<span class="subst">$&#123;MurmurHash3.stringHash(filecont)&#125;</span>%08x"</span></div><div class="line">  &#125;   </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这里是一个如果调用Java的md5库失败，就用Scala的MurmurHash3的用法，使用了Try和case match直接让代码变得非常简洁。</p>
+<h2 id="字符串插值"><a href="#字符串插值" class="headerlink" title="字符串插值"></a>字符串插值</h2><p>字符串插值一直是我觉得perl用起来非常爽的东西，现在Scala也支持了，而且还有一种带格式的，简直爽到不要不要的。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">val</span> lll = <span class="type">List</span>(<span class="string">"s1"</span>, <span class="string">"s2"</span>)</div><div class="line"><span class="keyword">val</span> a = <span class="number">0xabcd</span></div><div class="line"><span class="keyword">val</span> str1 = <span class="string">s"I am <span class="subst">$&#123;lll(0)&#125;</span>"</span></div><div class="line"><span class="keyword">val</span> str2 = <span class="string">s"number is <span class="subst">$a</span>"</span></div><div class="line"><span class="keyword">val</span> str3 = <span class="string">f"number in hex is <span class="subst">$a</span>%x"</span></div></pre></td></tr></table></figure>
+<h2 id="fold-foldLeft-foldRight"><a href="#fold-foldLeft-foldRight" class="headerlink" title="fold/foldLeft/foldRight"></a>fold/foldLeft/foldRight</h2><p>其实fp范式对于集合操作foreach/map/filter/fold/flatMap等等都非常好用，这也是为什么个别函数式语言连循环都没有的原因，写起来逼格特别高，这里给一个byte数组生成十六进制字符串表示的例子，Java版和Scala版都上：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">byte2hex</span></span>(arr: <span class="type">Array</span>[<span class="type">Byte</span>]): <span class="type">String</span> = &#123;</div><div class="line">  arr.map(n =&gt; <span class="string">f"<span class="subst">$&#123;n &amp; 0xff&#125;</span>%02x"</span>).foldLeft(<span class="keyword">new</span> <span class="type">StringBuilder</span>())((sb, str) =&gt; sb.append(str)).toString()</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">byte2hex</span><span class="params">(<span class="keyword">byte</span>[] arr)</span> </span>&#123;</div><div class="line">    StringBuilder sb = <span class="keyword">new</span> StringBuilder();</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">byte</span> b: arr) &#123;</div><div class="line">        sb.append(Integer.toHexString(b&amp;<span class="number">0xff</span>));</div><div class="line">    &#125;   </div><div class="line">    <span class="keyword">return</span> sb.toString();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>虽然说Java版的看上去可读性更好一点，更符合思维习惯，但是Scala版本J的简直帅爆了有没有，各种one-line code。</p>
+<h1 id="工具类"><a href="#工具类" class="headerlink" title="工具类"></a>工具类</h1><h2 id="jsoup"><a href="#jsoup" class="headerlink" title="jsoup"></a><a href="http://jsoup.org/" title="jsoup: Java HTML Parser" target="_blank" rel="external">jsoup</a></h2><p>第一个工具是jsoup，虽然说对于Scala，xml是一等公民，但是坑爹是html它不是标准的xml，只能说近似xml，所以直接用Scala的xml库会遇到各种问题，这里只能用第三方库了。jsoup是Java写的库，用起来还是挺方便的，功能也很强大，所以这里就果断学习了一下。</p>
+<p>我用jsoup的场景是从网页里抽取我要的信息，基本就是一个xpath的用法。基本上jsoup提供了两种api，一种是js的dom的方式，另外一种是xpath的selector式的，我主要是用第二种，下面上个我从<a href="http://www.smzdm.com/" title="什么值得买" target="_blank" rel="external">什么值得买</a>的发现频道目录页抽取正文页url的代码片段，一般来说网页抽取是以xpath+正则过滤的方式，所以这里也是这样做的。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="keyword">val</span> hrefRegex = <span class="keyword">new</span> <span class="type">Regex</span>(<span class="string">""</span><span class="string">"/p/\d+/$"</span><span class="string">""</span>)</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">parseUrl</span></span>(result: <span class="type">Result</span>) = &#123;</div><div class="line">  <span class="keyword">val</span> doc = <span class="type">Jsoup</span>.parse(<span class="type">Bytes</span>.toString(result.getValue(<span class="type">Bytes</span>.toBytes(<span class="string">"dt"</span>), <span class="type">Bytes</span>.toBytes(<span class="string">"cont"</span>))), <span class="string">"http://faxian.smzdm.com/"</span>)</div><div class="line">  <span class="comment">//select在scala这种fp范式语言里用着简直爽</span></div><div class="line">  doc.select(<span class="string">"a"</span>).map(n =&gt; n.attr(<span class="string">"href"</span>)).filter(urlFilter)</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">urlFilter</span></span>(url: <span class="type">String</span>) = &#123;</div><div class="line">  hrefRegex.findFirstIn(url) <span class="keyword">match</span> &#123;</div><div class="line">    <span class="keyword">case</span> <span class="type">Some</span>(hrefRegex()) =&gt; <span class="literal">true</span></div><div class="line">    <span class="keyword">case</span> _ =&gt; <span class="literal">false</span></div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="Scala-Java混合项目的pom文件写法"><a href="#Scala-Java混合项目的pom文件写法" class="headerlink" title="Scala/Java混合项目的pom文件写法"></a>Scala/Java混合项目的pom文件写法</h2><p>公司里大多数人是用Java的，但是我不是特别喜欢写Java，毕竟好马不吃回头草，最近一个项目和同事合作的一个项目，必须用Java，但很多业务逻辑(比如SQL查询生成)用Scala写非常方便，Java和Scala之间互相调用比较方便，所以就准备用Scala写一部分业务逻辑，对外接口全是Java的。Java项目用Maven比较多，而Scala都是用sbt，在写pom.xml时，混合项目踩了不少坑，不太清楚sbt有没有这个问题。</p>
+<p>Scala官网给的范例都太老了，根本没法用，google了半天才在github上找到了个<a href="https://github.com/xflin/mixed-scala-java-in-maven" title="mixed-scala-java-in-maven" target="_blank" rel="external">样板配置</a>，把<code>&lt;build&gt;&lt;/build&gt;</code>之间的插件配上去就可以了。这里不贴配置了，大家去那个github项目clone吧。</p>
+<h2 id="Jetty"><a href="#Jetty" class="headerlink" title="Jetty"></a><a href="http://www.eclipse.org/jetty/" title="Jetty" target="_blank" rel="external">Jetty</a></h2><p>Jetty是eclipse的一个项目，是一个web server，这里主要用Jetty的http client，基于netty/nio之类的做的，性能应该比较靠谱，所以需要用到http client的地方就准备用Jetty了。</p>
+<p>虽然说Scala/Java本身也提供一些http api，但是毕竟缺少封装，用起来还是麻烦。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">val</span> jettyClient = <span class="keyword">new</span> <span class="type">HttpClient</span></div><div class="line">jettyClient.setFollowRedirects(<span class="literal">true</span>)</div><div class="line">jettyClient.start()</div><div class="line"><span class="keyword">val</span> res = jettyClient.newRequest(<span class="string">"http://somehost/phoenix/dml"</span>).param(<span class="string">"query"</span>, <span class="string">"SELECT DATA_VALUE,DATA_STATUS FROM DATA_STATUS WHERE DATA_KEY='test';"</span>).send().getContentAsString()</div><div class="line">jettyClient.stop()</div></pre></td></tr></table></figure>
+<p>pom配置：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.eclipse.jetty<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jetty-client<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">version</span>&gt;</span>9.3.6.v20151106<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<h2 id="play-json"><a href="#play-json" class="headerlink" title="play-json"></a>play-json</h2><p>Scala的JSON库倒是也挺多的，各种web框架几乎都有自己的库，什么play-json, lift-json的。说起play，这是当年看走眼的一个框架，最早play1.0的年代是一个Java框架，印象中和servlet/jsp那套很不一样，当时觉得理念接收着别扭，所以没怎么研究过，还是搞起了熟悉的servlet/jsp，没想到这货现在发展的这么好，typesafe的一员啊。</p>
+<p>当初玩Scala选择的web框架是lift，如今貌似势头没有play2好，不过之前在stackoverflow上看到一篇比较贴，lift的作者David Pollak还亲自回了，对play2不屑一顾，感兴趣的同学<a href="http://stackoverflow.com/questions/12424617/comparing-lift-with-play2" title="Comparing Lift with Play2" target="_blank" rel="external">可以看看</a>。</p>
+<p>话说回来，play-json用着还比较简单，语法上有点像scala的xml库的<code>\</code>，所以用着比较熟悉，直接上一段代码吧。</p>
+<p>pom配置，比较蛋疼的是play-json依赖的jackson和其他包冲突，所以这里展示一下exclusion的用法。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.typesafe.play<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>play-json_2.10<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.4.4<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">exclusions</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">exclusion</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.scala-lang<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>scala-library<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">exclusion</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">exclusion</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.fasterxml.jackson.core<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jackson-annotations<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">exclusion</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">exclusions</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.fasterxml.jackson.core<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jackson-annotations<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.5.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//返回是&#123;"result":[["t1","1"]]&#125;类似这样</span></div><div class="line"><span class="keyword">val</span> json = (<span class="type">Json</span>.parse(ret) \ <span class="string">"result"</span>)(<span class="number">0</span>)(<span class="number">1</span>).asOpt[<span class="type">String</span>] <span class="keyword">match</span> &#123;</div><div class="line">  <span class="keyword">case</span> <span class="type">Some</span>(v) =&gt; v.toInt</div><div class="line">  <span class="keyword">case</span> <span class="type">None</span> =&gt; <span class="number">-1</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h1 id="下集预告"><a href="#下集预告" class="headerlink" title="下集预告"></a>下集预告</h1><p>最近事情比较多，所以这篇只能简单记录下用到的一些东西吧。最近的项目是基于spray做的一个restful服务，下一篇可能会说spray, akka, slick什么的吧。</p>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><ul>
+<li><a href="http://jsoup.org/apidocs/" target="_blank" rel="external">jsoup: Java HTML parser that makes sense of real-world HTML soup.</a></li>
+<li><a href="http://jsoup.org/cookbook/introduction/parsing-a-document" target="_blank" rel="external">Parsing and traversing a Document</a></li>
+<li><a href="http://xflin.blogspot.com/2013/08/mixed-scala-and-java-in-maven-project.html" target="_blank" rel="external">Mixed Scala and Java in Maven Project</a></li>
+<li><a href="http://www.eclipse.org/jetty/documentation/current/http-client.html" target="_blank" rel="external">Chapter 27. HTTP Client</a></li>
+<li><a href="https://www.playframework.com/documentation/2.4.x/ScalaJson" target="_blank" rel="external">JSON basics</a></li>
+<li><a href="http://stackoverflow.com/questions/12424617/comparing-lift-with-play2" target="_blank" rel="external">Comparing Lift with Play2</a></li>
+</ul>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/学习笔记/">学习笔记</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/java/">java</a><a href="/tags/scala/">scala</a><a href="/tags/jsoup/">jsoup</a><a href="/tags/maven/">maven</a><a href="/tags/play-json/">play-json</a><a href="/tags/jetty/">jetty</a><a href="/tags/Option/">Option</a><a href="/tags/Try/">Try</a><a href="/tags/字符串插值/">字符串插值</a><a href="/tags/fold/">fold</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://odinliu.com/2015/12/04/Java-Scala杂记之一/" data-title="Java/Scala杂记之一 | Odin的自我修养" data-tsina="1873795663" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/12/07/小试ESXi做虚拟化/" title="小试ESXi做虚拟化">
+  <strong>上一篇：</strong><br/>
+  <span>
+  小试ESXi做虚拟化</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/11/20/hadoop流水账之HBase-Spark和在Spark上操作HBase/"  title="hadoop流水账之HBase,Spark和在Spark上操作HBase">
+ <strong>下一篇：</strong><br/> 
+ <span>hadoop流水账之HBase,Spark和在Spark上操作HBase
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2015/12/04/Java-Scala杂记之一/" data-title="Java/Scala杂记之一" data-url="https://odinliu.com/2015/12/04/Java-Scala杂记之一/"></div>
+</section>
+
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Overview"><span class="toc-number">1.</span> <span class="toc-text">Overview</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Scala"><span class="toc-number">2.</span> <span class="toc-text">Scala</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Option"><span class="toc-number">2.1.</span> <span class="toc-text">Option</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#scala-util-Try"><span class="toc-number">2.2.</span> <span class="toc-text">scala.util.Try</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#字符串插值"><span class="toc-number">2.3.</span> <span class="toc-text">字符串插值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#fold-foldLeft-foldRight"><span class="toc-number">2.4.</span> <span class="toc-text">fold/foldLeft/foldRight</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#工具类"><span class="toc-number">3.</span> <span class="toc-text">工具类</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#jsoup"><span class="toc-number">3.1.</span> <span class="toc-text">jsoup</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Scala-Java混合项目的pom文件写法"><span class="toc-number">3.2.</span> <span class="toc-text">Scala/Java混合项目的pom文件写法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Jetty"><span class="toc-number">3.3.</span> <span class="toc-text">Jetty</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#play-json"><span class="toc-number">3.4.</span> <span class="toc-text">play-json</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#下集预告"><span class="toc-number">4.</span> <span class="toc-text">下集预告</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Reference"><span class="toc-number">5.</span> <span class="toc-text">Reference</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/产品乱弹/" title="产品乱弹">产品乱弹<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/垃圾箱/" title="垃圾箱">垃圾箱<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/学习笔记/" title="学习笔记">学习笔记<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/技术杂谈/" title="技术杂谈">技术杂谈<sup>20</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/谈股论金/" title="谈股论金">谈股论金<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/旧文搬迁/" title="旧文搬迁">旧文搬迁<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/虚拟化/" title="虚拟化">虚拟化<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/系统运维/" title="系统运维">系统运维<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Scala/" title="Scala">Scala<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hadoop/" title="hadoop">hadoop<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/HBase/" title="HBase">HBase<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/spring-boot/" title="spring-boot">spring-boot<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/实习总结/" title="实习总结">实习总结<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/golang/" title="golang">golang<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/语法/" title="语法">语法<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/推荐系统/" title="推荐系统">推荐系统<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/学习笔记/" title="学习笔记">学习笔记<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Phoenix/" title="Phoenix">Phoenix<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hadoop流水账/" title="hadoop流水账">hadoop流水账<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/双路工作站/" title="双路工作站">双路工作站<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spark/" title="Spark">Spark<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  
+<div class="commentslist">
+  <p class="asidetitle">文章评论</p>
+  <ul class="ds-recent-comments" data-num-items="5" data-show-avatars="0" data-show-time="1" data-show-admin="1" data-excerpt-length="32" data-show-title="1"></ul>
+</div>
+<!--多说js加载开始，一个页面只需要加载一次 -->
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"odinliu"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!--多说js加载结束，一个页面只需要加载一次 -->
+
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            <a href="http://jimliu.net" target="_blank" title="Again, Jim Liu&#39;s Blog">Jim Liu&#39;s Blog</a>
+          </li>
+        
+          <li>
+            <a href="http://chi66.taobao.com/" target="_blank" title="女流的零食店,赶紧买买买">全宇宙最最最好的零食店</a>
+          </li>
+        
+    </ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello, I&#39;m Odin Liu. <br/>
+			A Deveoper.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/odinushuaia" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/odinliu" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/odinliu" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/odinliu88" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/odinliu" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		
+		
+		<a href="https://plus.google.com/103006785183830050000?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
+		
+		<a href="/about" target="_blank" title="Odin">Odin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"odinliu"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?1b6bf7f43e970a9ed29fcb526f3f36f7";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

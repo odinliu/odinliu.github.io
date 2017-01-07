@@ -1,0 +1,632 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>大型坑之naive-qie抓取系统设计 | Odin的自我修养</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Odin">
+    
+
+    
+    <meta name="description" content="Overview话说最近工作中有一些去别人网站抓数据的需求，一般就是写俩脚本搞定，一两个需求还好，多了挺麻烦的，而且网页就丢硬盘上，太多了的话速度也慢。话说做了5年搜索一直都没做过spider，只是有一些了解，所以想尝试着自己设计一套抓取系统，这套系统的实现不一定严谨，可能平时接触的一些开源库就直接拿来用了，也算是练手吧。
+这套系统命名为naive-qie，naive意为simple，怎么简单怎么">
+<meta property="og:type" content="article">
+<meta property="og:title" content="大型坑之naive-qie抓取系统设计">
+<meta property="og:url" content="https://odinliu.com/2015/11/09/大型坑之naive-qie抓取系统设计/index.html">
+<meta property="og:site_name" content="Odin的自我修养">
+<meta property="og:description" content="Overview话说最近工作中有一些去别人网站抓数据的需求，一般就是写俩脚本搞定，一两个需求还好，多了挺麻烦的，而且网页就丢硬盘上，太多了的话速度也慢。话说做了5年搜索一直都没做过spider，只是有一些了解，所以想尝试着自己设计一套抓取系统，这套系统的实现不一定严谨，可能平时接触的一些开源库就直接拿来用了，也算是练手吧。
+这套系统命名为naive-qie，naive意为simple，怎么简单怎么">
+<meta property="og:image" content="http://7xi8sr.com1.z0.glb.clouddn.com/naive-qie.png">
+<meta property="og:updated_time" content="2016-12-31T04:38:37.660Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="大型坑之naive-qie抓取系统设计">
+<meta name="twitter:description" content="Overview话说最近工作中有一些去别人网站抓数据的需求，一般就是写俩脚本搞定，一两个需求还好，多了挺麻烦的，而且网页就丢硬盘上，太多了的话速度也慢。话说做了5年搜索一直都没做过spider，只是有一些了解，所以想尝试着自己设计一套抓取系统，这套系统的实现不一定严谨，可能平时接触的一些开源库就直接拿来用了，也算是练手吧。
+这套系统命名为naive-qie，naive意为simple，怎么简单怎么">
+<meta name="twitter:image" content="http://7xi8sr.com1.z0.glb.clouddn.com/naive-qie.png">
+<meta name="twitter:creator" content="@odinliu">
+<link rel="publisher" href="103006785183830050000">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Odin的自我修养" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Odin的自我修养" title="Odin的自我修养"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Odin的自我修养">Odin的自我修养</a></h1>
+				<h2 class="blog-motto">Wanna Be The Man, Gotta Have A Plan</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/">技术杂谈</a></li>
+					
+						<li><a href="/categories/%E4%BA%A7%E5%93%81%E4%B9%B1%E5%BC%B9/">产品乱弹</a></li>
+					
+						<li><a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a></li>
+					
+						<li><a href="/categories/%E8%B0%88%E8%82%A1%E8%AE%BA%E9%87%91/">谈股论金</a></li>
+					
+						<li><a href="/categories/%E5%9E%83%E5%9C%BE%E7%AE%B1/">垃圾箱</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:odinliu.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/11/09/大型坑之naive-qie抓取系统设计/" title="大型坑之naive-qie抓取系统设计" itemprop="url">大型坑之naive-qie抓取系统设计</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/103006785183830050000?rel=author" title="Odin" target="_blank" itemprop="author">Odin</a>
+		
+  <p class="article-time">
+    <time datetime="2015-11-09T06:23:16.000Z" itemprop="datePublished"> 发表于 2015-11-09</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Overview"><span class="toc-number">1.</span> <span class="toc-text">Overview</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#数据环"><span class="toc-number">2.</span> <span class="toc-text">数据环</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#模块说明"><span class="toc-number">3.</span> <span class="toc-text">模块说明</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#naive-pagedb"><span class="toc-number">3.1.</span> <span class="toc-text">naive-pagedb</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#task-queue"><span class="toc-number">3.2.</span> <span class="toc-text">task-queue</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#naive-spider"><span class="toc-number">3.3.</span> <span class="toc-text">naive-spider</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#naive-crawlcenter"><span class="toc-number">3.4.</span> <span class="toc-text">naive-crawlcenter</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#实现"><span class="toc-number">4.</span> <span class="toc-text">实现</span></a></li></ol>
+		
+		</div>
+		
+		<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>话说最近工作中有一些去别人网站抓数据的需求，一般就是写俩脚本搞定，一两个需求还好，多了挺麻烦的，而且网页就丢硬盘上，太多了的话速度也慢。话说做了5年搜索一直都没做过spider，只是有一些了解，所以想尝试着自己设计一套抓取系统，这套系统的实现不一定严谨，可能平时接触的一些开源库就直接拿来用了，也算是练手吧。</p>
+<p>这套系统命名为naive-qie，naive意为simple，怎么简单怎么来，如果以后不坑，会出一系列naive-xxx的。窃，抓取无非就是到别人网站上偷数据嘛，但是互联网人的事情怎么能叫做偷呢，要叫“窃”，所以这套抓取系统就命名为naive-qie了。</p>
+<p>当然，除了日常工作外，还有各种事情，还要玩各种游戏，所以这个系列坑不坑无法保证，所以系列名为大型坑。</p>
+<p>大致想了一下，这套系统包含三个部分，网页库naive-pagedb，抓取端naive-spider还有任务中心naive-crawlcenter。大概有些想法的是前面两个，最重要的crawlcenter还没想好包括哪些职能，大体架构如下：<br><img src="http://7xi8sr.com1.z0.glb.clouddn.com/naive-qie.png" alt="naive-qie抓取系统"></p>
+<h1 id="数据环"><a href="#数据环" class="headerlink" title="数据环"></a>数据环</h1><p>qie的设计场景是垂直抓取，也就是定向抓取，不做网页大搜索的爬取只用，也是比较懒，省略了抓取后抽取回灌的步骤。一切任务从crawlcenter发起，crawlcenter提交任务(url等)到task-queue中，spider从task-queue总获取任务，抓取到网页，灌入pagedb。而crawlcenter根据配置定时从pagedb中seek出一批网页增量，解析内部的定向url，再提交都task-queue中，从而完成一个数据回路。</p>
+<p>对于垂直抓取来说，还有一个比较重要的问题，时效性问题。因为crawlcenter从设计上不接收spider直接发回网页数据，而是通过pagedb进行交互，因此这条通路并不具备时效性。这里给pagedb添加一个订阅功能，crawlcenter可以向pagedb发起订阅请求，订阅那些需要时效性关注的页面抓取状况，由pagedb实时push给crawlcenter。</p>
+<h1 id="模块说明"><a href="#模块说明" class="headerlink" title="模块说明"></a>模块说明</h1><h2 id="naive-pagedb"><a href="#naive-pagedb" class="headerlink" title="naive-pagedb"></a>naive-pagedb</h2><p>一个网页库，需要支撑以下业务需求：</p>
+<ol>
+<li>支持批量的查询、写入请求</li>
+<li>支持按特定pattern(或前缀)对key进行seek</li>
+<li>支持seek某一时间段的页面</li>
+<li>支持按特定pattern(或前缀)的key进行订阅</li>
+</ol>
+<p>因为网页库可能非常大，所以还需要考虑分布式的问题，这里就省略了，因为分布式存储需要设计的点太多了，重点在于可用性、安全性。后续实现可能也已单机版为主，即使涉及到分布式，也是简单的设计，不考虑高可用性问题。理论上可以用其他分布式数据服务代替。</p>
+<h2 id="task-queue"><a href="#task-queue" class="headerlink" title="task-queue"></a>task-queue</h2><p>一个任务消息队列，可以用redis等实现。可以按照site/domain进行分环，分成多条队列。</p>
+<h2 id="naive-spider"><a href="#naive-spider" class="headerlink" title="naive-spider"></a>naive-spider</h2><p>抓取客户端，从task-queue中获取若干任务，多线程进行抓取(分环后不会对同一站点同时抓取，避免封禁)。如果抓取成功，将网页存入到pagedb中。spider可以同时部署多套，提高抓取能力。</p>
+<h2 id="naive-crawlcenter"><a href="#naive-crawlcenter" class="headerlink" title="naive-crawlcenter"></a>naive-crawlcenter</h2><p>任务中心，负责提交任务、解析网页。这其实是整个qie系统的最核心部分，毕竟spider和pagedb的业务都很简单。这里crawlcenter包含哪些职能还没完全想清楚，怎么去做集成也没想好，等想明白了再说吧(深坑!)……</p>
+<h1 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h1><p>由于目前考察的工作语言比较多，所以这套系统很可能是异构的。目前比较确定的是pagedb，主要以c/c++为主进行开发，具体的模块后面会有单独的文章详细说明。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/技术杂谈/">技术杂谈</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/naive-pagedb/">naive-pagedb</a><a href="/tags/spider/">spider</a><a href="/tags/抓取系统/">抓取系统</a><a href="/tags/分布式/">分布式</a><a href="/tags/总体设计/">总体设计</a><a href="/tags/大型坑/">大型坑</a><a href="/tags/naive系列/">naive系列</a><a href="/tags/naive-spider/">naive-spider</a><a href="/tags/naive-crawlcenter/">naive-crawlcenter</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://odinliu.com/2015/11/09/大型坑之naive-qie抓取系统设计/" data-title="大型坑之naive-qie抓取系统设计 | Odin的自我修养" data-tsina="1873795663" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/11/11/在CentOS-6上安装部署KVM虚拟机/" title="在CentOS 6上安装部署KVM虚拟机">
+  <strong>上一篇：</strong><br/>
+  <span>
+  在CentOS 6上安装部署KVM虚拟机</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/11/02/吐槽一下Lucene的Field接口变化/"  title="吐槽一下Lucene的Field接口变化(更新再吐槽)">
+ <strong>下一篇：</strong><br/> 
+ <span>吐槽一下Lucene的Field接口变化(更新再吐槽)
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2015/11/09/大型坑之naive-qie抓取系统设计/" data-title="大型坑之naive-qie抓取系统设计" data-url="https://odinliu.com/2015/11/09/大型坑之naive-qie抓取系统设计/"></div>
+</section>
+
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Overview"><span class="toc-number">1.</span> <span class="toc-text">Overview</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#数据环"><span class="toc-number">2.</span> <span class="toc-text">数据环</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#模块说明"><span class="toc-number">3.</span> <span class="toc-text">模块说明</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#naive-pagedb"><span class="toc-number">3.1.</span> <span class="toc-text">naive-pagedb</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#task-queue"><span class="toc-number">3.2.</span> <span class="toc-text">task-queue</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#naive-spider"><span class="toc-number">3.3.</span> <span class="toc-text">naive-spider</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#naive-crawlcenter"><span class="toc-number">3.4.</span> <span class="toc-text">naive-crawlcenter</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#实现"><span class="toc-number">4.</span> <span class="toc-text">实现</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/产品乱弹/" title="产品乱弹">产品乱弹<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/垃圾箱/" title="垃圾箱">垃圾箱<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/学习笔记/" title="学习笔记">学习笔记<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/技术杂谈/" title="技术杂谈">技术杂谈<sup>20</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/谈股论金/" title="谈股论金">谈股论金<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/旧文搬迁/" title="旧文搬迁">旧文搬迁<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/虚拟化/" title="虚拟化">虚拟化<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/系统运维/" title="系统运维">系统运维<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Scala/" title="Scala">Scala<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hadoop/" title="hadoop">hadoop<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/HBase/" title="HBase">HBase<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/spring-boot/" title="spring-boot">spring-boot<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/实习总结/" title="实习总结">实习总结<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/golang/" title="golang">golang<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/语法/" title="语法">语法<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/推荐系统/" title="推荐系统">推荐系统<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/学习笔记/" title="学习笔记">学习笔记<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Phoenix/" title="Phoenix">Phoenix<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hadoop流水账/" title="hadoop流水账">hadoop流水账<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/双路工作站/" title="双路工作站">双路工作站<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spark/" title="Spark">Spark<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  
+<div class="commentslist">
+  <p class="asidetitle">文章评论</p>
+  <ul class="ds-recent-comments" data-num-items="5" data-show-avatars="0" data-show-time="1" data-show-admin="1" data-excerpt-length="32" data-show-title="1"></ul>
+</div>
+<!--多说js加载开始，一个页面只需要加载一次 -->
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"odinliu"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!--多说js加载结束，一个页面只需要加载一次 -->
+
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            <a href="http://jimliu.net" target="_blank" title="Again, Jim Liu&#39;s Blog">Jim Liu&#39;s Blog</a>
+          </li>
+        
+          <li>
+            <a href="http://chi66.taobao.com/" target="_blank" title="女流的零食店,赶紧买买买">全宇宙最最最好的零食店</a>
+          </li>
+        
+    </ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello, I&#39;m Odin Liu. <br/>
+			A Deveoper.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/odinushuaia" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/odinliu" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/odinliu" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/odinliu88" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/odinliu" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		
+		
+		<a href="https://plus.google.com/103006785183830050000?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
+		
+		<a href="/about" target="_blank" title="Odin">Odin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"odinliu"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?1b6bf7f43e970a9ed29fcb526f3f36f7";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

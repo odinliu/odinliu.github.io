@@ -1,0 +1,638 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Java/Scala杂记之三 | Odin的自我修养</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Odin">
+    
+
+    
+    <meta name="description" content="Overview话说前段时间在用spring-boot的时候，还想专门写一篇学习笔记，不过后来嫌麻烦就弃坑了，所以挪到这里简单谈一下好了。最近做了一个服务，最开始用spring-boot，写起来还算简单，但是感觉spring各种约定俗成太多了，如果要想用好需要看的东西太多了，尽管并不耽误做出来，但不求甚解心里还是不踏实。
+后来无聊看了一下twitter的finatra，发现比akka-http/s">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java/Scala杂记之三">
+<meta property="og:url" content="https://odinliu.com/2016/03/28/Java-Scala杂记之三/index.html">
+<meta property="og:site_name" content="Odin的自我修养">
+<meta property="og:description" content="Overview话说前段时间在用spring-boot的时候，还想专门写一篇学习笔记，不过后来嫌麻烦就弃坑了，所以挪到这里简单谈一下好了。最近做了一个服务，最开始用spring-boot，写起来还算简单，但是感觉spring各种约定俗成太多了，如果要想用好需要看的东西太多了，尽管并不耽误做出来，但不求甚解心里还是不踏实。
+后来无聊看了一下twitter的finatra，发现比akka-http/s">
+<meta property="og:updated_time" content="2016-12-31T04:38:37.655Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java/Scala杂记之三">
+<meta name="twitter:description" content="Overview话说前段时间在用spring-boot的时候，还想专门写一篇学习笔记，不过后来嫌麻烦就弃坑了，所以挪到这里简单谈一下好了。最近做了一个服务，最开始用spring-boot，写起来还算简单，但是感觉spring各种约定俗成太多了，如果要想用好需要看的东西太多了，尽管并不耽误做出来，但不求甚解心里还是不踏实。
+后来无聊看了一下twitter的finatra，发现比akka-http/s">
+<meta name="twitter:creator" content="@odinliu">
+<link rel="publisher" href="103006785183830050000">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Odin的自我修养" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Odin的自我修养" title="Odin的自我修养"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Odin的自我修养">Odin的自我修养</a></h1>
+				<h2 class="blog-motto">Wanna Be The Man, Gotta Have A Plan</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/">技术杂谈</a></li>
+					
+						<li><a href="/categories/%E4%BA%A7%E5%93%81%E4%B9%B1%E5%BC%B9/">产品乱弹</a></li>
+					
+						<li><a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a></li>
+					
+						<li><a href="/categories/%E8%B0%88%E8%82%A1%E8%AE%BA%E9%87%91/">谈股论金</a></li>
+					
+						<li><a href="/categories/%E5%9E%83%E5%9C%BE%E7%AE%B1/">垃圾箱</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:odinliu.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/28/Java-Scala杂记之三/" title="Java/Scala杂记之三" itemprop="url">Java/Scala杂记之三</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/103006785183830050000?rel=author" title="Odin" target="_blank" itemprop="author">Odin</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-28T09:50:04.000Z" itemprop="datePublished"> 发表于 2016-03-28</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Overview"><span class="toc-number">1.</span> <span class="toc-text">Overview</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#spring-boot"><span class="toc-number">2.</span> <span class="toc-text">spring-boot</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#整合spring-boot和dubbo"><span class="toc-number">2.1.</span> <span class="toc-text">整合spring-boot和dubbo</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#spring-boot中配置Hikari-CP"><span class="toc-number">2.2.</span> <span class="toc-text">spring-boot中配置Hikari-CP</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#sbt-assembly合并策略"><span class="toc-number">3.</span> <span class="toc-text">sbt-assembly合并策略</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#修改包名大法"><span class="toc-number">3.1.</span> <span class="toc-text">修改包名大法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#合并策略"><span class="toc-number">3.2.</span> <span class="toc-text">合并策略</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#finatra"><span class="toc-number">4.</span> <span class="toc-text">finatra</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#module"><span class="toc-number">4.1.</span> <span class="toc-text">module</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#slick"><span class="toc-number">5.</span> <span class="toc-text">slick</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#domain"><span class="toc-number">5.1.</span> <span class="toc-text">domain</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#entity"><span class="toc-number">5.2.</span> <span class="toc-text">entity</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#dao"><span class="toc-number">5.3.</span> <span class="toc-text">dao</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#future-amp-promise"><span class="toc-number">6.</span> <span class="toc-text">future&promise</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Conclusion"><span class="toc-number">7.</span> <span class="toc-text">Conclusion</span></a></li></ol>
+		
+		</div>
+		
+		<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>话说前段时间在用spring-boot的时候，还想专门写一篇学习笔记，不过后来嫌麻烦就弃坑了，所以挪到这里简单谈一下好了。最近做了一个服务，最开始用spring-boot，写起来还算简单，但是感觉spring各种约定俗成太多了，如果要想用好需要看的东西太多了，尽管并不耽误做出来，但不求甚解心里还是不踏实。</p>
+<p>后来无聊看了一下twitter的finatra，发现比akka-http/spray简单的多，也更符合常规restful框架的结构，于是用finatra重写了一遍。虽然finatra也有很多不尽如人意的地方，但总体感觉还算满意，写的代码多了不少，但是总体来说有那种一切掌握在手中的感觉。</p>
+<h1 id="spring-boot"><a href="#spring-boot" class="headerlink" title="spring-boot"></a>spring-boot</h1><p>搞Java那还是在5年前上大学的时候，那个时候spring印象中还是2.x，那个时候用spring还要写一大堆的xml配置，简直蛋疼无比。用Java做web开发也是各种蛋疼，还有各种框架，除了spring还有structs/hibernate/ibatis等等。因为团队都是做Java的，而且前段时间也接手了几个SpringMVC的模块，才知道Spring已经进入了4.x的时代了，而且&gt;也有了很大改变，更适合于现代互联网web开发了，也不用写什么xml了。所以准备找时间重新学习一下spring4，而且<a href="http://spring.io/" target="_blank" rel="external">spring.io</a>新推出了一个叫做spring-boot的“微框架”，更适合于做快速web开发。</p>
+<p>总的来说spring-boot还是不错的，可以在写很少的代码的情况下完成很多功能，也有一套自己的模板，比如spring-data-cassandra用来读写cassandra都非常方便。</p>
+<h2 id="整合spring-boot和dubbo"><a href="#整合spring-boot和dubbo" class="headerlink" title="整合spring-boot和dubbo"></a>整合spring-boot和dubbo</h2><p>之前的项目里用了dubbo，作为一个纯Java的RPC框架，dubbo用起来还是不错的，阿里开源的，侵入性也很小，基本上只要写spring的xml配置文件就好。不过dubbo已经很久没有更新过了，在整合到spring-boot中的时候，花了很多力气，主要也是因为自己对spring-boot的理解不到位。</p>
+<p>之前一直用<code>@SpringBootApplication</code>的，没有写xml，但是dubbo是以xml的方式配的，而如果单加一个bean来启动dubbo的context又会无法注入其他bean，所以这里还是提供一个xml，让spring-boot在启动时读取并初始化dubbo。用<code>@ImportResource({&quot;classpath:META-INF/spring/application-context.xml&quot;})</code>即可指定，而在该配置文件中引入dubbo的配置文件即可。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">import</span> <span class="attr">resource</span>=<span class="string">"classpath:dubbo-provider.xml"</span> /&gt;</span></div></pre></td></tr></table></figure>
+<h2 id="spring-boot中配置Hikari-CP"><a href="#spring-boot中配置Hikari-CP" class="headerlink" title="spring-boot中配置Hikari-CP"></a>spring-boot中配置Hikari-CP</h2><p>spring-boot中默认用的是数据库连接池是tomcat-cp，但是tomcat-cp的性能真是渣，既然有号称’the ultimate connection pool’之称的Hikari-CP为啥不用呢，替换也比较简单，在配置文件里指定Hikari-CP的datasourceClass，然后再写一个BeanConfig即可。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.odinliu.dao;</div><div class="line"><span class="keyword">import</span> com.zaxxer.hikari.HikariConfig;</div><div class="line"><span class="keyword">import</span> com.zaxxer.hikari.HikariDataSource;</div><div class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Value;</div><div class="line"><span class="keyword">import</span> org.springframework.context.annotation.Bean;</div><div class="line"><span class="keyword">import</span> org.springframework.context.annotation.ComponentScan;</div><div class="line"><span class="keyword">import</span> org.springframework.context.annotation.Configuration;</div><div class="line"><span class="keyword">import</span> javax.sql.DataSource;</div><div class="line"><span class="keyword">import</span> java.util.Properties;</div><div class="line"><span class="meta">@Configuration</span></div><div class="line"><span class="meta">@ComponentScan</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DataSourceConfig</span> </span>&#123;</div><div class="line">    <span class="meta">@Value</span>(<span class="string">"$&#123;spring.datasource.username&#125;"</span>)</div><div class="line">    <span class="keyword">private</span> String user;</div><div class="line">    <span class="meta">@Value</span>(<span class="string">"$&#123;spring.datasource.password&#125;"</span>)</div><div class="line">    <span class="keyword">private</span> String password;</div><div class="line">    <span class="meta">@Value</span>(<span class="string">"$&#123;spring.datasource.url&#125;"</span>)</div><div class="line">    <span class="keyword">private</span> String dataSourceUrl;</div><div class="line">    <span class="meta">@Value</span>(<span class="string">"$&#123;spring.datasource.dataSourceClassName&#125;"</span>)</div><div class="line">    <span class="keyword">private</span> String dataSourceClassName;</div><div class="line">    <span class="meta">@Value</span>(<span class="string">"$&#123;spring.datasource.poolName&#125;"</span>)</div><div class="line">    <span class="keyword">private</span> String poolName;</div><div class="line">    <span class="meta">@Value</span>(<span class="string">"$&#123;spring.datasource.connectionTimeout&#125;"</span>)</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> connectionTimeout;</div><div class="line">    <span class="meta">@Value</span>(<span class="string">"$&#123;spring.datasource.maxLifetime&#125;"</span>)</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> maxLifetime;</div><div class="line">    <span class="meta">@Value</span>(<span class="string">"$&#123;spring.datasource.maximumPoolSize&#125;"</span>)</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> maximumPoolSize;</div><div class="line">    <span class="meta">@Value</span>(<span class="string">"$&#123;spring.datasource.minimumIdle&#125;"</span>)</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> minimumIdle;</div><div class="line">    <span class="meta">@Value</span>(<span class="string">"$&#123;spring.datasource.idleTimeout&#125;"</span>)</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> idleTimeout;</div><div class="line">    <span class="meta">@Value</span>(<span class="string">"$&#123;spring.datasource.prepStmtCacheSize&#125;"</span>)</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> prepStmtCacheSize;</div><div class="line">    <span class="meta">@Value</span>(<span class="string">"$&#123;spring.datasource.prepStmtCacheSqlLimit&#125;"</span>)</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> prepStmtCacheSqlLimit;</div><div class="line">    <span class="meta">@Bean</span></div><div class="line">    <span class="function"><span class="keyword">public</span> DataSource <span class="title">primaryDataSource</span><span class="params">()</span> </span>&#123;</div><div class="line">        Properties dsProps = <span class="keyword">new</span> Properties();</div><div class="line">        dsProps.put(<span class="string">"url"</span>, dataSourceUrl);</div><div class="line">        dsProps.put(<span class="string">"user"</span>, user);</div><div class="line">        dsProps.put(<span class="string">"password"</span>, password);</div><div class="line">        dsProps.put(<span class="string">"prepStmtCacheSize"</span>, prepStmtCacheSize);</div><div class="line">        dsProps.put(<span class="string">"prepStmtCacheSqlLimit"</span>, prepStmtCacheSqlLimit);</div><div class="line">        dsProps.put(<span class="string">"cachePrepStmts"</span>, Boolean.TRUE);</div><div class="line">        dsProps.put(<span class="string">"useServerPrepStmts"</span>, Boolean.TRUE);</div><div class="line">        Properties configProps = <span class="keyword">new</span> Properties();</div><div class="line">        configProps.put(<span class="string">"dataSourceClassName"</span>, dataSourceClassName);</div><div class="line">        configProps.put(<span class="string">"poolName"</span>, poolName);</div><div class="line">        configProps.put(<span class="string">"maximumPoolSize"</span>, maximumPoolSize);</div><div class="line">        configProps.put(<span class="string">"minimumIdle"</span>, minimumIdle);</div><div class="line">        configProps.put(<span class="string">"minimumIdle"</span>, minimumIdle);</div><div class="line">        configProps.put(<span class="string">"connectionTimeout"</span>, connectionTimeout);</div><div class="line">        configProps.put(<span class="string">"idleTimeout"</span>, idleTimeout);</div><div class="line">        configProps.put(<span class="string">"dataSourceProperties"</span>, dsProps);</div><div class="line">        HikariConfig hc = <span class="keyword">new</span> HikariConfig(configProps);</div><div class="line">        HikariDataSource ds = <span class="keyword">new</span> HikariDataSource(hc);</div><div class="line">        <span class="keyword">return</span> ds;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h1 id="sbt-assembly合并策略"><a href="#sbt-assembly合并策略" class="headerlink" title="sbt-assembly合并策略"></a>sbt-assembly合并策略</h1><p>Java里面最蛋疼的问题莫过于依赖冲突，引入各种包的冲突还可以用exclude解决，但是在打’fat-jar’时遇到冲突简直蛋疼菊紧。不过还在sbt可以自己写合并策略，这里记录几个常用的策略吧。</p>
+<h2 id="修改包名大法"><a href="#修改包名大法" class="headerlink" title="修改包名大法"></a>修改包名大法</h2><p>之前在spark中访问cassandra时遇到过一个guava版本冲突的问题，CDH依赖的guava版本比较低，而cassandra需要调用新版本的接口，导致运行时异常，其实只要修改一下自己assembly的包名即可。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">assemblyShadeRules in assembly := <span class="type">Seq</span>(</div><div class="line">  <span class="type">ShadeRule</span>.rename(<span class="string">"com.google.**"</span> -&gt; <span class="string">"shadeio.@1"</span>).inAll</div><div class="line">)</div></pre></td></tr></table></figure>
+<h2 id="合并策略"><a href="#合并策略" class="headerlink" title="合并策略"></a>合并策略</h2><p>netty是很多Java/Scala第三方库都会以来的一个库，但是这个包会蛋疼的带一个<code>io.netty.versions.properties</code>文件，而这个文件各种冲突，其实只要带一个就ok了，这里可以写一个策略。除此之外如果还有包的冲突，也可以指定合并策略，具体如下：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">assemblyMergeStrategy in assembly := &#123;</div><div class="line">  <span class="keyword">case</span> <span class="string">"BUILD"</span> =&gt; <span class="type">MergeStrategy</span>.discard</div><div class="line">  <span class="keyword">case</span> m <span class="keyword">if</span> m.endsWith(<span class="string">"io.netty.versions.properties"</span>) =&gt; <span class="type">MergeStrategy</span>.last</div><div class="line">  <span class="keyword">case</span> <span class="type">PathList</span>(<span class="string">"org"</span>, <span class="string">"aopalliance"</span>, xs @ _*) =&gt; <span class="type">MergeStrategy</span>.first</div><div class="line">  <span class="keyword">case</span> other =&gt; <span class="type">MergeStrategy</span>.defaultMergeStrategy(other)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h1 id="finatra"><a href="#finatra" class="headerlink" title="finatra"></a>finatra</h1><p>finatra是twitter开源的一个web框架，基于twitter的finagle和twitter-server进行开发，这个框架更像是“使用twitter开源库开发app”的demo，不清楚在twitter内部用的多不多。不过大概用了一下，感觉还可以，尽管很多功能都要自己写，但大体上还是能用的。finatra是模仿sinatra进行开发的，twitter之前是用的ruby，因此才会开发一套finatra吧。</p>
+<p>finatra使用Google Guice作为IOC框架，比spring轻量许多。因为twitter-server自带admin监控台，所以对于服务可控性做的还是挺不错的。finatra中主要有三个概念，module/controller/filter。</p>
+<h2 id="module"><a href="#module" class="headerlink" title="module"></a>module</h2><p>可以看做是提供Guice依赖注入实例的对象，可以在module中管理相关的对象，而其他类中只要注入就好。</p>
+<h1 id="slick"><a href="#slick" class="headerlink" title="slick"></a>slick</h1><p>在选用了finatra作为web框架之后，因为finatra只有web框架，并没有持久层框架，所以一番考虑之后还是选择了更Scala的slick作为持久层框架，一方面是slick就是用scala开发的，更idiomastic一些。另外一方面，slick是lightbend(typesafe)支持的框架，更官方一些。slick可以通过sql生成定义类，当然也可以手写，这里来个手写的例子。</p>
+<h2 id="domain"><a href="#domain" class="headerlink" title="domain"></a>domain</h2><figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">case</span> <span class="class"><span class="keyword">class</span> <span class="title">TagDetail</span>(<span class="params">id: <span class="type">Long</span>, name: <span class="type">String</span>, privilege: <span class="type">Option</span>[<span class="type">Int</span>], source: <span class="type">Option</span>[<span class="type">String</span>], tagType: <span class="type">Option</span>[<span class="type">Int</span>]</span>)</span></div></pre></td></tr></table></figure>
+<h2 id="entity"><a href="#entity" class="headerlink" title="entity"></a>entity</h2><figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">TagTable</span>(<span class="params">tag: <span class="type">Tag</span></span>) <span class="keyword">extends</span> <span class="title">Table</span>[<span class="type">TagDetail</span>](<span class="params">tag, "uds_tag"</span>) </span>&#123;</div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">id</span> </span>= column[<span class="type">Long</span>](<span class="string">"id"</span>, <span class="type">O</span>.<span class="type">PrimaryKey</span>, <span class="type">O</span>.<span class="type">AutoInc</span>)</div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">name</span> </span>= column[<span class="type">String</span>](<span class="string">"name"</span>)</div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">privilege</span> </span>= column[<span class="type">Option</span>[<span class="type">Int</span>]](<span class="string">"privilege"</span>, <span class="type">O</span>.<span class="type">Default</span>[<span class="type">Option</span>[<span class="type">Int</span>]](<span class="type">Some</span>(<span class="number">0</span>)))</div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">source</span> </span>= column[<span class="type">Option</span>[<span class="type">String</span>]](<span class="string">"source"</span>, <span class="type">O</span>.<span class="type">Default</span>[<span class="type">Option</span>[<span class="type">String</span>]](<span class="type">Some</span>(<span class="string">"小麦公社"</span>)))</div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">tagType</span> </span>= column[<span class="type">Option</span>[<span class="type">Int</span>]](<span class="string">"type"</span>, <span class="type">O</span>.<span class="type">Default</span>[<span class="type">Option</span>[<span class="type">Int</span>]](<span class="type">Some</span>(<span class="number">1</span>)))</div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">*</span> </span>= (id, name, privilege, source, tagType) &lt;&gt; (<span class="type">TagDetail</span>.tupled, <span class="type">TagDetail</span>.unapply)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="dao"><a href="#dao" class="headerlink" title="dao"></a>dao</h2><figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Singleton</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">TagDao</span> <span class="title">@Inject</span>(<span class="params"></span>) (<span class="params">db: <span class="type">MySQLDriver</span>.backend.<span class="type">DatabaseDef</span>, @<span class="type">DBExecutionContext</span> dbec: <span class="type">ExecutionContext</span></span>) <span class="keyword">extends</span> <span class="title">Logging</span> </span>&#123;</div><div class="line">  <span class="keyword">implicit</span> <span class="keyword">val</span> ec = dbec</div><div class="line">  <span class="keyword">val</span> tableQuery = <span class="type">TableQuery</span>[<span class="type">TagTable</span>]</div><div class="line">  <span class="keyword">val</span> pagedQuery = <span class="type">Compiled</span>((d: <span class="type">ConstColumn</span>[<span class="type">Long</span>], t: <span class="type">ConstColumn</span>[<span class="type">Long</span>]) =&gt; tableQuery.drop(d).take(t))</div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">getTagById</span></span>(tid: <span class="type">Long</span>) = &#123;</div><div class="line">    <span class="keyword">val</span> q = tableQuery.filter(_.id === tid)</div><div class="line">    db.run(q.result)</div><div class="line">  &#125;</div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">insertTag</span></span>(tag: <span class="type">TagDetail</span>) = &#123;</div><div class="line">    <span class="comment">//val q = tableQuery.map(x =&gt; (x.name, x.privilege, x.source, x.tagType)) += (tag.name, tag.privilege, tag.source, tag.tagType)</span></div><div class="line">    <span class="keyword">val</span> q = tableQuery returning tableQuery.map(_.id) into ((ret, id) =&gt; ret.copy(id = id)) += tag</div><div class="line">    db.run(q)</div><div class="line">  &#125;</div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">getAllTags</span> </span>= &#123;</div><div class="line">    db.run(tableQuery.result)</div><div class="line">  &#125;</div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">getTagsByPage</span></span>(drop: <span class="type">Long</span>, take: <span class="type">Long</span>) = &#123;</div><div class="line">    db.run(pagedQuery(drop, take).result)</div><div class="line">  &#125;</div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">getCount</span> </span>= &#123;</div><div class="line">    db.run(tableQuery.length.result)</div><div class="line">  &#125;</div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">deleteTagById</span></span>(id: <span class="type">Long</span>) = &#123;</div><div class="line">    db.run(tableQuery.filter(_.id === id).delete)</div><div class="line">  &#125;</div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">updatePrivilegeById</span></span>(id: <span class="type">Long</span>, privilege: <span class="type">Int</span>) = &#123;</div><div class="line">    <span class="keyword">val</span> q = <span class="keyword">for</span> &#123; t &lt;- tableQuery <span class="keyword">if</span> t.id === id &#125; <span class="keyword">yield</span> t.privilege</div><div class="line">    db.run(q.update(<span class="type">Some</span>(privilege)))</div><div class="line">  &#125;</div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">updateNameById</span></span>(id: <span class="type">Long</span>, name: <span class="type">String</span>) = &#123;</div><div class="line">    <span class="keyword">val</span> q = <span class="keyword">for</span> &#123; t &lt;- tableQuery <span class="keyword">if</span> t.id === id &#125; <span class="keyword">yield</span> t.name</div><div class="line">    db.run(q.update(name))</div><div class="line">  &#125;</div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">updateTagById</span></span>(tag: <span class="type">TagDetail</span>) = &#123;</div><div class="line">    <span class="keyword">val</span> q = <span class="keyword">for</span> &#123; t &lt;- tableQuery <span class="keyword">if</span> t.id === tag.id &#125; <span class="keyword">yield</span> (t.name, t.privilege, t.source, t.tagType)</div><div class="line">    db.run(q.update((tag.name, tag.privilege, tag.source, tag.tagType)))</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h1 id="future-amp-promise"><a href="#future-amp-promise" class="headerlink" title="future&amp;promise"></a>future&amp;promise</h1><p>最早scala的并发范式是actor，后来akka发展太好了，最新版本的scala已经把actor从标准库移除了。不过scala仍然提供新的并发范式future。future基本上就是异步非阻塞回调的范式，说实话我不太喜欢异步回调，简直反人类。在scala项目中用cassandra，其实是没有官方库的，因此用的java的driver，但为了和slick的异步保持风格统一，因此用future/promise去封装了一下，简单例子如下。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Singleton</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">UserIdDao</span> <span class="title">@Inject</span>(<span class="params"></span>)(<span class="params">accessor: <span class="type">UserIdAccessor</span>,</span></span></div><div class="line">                          @<span class="type">CassandraExecutionContext</span> cassandraExecutionContext: <span class="type">ExecutionContext</span>)</div><div class="line">  <span class="keyword">extends</span> <span class="type">Logging</span> &#123;</div><div class="line">  <span class="keyword">implicit</span> <span class="keyword">val</span> ec = cassandraExecutionContext</div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">getRowkey</span></span>(key: <span class="type">String</span>): <span class="type">Future</span>[<span class="type">Option</span>[<span class="type">String</span>]] = &#123;</div><div class="line">    <span class="keyword">val</span> p = <span class="type">Promise</span>[<span class="type">Option</span>[<span class="type">String</span>]]</div><div class="line">    <span class="type">Future</span> &#123;</div><div class="line">      <span class="keyword">try</span> &#123;</div><div class="line">        <span class="keyword">val</span> user = accessor.getRowkeyByKey(key)</div><div class="line">        <span class="keyword">if</span> (user == <span class="literal">null</span>) &#123;</div><div class="line">          p.success(<span class="type">None</span>)</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">          p.success(<span class="type">Some</span>(user.getRowkey))</div><div class="line">        &#125;</div><div class="line">      &#125; <span class="keyword">catch</span> &#123;</div><div class="line">        <span class="keyword">case</span> e: <span class="type">Exception</span> =&gt;</div><div class="line">          warn(<span class="string">s"get [<span class="subst">$key</span>] rowkey failed, <span class="subst">$e</span>"</span>)</div><div class="line">          p.failure(e)</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">    p.future</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>future本来是期货的意思，这里其实挺贴近的，表示将来可以拿到的结果。另外一个option，是期权的意思，其实也是表示这个结果可能拿得到，可能拿不到。用这俩单词来表达对应的概念简直233333.</p>
+<h1 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h1><p>总得来说Scala还是一门很有表现力的语言的，特别是twitter的一些服务从ruby转向scala之后，给scala社区带来了很多工业界的想法，也让这门语言更贴近于生产。尽管最近看到linkedin从scala转向java8，因为这样那样的理由，但不得不说scala作为后来者没有那么多历史包袱，更容易成为一门具有生产力的语言。当然sbt确实慢的不行行了，还有二进制包版本不兼容之类的问题也是很麻烦。</p>
+<p>还是希望lightbend/typesafe多投入一些精力在scala/sbt上，少一些商业的东西，让社区环境更好。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/技术杂谈/">技术杂谈</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Scala/">Scala</a><a href="/tags/Java/">Java</a><a href="/tags/sbt/">sbt</a><a href="/tags/spring-boot/">spring-boot</a><a href="/tags/Hikari-CP/">Hikari-CP</a><a href="/tags/finatra/">finatra</a><a href="/tags/slick/">slick</a><a href="/tags/future/">future</a><a href="/tags/promise/">promise</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://odinliu.com/2016/03/28/Java-Scala杂记之三/" data-title="Java/Scala杂记之三 | Odin的自我修养" data-tsina="1873795663" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2016/04/11/Docker上手101/" title="Docker上手101">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Docker上手101</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2016/02/02/最近搞Hadoop集群迁移踩的坑杂记/"  title="最近搞Hadoop集群迁移踩的坑杂记">
+ <strong>下一篇：</strong><br/> 
+ <span>最近搞Hadoop集群迁移踩的坑杂记
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2016/03/28/Java-Scala杂记之三/" data-title="Java/Scala杂记之三" data-url="https://odinliu.com/2016/03/28/Java-Scala杂记之三/"></div>
+</section>
+
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Overview"><span class="toc-number">1.</span> <span class="toc-text">Overview</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#spring-boot"><span class="toc-number">2.</span> <span class="toc-text">spring-boot</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#整合spring-boot和dubbo"><span class="toc-number">2.1.</span> <span class="toc-text">整合spring-boot和dubbo</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#spring-boot中配置Hikari-CP"><span class="toc-number">2.2.</span> <span class="toc-text">spring-boot中配置Hikari-CP</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#sbt-assembly合并策略"><span class="toc-number">3.</span> <span class="toc-text">sbt-assembly合并策略</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#修改包名大法"><span class="toc-number">3.1.</span> <span class="toc-text">修改包名大法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#合并策略"><span class="toc-number">3.2.</span> <span class="toc-text">合并策略</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#finatra"><span class="toc-number">4.</span> <span class="toc-text">finatra</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#module"><span class="toc-number">4.1.</span> <span class="toc-text">module</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#slick"><span class="toc-number">5.</span> <span class="toc-text">slick</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#domain"><span class="toc-number">5.1.</span> <span class="toc-text">domain</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#entity"><span class="toc-number">5.2.</span> <span class="toc-text">entity</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#dao"><span class="toc-number">5.3.</span> <span class="toc-text">dao</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#future-amp-promise"><span class="toc-number">6.</span> <span class="toc-text">future&promise</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Conclusion"><span class="toc-number">7.</span> <span class="toc-text">Conclusion</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/产品乱弹/" title="产品乱弹">产品乱弹<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/垃圾箱/" title="垃圾箱">垃圾箱<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/学习笔记/" title="学习笔记">学习笔记<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/技术杂谈/" title="技术杂谈">技术杂谈<sup>20</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/谈股论金/" title="谈股论金">谈股论金<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/旧文搬迁/" title="旧文搬迁">旧文搬迁<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/虚拟化/" title="虚拟化">虚拟化<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/系统运维/" title="系统运维">系统运维<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Scala/" title="Scala">Scala<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hadoop/" title="hadoop">hadoop<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/HBase/" title="HBase">HBase<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/spring-boot/" title="spring-boot">spring-boot<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/实习总结/" title="实习总结">实习总结<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/golang/" title="golang">golang<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/语法/" title="语法">语法<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/推荐系统/" title="推荐系统">推荐系统<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/学习笔记/" title="学习笔记">学习笔记<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Phoenix/" title="Phoenix">Phoenix<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hadoop流水账/" title="hadoop流水账">hadoop流水账<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/双路工作站/" title="双路工作站">双路工作站<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spark/" title="Spark">Spark<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  
+<div class="commentslist">
+  <p class="asidetitle">文章评论</p>
+  <ul class="ds-recent-comments" data-num-items="5" data-show-avatars="0" data-show-time="1" data-show-admin="1" data-excerpt-length="32" data-show-title="1"></ul>
+</div>
+<!--多说js加载开始，一个页面只需要加载一次 -->
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"odinliu"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!--多说js加载结束，一个页面只需要加载一次 -->
+
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            <a href="http://jimliu.net" target="_blank" title="Again, Jim Liu&#39;s Blog">Jim Liu&#39;s Blog</a>
+          </li>
+        
+          <li>
+            <a href="http://chi66.taobao.com/" target="_blank" title="女流的零食店,赶紧买买买">全宇宙最最最好的零食店</a>
+          </li>
+        
+    </ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello, I&#39;m Odin Liu. <br/>
+			A Deveoper.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/odinushuaia" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/odinliu" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/odinliu" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/odinliu88" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/odinliu" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		
+		
+		<a href="https://plus.google.com/103006785183830050000?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
+		
+		<a href="/about" target="_blank" title="Odin">Odin</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"odinliu"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?1b6bf7f43e970a9ed29fcb526f3f36f7";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
