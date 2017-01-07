@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://odinliu.com/"/>
-  <updated>2016-12-31T04:38:37.661Z</updated>
+  <updated>2017-01-07T07:34:01.119Z</updated>
   <id>https://odinliu.com/</id>
   
   <author>
@@ -14,6 +14,30 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>一年一语言之2016</title>
+    <link href="https://odinliu.com/2017/01/07/%E4%B8%80%E5%B9%B4%E4%B8%80%E8%AF%AD%E8%A8%80%E4%B9%8B2016/"/>
+    <id>https://odinliu.com/2017/01/07/一年一语言之2016/</id>
+    <published>2017-01-07T07:34:01.000Z</published>
+    <updated>2017-01-07T07:34:01.119Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h1&gt;&lt;p&gt;曾经给自己定下一个目标，每年学会一门新编程语言，尽管可能没办法作为工作语言使用，但我始终认为任何语言(特别是现代语言)都有自己的特点，了解其
+    
+    </summary>
+    
+      <category term="技术杂谈" scheme="https://odinliu.com/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/"/>
+    
+    
+      <category term="Scala" scheme="https://odinliu.com/tags/Scala/"/>
+    
+      <category term="Go" scheme="https://odinliu.com/tags/Go/"/>
+    
+      <category term="一年一语言" scheme="https://odinliu.com/tags/%E4%B8%80%E5%B9%B4%E4%B8%80%E8%AF%AD%E8%A8%80/"/>
+    
+  </entry>
   
   <entry>
     <title>小试Apache Kudu之基础篇</title>
@@ -108,9 +132,9 @@
       <category term="技术杂谈" scheme="https://odinliu.com/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/"/>
     
     
-      <category term="Scala" scheme="https://odinliu.com/tags/Scala/"/>
-    
       <category term="Java" scheme="https://odinliu.com/tags/Java/"/>
+    
+      <category term="Scala" scheme="https://odinliu.com/tags/Scala/"/>
     
       <category term="sbt" scheme="https://odinliu.com/tags/sbt/"/>
     
@@ -216,9 +240,9 @@
       <category term="学习笔记" scheme="https://odinliu.com/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
     
     
-      <category term="Scala" scheme="https://odinliu.com/tags/Scala/"/>
-    
       <category term="Java" scheme="https://odinliu.com/tags/Java/"/>
+    
+      <category term="Scala" scheme="https://odinliu.com/tags/Scala/"/>
     
       <category term="typesafe-config" scheme="https://odinliu.com/tags/typesafe-config/"/>
     
@@ -312,15 +336,15 @@
     
       <category term="Scala" scheme="https://odinliu.com/tags/Scala/"/>
     
-      <category term="Go" scheme="https://odinliu.com/tags/Go/"/>
-    
       <category term="hadoop" scheme="https://odinliu.com/tags/hadoop/"/>
     
       <category term="hadoop流水账" scheme="https://odinliu.com/tags/hadoop%E6%B5%81%E6%B0%B4%E8%B4%A6/"/>
     
+      <category term="分布式存储" scheme="https://odinliu.com/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8/"/>
+    
       <category term="HBase" scheme="https://odinliu.com/tags/HBase/"/>
     
-      <category term="分布式存储" scheme="https://odinliu.com/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8/"/>
+      <category term="Go" scheme="https://odinliu.com/tags/Go/"/>
     
       <category term="Spark" scheme="https://odinliu.com/tags/Spark/"/>
     
@@ -588,30 +612,6 @@
       <category term="golang" scheme="https://odinliu.com/tags/golang/"/>
     
       <category term="语法" scheme="https://odinliu.com/tags/%E8%AF%AD%E6%B3%95/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>给hexo/pacman增加“最新评论”的widget</title>
-    <link href="https://odinliu.com/2014/12/03/%E7%BB%99hexo-pacman%E5%A2%9E%E5%8A%A0%E2%80%9C%E6%9C%80%E6%96%B0%E8%AF%84%E8%AE%BA%E2%80%9D%E7%9A%84widget/"/>
-    <id>https://odinliu.com/2014/12/03/给hexo-pacman增加“最新评论”的widget/</id>
-    <published>2014-12-03T04:21:31.000Z</published>
-    <updated>2016-12-31T04:38:37.663Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;自从不买vps以来，已经很久没写过blog了，之前用bae还得备案啥的，看起来还是在国外托管比较方便。最近发现github pages速度还挺不错的，于是研究了一下用hexo搭还挺方便的，pacman主题用着也比较方便，不过还有一些blog的常见功能不支持，比如最新评论。p
-    
-    </summary>
-    
-      <category term="技术杂谈" scheme="https://odinliu.com/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/"/>
-    
-    
-      <category term="hexo" scheme="https://odinliu.com/tags/hexo/"/>
-    
-      <category term="pacman" scheme="https://odinliu.com/tags/pacman/"/>
-    
-      <category term="多说评论" scheme="https://odinliu.com/tags/%E5%A4%9A%E8%AF%B4%E8%AF%84%E8%AE%BA/"/>
     
   </entry>
   
