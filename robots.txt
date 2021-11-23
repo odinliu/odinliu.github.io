@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /css/
+Disallow: /fancybox/
+Disallow: /font/
+Disallow: /img/
+Disallow: /js/
+Disallow: /Dockerfile
